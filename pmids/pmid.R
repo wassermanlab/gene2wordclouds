@@ -1,9 +1,9 @@
 library(PubMedWordcloud)
 library(tm)
 stopwords_regex = paste(stopwords('en'), collapse = '\\b|\\b')
-stopwords_regex = paste0('\\b', stopwords_regex, '\\b')
-entrez_list<-as.character(entrez_list)
-word_count_per_entrez<-function(pmid){
+stopwords_regex = paste('\\b', stopwords_regex, '\\b')
+
+word_count_per_pmid<-function(pmid){
   abstracts=getAbstracts(pmid)
   document<-paste(abstracts, collapse=' ')
   document = tolower(document)
@@ -17,6 +17,6 @@ word_count_per_entrez<-function(pmid){
   document = stringr::str_replace_all(document, stopwords_regex, '')
   one_gene_word_counts <- as.data.frame(table(unlist( strsplit(document, "\ ") )))  # split vector by space
   one_gene_word_counts <- with(one_gene_word_counts, one_gene_word_counts[ Var1 != "", ] )
-  name<-paste(taxon_name, "/",pmid, "_words.rds", sep="")
+  name<-paste(pmid, "_words.rds", sep="")
   saveRDS(one_gene_word_counts, file=name)
 }
