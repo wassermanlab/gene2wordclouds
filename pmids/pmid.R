@@ -3,7 +3,7 @@ library(tm)
 stopwords_regex = paste(stopwords('en'), collapse = '\\b|\\b')
 stopwords_regex = paste('\\b', stopwords_regex, '\\b')
 
-word_count_per_pmid<-function(pmid){
+word_count_per_pmid<-function(pmid,taxon){
   abstracts=getAbstracts(pmid)
   document<-paste(abstracts, collapse=' ')
   document = tolower(document)
@@ -17,6 +17,6 @@ word_count_per_pmid<-function(pmid){
   document = stringr::str_replace_all(document, stopwords_regex, '')
   one_gene_word_counts <- as.data.frame(table(unlist( strsplit(document, "\ ") )))  # split vector by space
   one_gene_word_counts <- with(one_gene_word_counts, one_gene_word_counts[ Var1 != "", ] )
-  name<-paste(pmid, "_words.rds", sep="")
+  name<-paste(taxon,"/",pmid, "_words.rds", sep="")
   saveRDS(one_gene_word_counts, file=name)
 }
