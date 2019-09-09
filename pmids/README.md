@@ -1,6 +1,6 @@
 This folder should have the following content:
 
-pmid.R : this takes as input PMID, fetches abstract for that PMID, returns an RDS file inside the corresponding taxon folder for that PMID, counts the number of words and returns a 
+pmid.R (DONE): this takes as input PMID, fetches abstract for that PMID, returns an RDS file inside the corresponding taxon folder for that PMID, counts the number of words and returns a 
 get_pmids.py
 vertebrates/
 vertebrates.json
