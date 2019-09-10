@@ -433,7 +433,7 @@ def _get_pmid(pmid):
 
         # Get pmid
         cmd = "Rscript ../get_pmid.R %s" % pmid
-        process = subprocess.run([cmd], shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        process = subprocess.run([cmd], shell=True)
 
 #-------------#
 # Main        #
