@@ -3,6 +3,10 @@ library(tm)
 stopwords_regex = paste(stopwords('en'), collapse = '\\b|\\b')
 stopwords_regex = paste('\\b', stopwords_regex, '\\b')
 
+args = commandArgs(trailingOnly=TRUE)
+pmid= args[1]
+taxon= args[2]
+
 word_count_per_pmid<-function(pmid,taxon){
   abstracts=getAbstracts(pmid)
   document<-paste(abstracts, collapse=' ')
@@ -20,3 +24,5 @@ word_count_per_pmid<-function(pmid,taxon){
   name<-paste(taxon,"/",pmid, "_words.rds", sep="")
   saveRDS(one_gene_word_counts, file=name)
 }
+
+word_count_per_pmid(pmid, taxon)
