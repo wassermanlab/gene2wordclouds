@@ -1,6 +1,5 @@
 name: JASPAR-wordcloud
 channels:
-  - bushmanlab
   - conda-forge
   - r
   - defaults
