@@ -39,9 +39,6 @@ def main():
     get_pmids(args.devel, args.o, args.threads)
 
 def get_pmids(devel=False, output_dir="./", threads=1):
-    """
-    For each taxon (except for urochordates), this function gets all profiles (in jaspar format) from the JASPAR CORE.
-    """
 
     # Initialize
     taxons = ["fungi", "insects", "nematodes", "plants", "vertebrates"]
@@ -76,6 +73,11 @@ def get_pmids(devel=False, output_dir="./", threads=1):
 
     # Get entrezid to pmid mappings
     entrezid2pmid = _get_entrezid_to_pmid_mappings(entrezids, output_dir)
+
+    ##
+    ## This should be encapsulated in a function
+    ##
+
 
     # For each taxon...
     for taxon in taxons:
@@ -203,123 +205,6 @@ def _get_results_uniacc(results, jaspar_url="http://jaspar.genereg.net/"):
             for uniacc in profile_json_obj["uniprot_ids"]:
 
                 yield(uniacc)
-
-        #     while json_obj["next"] is not None:
-
-        #         # For each profile...
-        #         for profile in json_obj["results"]:
-
-        #             # If CORE collection profile...
-        #             if profile["collection"] == "CORE":
-        #                 # Add profile
-        #                 profiles.setdefault(profile["matrix_id"], profile["name"])
-        #         # Go to next page
-        #         response = client.get(json_obj["next"])
-        #         json_obj = json.loads(codec.encode(response))
-        #     # Do last page
-        #     for profile in json_obj["results"]:
-        #         # If CORE collection profile...
-        #         if profile["collection"] == "CORE":
-        #             # Add profile
-        #             profiles.setdefault(profile["matrix_id"], profile["name"])
-        #     # Write
-        #     functions.write(profiles_json_file, json.dumps(
-        #         profiles, sort_keys=True, indent=4, separators=(",", ": ")))
-
-        # except:
-
-        #     raise ValueError("Could not fetch %s uniaccs from JASPAR" % taxon)
-
-    #     json_file = 
-    # #
-    # for taxon in taxons:
-
-
-    #     try:
-    #         file_name = taxon + "_uniprot.csv"
-    #         open(file_name)
-
-    #     except IOError as e:
-    #         print(os.strerror(e.errno))
-    #         file_name = taxon+"_uniprot.csv"
-    #         csv_file = open(file_name, 'w')
-    #         response = client.get("http://jaspar.genereg.net/api/v1/taxon/%s/" % taxon)
-    #         json_obj = json.loads(codec.encode(response))
-    #         while json_obj["next"] is not None:
-    #             for profile in json_obj["results"]:
-    #                 if profile["collection"] == "CORE":
-    #                     response2 = client.get("http://jaspar.genereg.net/api/v1/matrix/%s/" % profile["matrix_id"])
-    #                     json_obj2 = json.loads(codec.encode(response2))
-    #                     for uniprot in json_obj2["uniprot_ids"]:
-    #                         for species in json_obj2["species"]:
-    #                             csv_file.write(uniprot)
-    #                             csv_file.write('\n')
-    #             response = client.get(json_obj["next"])
-    #             json_obj = json.loads(codec.encode(response))
-
-    #         # Do last page
-    #         for profile in json_obj["results"]:
-    #             if profile["collection"] == "CORE":
-    #                 response2 = client.get("http://jaspar.genereg.net/api/v1/matrix/%s/" % profile["matrix_id"])
-    #                 json_obj2 = json.loads(codec.encode(response2))
-    #                 for uniprot in json_obj2["uniprot_ids"]:
-    #                     for species in json_obj2["species"]:
-    #                         csv_file.write(uniprot)
-    #                         csv_file.write('\n')
-
-    #     try:
-    #         entrez_pubmed = pickle.load(open('gene2pubmed.p', 'rb'))
-
-    #     except IOError as e:
-    #         print(os.strerror(e.errno))
-    #         linkage_dict = {}
-    #         with open("gene2pubmed") as links:
-    #             link_reader = csv.reader(links, delimiter='\t')
-    #             for rownum, link in enumerate(link_reader):
-    #                 if rownum > 0:
-    #                     temp = []
-    #                     gene_id = link[1]
-    #                     pm_id = link[2]
-    #                     if gene_id in linkage_dict:
-    #                         linkage_dict[gene_id].append(pm_id)
-    #                     else:
-    #                         temp.append(pm_id)
-    #                         linkage_dict[gene_id] = temp
-    #             pickle.dump(linkage_dict, open("gene2pubmed.p", "wb"), protocol=2)
-
-
-    #     try:
-    #         uniprot_entrez = pickle.load(open('uniprot_entrez.p', 'rb'))
-
-    #     except IOError as e:
-    #         print(os.strerror(e.errno))
-    #         uniprot_entrez = {}
-    #         with open("uniprot_to_entrez.csv") as links:
-    #             link_reader = csv.reader(links, delimiter=',')
-    #             for rownum, link in enumerate(link_reader):
-    #                 if rownum > 0:
-    #                     temp = []
-    #                     entrez_id = link[1]
-    #                     uniprot_id = link[0]
-    #                     if uniprot_id in uniprot_entrez:
-    #                         uniprot_entrez[uniprot_id].append(entrez_id)
-    #                     else:
-    #                         temp.append(entrez_id)
-    #                         uniprot_entrez[uniprot_id] = temp
-    #             pickle.dump(uniprot_entrez, open("uniprot_to_entrez.p", "wb"), protocol=2)
-
-    #     os.mkdir(taxon)
-    #     with open(file_name) as uniprot_ids:
-    #         enh_reader = csv.reader(uniprot_ids, delimiter='\t')
-    #         for rownum, line in enumerate(enh_reader):
-    #             uniprot_id=line[0]
-    #             if uniprot_id in uniprot_entrez:
-    #                 entrez_id = uniprot_entrez[uniprot_id]
-    #                 entrez_id=entrez_id[0]
-    #                 if entrez_id in entrez_pubmed:
-    #                     pmids= entrez_pubmed[entrez_id]
-    #                     pubmed_ids = pubmed_ids + pmids
-    #     pmid_set=set(pubmed_ids)
 
 def _get_uniacc_to_entrezid_mappings(uniaccs, output_dir="./"):
 
