@@ -78,7 +78,6 @@ def get_pmids(devel=False, output_dir="./", threads=1):
     ## This should be encapsulated in a function
     ##
 
-
     # For each taxon...
     for taxon in taxons:
 
@@ -172,29 +171,27 @@ def _get_taxon_uniaccs(taxon, output_dir="./", jaspar_url="http://jaspar.genereg
 
 def _get_results_uniacc(results, jaspar_url="http://jaspar.genereg.net/"):
 
+    # Initialize
+    faulty_profiles = {
+        "MA0024.1": ["Q01094"],
+        "MA0046.1": ["P20823"],
+        "MA0052.1": ["Q02078"],
+        "MA0058.1": ["P61244"],
+        "MA0098.1": ["P14921"],
+        "MA0110.1": ["P46667"],
+        "MA0138.1": ["Q13127"],
+        "MA0328.1": ["P0CY08"]
+    }
+
     # For each profile...
     for profile in results:
 
         # If profile from CORE collection...
         if profile["collection"] == "CORE":
 
-            # Fix bugged cases
-            if profile["matrix_id"] == "MA0328.1":
-                return("P0CY08")
-            if profile["matrix_id"] == "MA0110.1":
-                return("P46667")
-            if profile["matrix_id"] == "MA0058.1":
-                return("P61244")
-            if profile["matrix_id"] == "MA0046.1":
-                return("P20823")
-            if profile["matrix_id"] == "MA0098.1":
-                return("P14921")
-            if profile["matrix_id"] == "MA0052.1":
-                return("Q02078")
-            if profile["matrix_id"] == "MA0024.1":
-                return("Q01094")
-            if profile["matrix_id"] == "MA0138.1":
-                return("Q13127")
+            # Fix faulty profiles
+            if profile["matrix_id"] in faulty_profiles:
+                return(faulty_profiles[profile["matrix_id"]][0])
     
             # Initialize
             profile_url = os.path.join(jaspar_url, "api", "v1", "matrix", profile["matrix_id"])
