@@ -221,7 +221,7 @@ def _get_uniacc_to_entrezid_mappings(uniaccs, output_dir="./"):
     if not os.path.exists(pickle_file):
 
         # Set query
-        query = {
+        params = {
             "from": "ACC+ID",
             "to": "P_ENTREZGENEID",
             "format": "tab",
@@ -229,7 +229,7 @@ def _get_uniacc_to_entrezid_mappings(uniaccs, output_dir="./"):
         }
 
         # Encode parameters
-        params = parse.urlencode(query=query).encode("utf-8")
+        params = parse.urlencode(query=params).encode("utf-8")
 
         # Make request
         req = request.Request(url, params)
