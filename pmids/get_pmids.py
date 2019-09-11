@@ -56,6 +56,7 @@ def get_pmids(devel=False, output_dir="./", threads=1):
         os.makedirs(os.path.abspath(output_dir))
 
     # Get JASPAR URL
+    global jaspar_url
     jaspar_url = "http://jaspar.genereg.net/"
     if devel:
         jaspar_url = "http://hfaistos.uio.no:8002/"
@@ -63,7 +64,7 @@ def get_pmids(devel=False, output_dir="./", threads=1):
     # Get uniaccs
     uniaccs = set()
     for taxon in taxons:
-        uniaccs.update(_get_taxon_uniaccs(taxon, output_dir, jaspar_url))
+        uniaccs.update(_get_taxon_uniaccs(taxon, output_dir))
 
     # Get uniacc to entrezid mappings
     uniacc2entrezid = _get_uniacc_to_entrezid_mappings(uniaccs, output_dir)
@@ -85,7 +86,7 @@ def get_pmids(devel=False, output_dir="./", threads=1):
         pmids = set()
 
         # Get uniaccs
-        uniaccs = _get_taxon_uniaccs(taxon, output_dir, jaspar_url)
+        uniaccs = _get_taxon_uniaccs(taxon, output_dir)
 
         # For each uniacc...
         for uniacc in uniaccs:
@@ -122,7 +123,7 @@ def get_pmids(devel=False, output_dir="./", threads=1):
             # Return to original directory
             os.chdir(cwd)
 
-def _get_taxon_uniaccs(taxon, output_dir="./", jaspar_url="http://jaspar.genereg.net/"):
+def _get_taxon_uniaccs(taxon, output_dir="./"):
 
     # Move to taxon directory
     os.chdir(output_dir)
@@ -141,7 +142,7 @@ def _get_taxon_uniaccs(taxon, output_dir="./", jaspar_url="http://jaspar.genereg
         while taxon_json_obj["next"] is not None:
 
             # For each uniacc...
-            for uniacc in _get_results_uniacc(taxon_json_obj["results"], jaspar_url):
+            for uniacc in _get_results_uniacc(taxon_json_obj["results"]):
 
                 # Add uniacc
                 uniaccs.add(uniacc)
@@ -151,7 +152,7 @@ def _get_taxon_uniaccs(taxon, output_dir="./", jaspar_url="http://jaspar.genereg
             taxon_json_obj = json.loads(codec.encode(taxon_response))
 
         # Do last page
-        for uniacc in _get_results_uniacc(taxon_json_obj["results"], jaspar_url):
+        for uniacc in _get_results_uniacc(taxon_json_obj["results"]):
 
             # Add uniacc
             uniaccs.add(uniacc)
@@ -169,7 +170,7 @@ def _get_taxon_uniaccs(taxon, output_dir="./", jaspar_url="http://jaspar.genereg
 
     return(uniaccs)
 
-def _get_results_uniacc(results, jaspar_url="http://jaspar.genereg.net/"):
+def _get_results_uniacc(results):
 
     # Initialize
     faulty_profiles = {
