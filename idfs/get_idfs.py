@@ -54,48 +54,48 @@ def get_idfs(input_dir, output_dir="./"):
         # Initialize
         rds_dir = os.path.join(os.path.abspath(input_dir), taxon)
 
-    # Skip if pickle file already exists
-    pickle_file = "idfs.%s.pickle" % taxon
-    if not os.path.exists(pickle_file):
+        # Skip if pickle file already exists
+        pickle_file = "idfs.%s.pickle" % taxon
+        if not os.path.exists(pickle_file):
 
-        # Initialize
-        df = None
-        idfs = {}
-        pmids = 0
+            # Initialize
+            df = None
+            idfs = {}
+            pmids = 0
 
-        # For each RDS file...
-        for rds_file in os.listdir(rds_dir):
+            # For each RDS file...
+            for rds_file in os.listdir(rds_dir):
 
-            # Read RDS
-            result = pyreadr.read_r(os.path.join(rds_dir, rds_file))
+                # Read RDS
+                result = pyreadr.read_r(os.path.join(rds_dir, rds_file))
 
-            # Extract data frame
-            next_df = result[None]
+                # Extract data frame
+                next_df = result[None]
 
-            # Append data frame
-            if df is None:
-                df = next_df
-            else:
-                # Append at the end
-                df = df.append(next_df, ignore_index=True)
+                # Append data frame
+                if df is None:
+                    df = next_df
+                else:
+                    # Append at the end
+                    df = df.append(next_df, ignore_index=True)
 
-            # +1
-            pmids += 1
+                # +1
+                pmids += 1
 
-        # Group data frame
-        df["Freq"] = 1
-        df = df.groupby("Var1").sum().reset_index()
-        word2pmids = dict(zip(df.Var1, df.Freq))
+            # Group data frame
+            df["Freq"] = 1
+            df = df.groupby("Var1").sum().reset_index()
+            word2pmids = dict(zip(df.Var1, df.Freq))
 
-        # For each word...
-        for wrd in word2pmids:
+            # For each word...
+            for wrd in word2pmids:
 
-            # Calculate idf
-            idfs.setdefault(wrd, log(float(pmids) / word2pmids[wrd]))
+                # Calculate idf
+                idfs.setdefault(wrd, log(float(pmids) / word2pmids[wrd]))
 
-        # Write pickle file
-        with open(pickle_file, "wb") as f:
-            pickle.dump(idfs, f)
+            # Write pickle file
+            with open(pickle_file, "wb") as f:
+                pickle.dump(idfs, f)
 
     # Return to original directory
     os.chdir(cwd)
