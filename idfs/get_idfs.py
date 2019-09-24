@@ -1,17 +1,12 @@
 #!/usr/bin/env python
 
 import argparse
-import coreapi
-import gzip
-import json
-from multiprocessing import Pool
-import pickle
+from copy import deepcopy
+from numpy import log10 as log
 import os
-import re
-import ssl
-import subprocess
-from tqdm import tqdm
-from urllib import parse, request
+import pandas
+import pickle
+import pyreadr
 
 #-------------#
 # Functions   #
@@ -57,22 +52,53 @@ def get_idfs(input_dir, output_dir="./"):
     for taxon in taxons:
 
         # Initialize
-        taxon_dir = os.path.join(os.path.abspath(output_dir), taxon)
+        rds_dir = os.path.join(os.path.abspath(input_dir), taxon)
 
-        print(taxon_dir)
+    # Skip if pickle file already exists
+    pickle_file = "idfs.%s.pickle" % taxon
+    if not os.path.exists(pickle_file):
+
+        # Initialize
+        df = None
+        idfs = {}
+        pmids = 0
+
+        # For each RDS file...
+        for rds_file in os.listdir(rds_dir):
+
+            # Read RDS
+            result = pyreadr.read_r(os.path.join(rds_dir, rds_file))
+
+            # Extract data frame
+            next_df = result[None]
+
+            # Append data frame
+            if df is None:
+                df = next_df
+            else:
+                # Append at the end
+                df = df.append(next_df, ignore_index=True)
+
+            # +1
+            pmids += 1
+
+        # Group data frame
+        df["Freq"] = 1
+        df = df.groupby("Var1").sum().reset_index()
+        word2pmids = dict(zip(df.Var1, df.Freq))
+
+        # For each word...
+        for wrd in word2pmids:
+
+            # Calculate idf
+            idfs.setdefault(wrd, log(float(pmids) / word2pmids[wrd]))
+
+        # Write pickle file
+        with open(pickle_file, "wb") as f:
+            pickle.dump(idfs, f)
 
     # Return to original directory
     os.chdir(cwd)
-
-def _get_idf(taxon, taxon_dir):
-
-    # Skip if already downloaded
-    rds_file = "%s.rds" % taxon
-    if not os.path.exists(rds_file):
-
-        # Get pmid
-        cmd = "Rscript ../get_idf.R %s" % taxon_dir
-        process = subprocess.run([cmd], shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 #-------------#
 # Main        #

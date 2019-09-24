@@ -5,8 +5,8 @@ import coreapi
 import gzip
 import json
 from multiprocessing import Pool
-import pickle
 import os
+import pickle
 import re
 import ssl
 import subprocess

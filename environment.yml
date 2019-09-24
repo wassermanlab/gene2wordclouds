@@ -12,3 +12,4 @@ dependencies:
   - tqdm=4.35.0
   - pip:
     - coreapi==2.3.3
+    - pyreadr==0.2.1
