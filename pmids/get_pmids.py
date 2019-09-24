@@ -56,6 +56,7 @@ def get_pmids(devel=False, output_dir="./", threads=1):
         os.makedirs(os.path.abspath(output_dir))
 
     # Get JASPAR URL
+    global jaspar_url
     jaspar_url = "http://jaspar.genereg.net/"
     if devel:
         jaspar_url = "http://hfaistos.uio.no:8002/"
@@ -63,7 +64,7 @@ def get_pmids(devel=False, output_dir="./", threads=1):
     # Get uniaccs
     uniaccs = set()
     for taxon in taxons:
-        uniaccs.update(_get_taxon_uniaccs(taxon, output_dir, jaspar_url))
+        uniaccs.update(_get_taxon_uniaccs(taxon, output_dir))
 
     # Get uniacc to entrezid mappings
     uniacc2entrezid = _get_uniacc_to_entrezid_mappings(uniaccs, output_dir)
@@ -78,7 +79,6 @@ def get_pmids(devel=False, output_dir="./", threads=1):
     ## This should be encapsulated in a function
     ##
 
-
     # For each taxon...
     for taxon in taxons:
 
@@ -86,7 +86,7 @@ def get_pmids(devel=False, output_dir="./", threads=1):
         pmids = set()
 
         # Get uniaccs
-        uniaccs = _get_taxon_uniaccs(taxon, output_dir, jaspar_url)
+        uniaccs = _get_taxon_uniaccs(taxon, output_dir)
 
         # For each uniacc...
         for uniacc in uniaccs:
@@ -123,7 +123,7 @@ def get_pmids(devel=False, output_dir="./", threads=1):
             # Return to original directory
             os.chdir(cwd)
 
-def _get_taxon_uniaccs(taxon, output_dir="./", jaspar_url="http://jaspar.genereg.net/"):
+def _get_taxon_uniaccs(taxon, output_dir="./"):
 
     # Move to taxon directory
     os.chdir(output_dir)
@@ -142,7 +142,7 @@ def _get_taxon_uniaccs(taxon, output_dir="./", jaspar_url="http://jaspar.genereg
         while taxon_json_obj["next"] is not None:
 
             # For each uniacc...
-            for uniacc in _get_results_uniacc(taxon_json_obj["results"], jaspar_url):
+            for uniacc in _get_results_uniacc(taxon_json_obj["results"]):
 
                 # Add uniacc
                 uniaccs.add(uniacc)
@@ -152,7 +152,7 @@ def _get_taxon_uniaccs(taxon, output_dir="./", jaspar_url="http://jaspar.genereg
             taxon_json_obj = json.loads(codec.encode(taxon_response))
 
         # Do last page
-        for uniacc in _get_results_uniacc(taxon_json_obj["results"], jaspar_url):
+        for uniacc in _get_results_uniacc(taxon_json_obj["results"]):
 
             # Add uniacc
             uniaccs.add(uniacc)
@@ -170,7 +170,21 @@ def _get_taxon_uniaccs(taxon, output_dir="./", jaspar_url="http://jaspar.genereg
 
     return(uniaccs)
 
-def _get_results_uniacc(results, jaspar_url="http://jaspar.genereg.net/"):
+def _get_results_uniacc(results):
+
+    # Initialize
+    faulty_profiles = {
+        "MA0024.1": ["Q01094"],
+        "MA0046.1": ["P20823"],
+        "MA0052.1": ["Q02078"],
+        "MA0058.1": ["P61244"],
+        "MA0098.1": ["P14921"],
+        "MA0110.1": ["P46667"],
+        "MA0138.1": ["Q13127"],
+        "MA0328.1": ["P0CY08"],
+        "MA0529.1": ["Q94513"],
+        "MA0529.2": ["Q94513"]
+    }
 
     # For each profile...
     for profile in results:
@@ -178,23 +192,9 @@ def _get_results_uniacc(results, jaspar_url="http://jaspar.genereg.net/"):
         # If profile from CORE collection...
         if profile["collection"] == "CORE":
 
-            # Fix bugged cases
-            if profile["matrix_id"] == "MA0328.1":
-                return("P0CY08")
-            if profile["matrix_id"] == "MA0110.1":
-                return("P46667")
-            if profile["matrix_id"] == "MA0058.1":
-                return("P61244")
-            if profile["matrix_id"] == "MA0046.1":
-                return("P20823")
-            if profile["matrix_id"] == "MA0098.1":
-                return("P14921")
-            if profile["matrix_id"] == "MA0052.1":
-                return("Q02078")
-            if profile["matrix_id"] == "MA0024.1":
-                return("Q01094")
-            if profile["matrix_id"] == "MA0138.1":
-                return("Q13127")
+            # Fix faulty profiles
+            if profile["matrix_id"] in faulty_profiles:
+                return(faulty_profiles[profile["matrix_id"]][0])
     
             # Initialize
             profile_url = os.path.join(jaspar_url, "api", "v1", "matrix", profile["matrix_id"])
@@ -221,7 +221,7 @@ def _get_uniacc_to_entrezid_mappings(uniaccs, output_dir="./"):
     if not os.path.exists(pickle_file):
 
         # Set query
-        query = {
+        params = {
             "from": "ACC+ID",
             "to": "P_ENTREZGENEID",
             "format": "tab",
@@ -229,7 +229,7 @@ def _get_uniacc_to_entrezid_mappings(uniaccs, output_dir="./"):
         }
 
         # Encode parameters
-        params = parse.urlencode(query=query).encode("utf-8")
+        params = parse.urlencode(query=params).encode("utf-8")
 
         # Make request
         req = request.Request(url, params)
