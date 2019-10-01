@@ -113,6 +113,10 @@ def get_idfs(input_dir, output_dir="./"):
                         # Append at the end
                         df = df.append(pmid_df, ignore_index=True)
 
+                # Skip empty data frames
+                if df is None:
+                    continue
+
                 # Group data frame
                 df = df.groupby("Var1").sum().reset_index()
 
