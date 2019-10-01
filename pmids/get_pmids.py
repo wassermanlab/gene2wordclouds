@@ -36,7 +36,7 @@ def main():
     args = parse_args()
 
     # Make files
-    get_pmids(args.devel, args.o, args.threads)
+    get_pmids(args.devel, os.path.abspath(args.o), args.threads)
 
 def get_pmids(devel=False, output_dir="./", threads=1):
 
@@ -52,8 +52,8 @@ def get_pmids(devel=False, output_dir="./", threads=1):
     cwd = os.getcwd()
 
     # Create output directory
-    if not os.path.exists(os.path.abspath(output_dir)):
-        os.makedirs(os.path.abspath(output_dir))
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
 
     # Get JASPAR URL
     global jaspar_url
@@ -104,7 +104,7 @@ def get_pmids(devel=False, output_dir="./", threads=1):
                 pmids.add(pmid)
 
         # Skip if taxon directory already exists
-        taxon_dir = os.path.join(os.path.abspath(output_dir), taxon)
+        taxon_dir = os.path.join(output_dir, taxon)
         if not os.path.exists(taxon_dir):
 
             # Create taxon directory
