@@ -133,6 +133,9 @@ def get_idfs(input_dir, output_dir="./"):
                 # Calculate idf
                 idfs.setdefault(word, log(float(counter) / occurrences))
 
+            print(idfs)
+            exit(0)
+
             # Write pickle file
             with open(pickle_file, "wb") as f:
                 pickle.dump(idfs, f)
