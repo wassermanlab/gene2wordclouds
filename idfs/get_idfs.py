@@ -73,8 +73,7 @@ def get_idfs(input_dir, output_dir="./"):
             counter = 0
 
             # Load pickle file
-            pickle_file = os.path.join(input_dir, ".uniaccs.%s.pickle" % taxon)
-            with open(pickle_file, "rb") as f:
+            with open(os.path.join(input_dir, ".uniaccs.%s.pickle" % taxon), "rb") as f:
                 uniaccs = pickle.load(f)
 
             # For each uniacc...
