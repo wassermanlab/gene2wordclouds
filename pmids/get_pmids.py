@@ -317,7 +317,7 @@ def _get_pmid(pmid):
     if not os.path.exists(rds_file):
 
         # Get pmid
-        cmd = "Rscript ../get_pmid.R %s" % pmid
+        cmd = "Rscript ../make_word_cloud.R %s" % pmid
         process = subprocess.run([cmd], shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 #-------------#

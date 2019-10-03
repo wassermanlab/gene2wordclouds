@@ -4,11 +4,18 @@ channels:
   - r
   - defaults
 dependencies:
+  - fuzzywuzzy=0.17.0
   - git=2.20.1
   - pip=19.2.2
   - pyreadr=0.2.1
   - python=3.7.3
   - python-coreapi=2.3.3
   - r=3.6.0
+  - r-doparallel
+  - r-xml
+  - r-stringr
+  - r-rcurl
   - setuptools=41.0.1
   - tqdm=4.35.0
+  - pip:
+    - pyenchant==2.0.0
