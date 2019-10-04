@@ -8,6 +8,8 @@ from numpy import log10 as log, nan
 import os
 import pandas
 import pickle
+import math
+import numpy as  np
 import pyreadr
 import re
 import ssl
@@ -25,8 +27,8 @@ def parse_args():
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-i", default="./", help="idfs directory (i.e. output directory from get_idfs.py)", metavar="DIR")
-    parser.add_argument("-p", default="./", help="pmids directory (i.e. output directory from get_pmids.py)", metavar="DIR")
+    parser.add_argument("-i", default="./../idfs", help="idfs directory (i.e. output directory from get_idfs.py)", metavar="DIR")
+    parser.add_argument("-p", default="./../pmids", help="pmids directory (i.e. output directory from get_pmids.py)", metavar="DIR")
     parser.add_argument("-o", default="./", help="output directory (default = ./)", metavar="DIR")
 
     return(parser.parse_args())
@@ -50,8 +52,8 @@ def get_tf_idfs(idfs_dir, pmids_dir, output_dir="./"):
     cwd = os.getcwd()
 
     tfs = {
-        "P04637": "TP53",
-        "P19838": "NFKB1",
+        #"P04637": "TP53",
+        #"P19838": "NFKB1",
         "P49711": "CTCF",
     }
 
@@ -164,7 +166,7 @@ def get_tf_idfs(idfs_dir, pmids_dir, output_dir="./"):
                 # Filter weird words + TF containing words
                 tknzr = get_tokenizer("en")
                 gene_name = uniacc2genename[uniacc]
-                thresh = 66.0
+                thresh = 85
                 for idx, row in df.iterrows():
                     if not regexp.match(row["Var1"]):
                         tokens = [w for w in tknzr(row["Var1"])]
@@ -176,9 +178,19 @@ def get_tf_idfs(idfs_dir, pmids_dir, output_dir="./"):
                             df["tfidf"][idx] = -1
                     # Fuzzy string matching
                     if fuzz.partial_ratio(gene_name.lower(), row["Var1"]) > 50:
-                        print(gene_name.lower(), row["Var1"], fuzz.partial_ratio(gene_name.lower(), row["Var1"]))
+                        #print(gene_name.lower(), row["Var1"], fuzz.partial_ratio(gene_name.lower(), row["Var1"]))
                         df["tfidf"][idx] = -1
-                    # for token in tokens:
+                    #filter redundant words
+                    # if word2 is > threshold to word1 with higher tfidf score than word2[tfidf] = -1
+                df = df.sort_values(by="tfidf", ascending=False)
+                df = df.iloc[:75,:].reset_index()
+                for idx, row in df.iterrows():
+                    for idx_current, row_current in df.iloc[:idx,:].iterrows():
+                        if fuzz.partial_ratio(row_current["Var1"], row["Var1"]) > thresh:
+                            df["tfidf"][idx] = -1
+                df = df.sort_values(by="tfidf", ascending=False)
+
+                # for token in tokens:
                     #     if fuzz.partial_ratio(gene_name.lower(), token) > thresh or fuzz.partial_ratio(token, gene_name.lower()) > thresh:
                             
                     #         df["tfidf"][idx] = -1
