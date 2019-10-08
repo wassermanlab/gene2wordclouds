@@ -232,7 +232,7 @@ def _get_tf_idfs(uniacc, taxon, pmids_dir, rds_dir, max_words=50):
                 # Get IDFs
                 df["idf"] = nan
                 for idx, row in df.iterrows():                   
-                    df.loc[df.ix == idx, "idf"] = idfs[row["Var1"]]
+                    df.loc[idx, "tfidf"] = idfs[row["Var1"]]
 
                 # Get TF-IDFs
                 df["tfidf"] = df["idf"] * df["tf"]
@@ -244,31 +244,31 @@ def _get_tf_idfs(uniacc, taxon, pmids_dir, rds_dir, max_words=50):
                 for idx, row in df.iterrows():
 
                     if word_count >= max_words:
-                        df.loc[df.ix == idx, "tfidf"] = -1
+                        df.loc[idx, "tfidf"] = -1
 
-                    if df["tfidf"][idx] != -1:
+                    if df.loc[idx, "tfidf"] != -1:
 
                         # Filter weird words
                         if unidecode(row["Var1"]) in aa_pairs:
-                            df.loc[df.ix == idx, "tfidf"] = -1
+                            df.loc[idx, "tfidf"] = -1
                             continue
 
                         if not regexp.match(unidecode(row["Var1"])):
-                            df.loc[df.ix == idx, "tfidf"] = -1
+                            df.loc[idx, "tfidf"] = -1
                             continue
 
                         # Filter redundant words
                         for nextidx, nextrow in df.iterrows():
 
                             # i.e. time saver
-                            if nextidx > 250 or nextidx <= idx or df["tfidf"][nextidx] == -1:
+                            if nextidx > 250 or nextidx <= idx or df.loc[nextidx, "tfidf"] == -1:
                                 continue
 
                             ratio = fuzz.ratio(unidecode(row["Var1"]), unidecode(nextrow["Var1"]))
                             partial_ratio = fuzz.partial_ratio(unidecode(row["Var1"]), unidecode(nextrow["Var1"]))
 
                             if ratio >= thresh or partial_ratio >= thresh:
-                                df.loc[df.ix == nextidx, "tfidf"] = -1
+                                df.loc[nextidx, "tfidf"] = -1
 
                         # Tokenize
                         tkns = re.findall(r'\w+', unidecode(row["Var1"]))
@@ -286,7 +286,7 @@ def _get_tf_idfs(uniacc, taxon, pmids_dir, rds_dir, max_words=50):
                                 if len(tkn) == 1:
                                     continue
 
-                                if df["tfidf"][idx] == -1:
+                                if df.loc[idx, "tfidf"] == -1:
                                     break
 
                                 for gene_tkn in gene_tkns:
@@ -298,10 +298,10 @@ def _get_tf_idfs(uniacc, taxon, pmids_dir, rds_dir, max_words=50):
                                     partial_ratio = fuzz.partial_ratio(gene_tkn, tkn)
 
                                     if (ratio + partial_ratio) / 2.0 >= thresh:
-                                        df.loc[df.ix == idx, "tfidf"] = -1
+                                        df.loc[idx, "tfidf"] = -1
                                         break
 
-                    if df["tfidf"][idx] != -1:
+                    if df.loc[idx, "tfidf"] != -1:
                         word_count += 1
 
                 # Write RDS file
