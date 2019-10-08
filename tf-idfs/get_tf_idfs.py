@@ -67,15 +67,6 @@ def get_tf_idfs(idfs_dir, pmids_dir, output_dir="./", threads=1, max_words=50):
     aa = ['ALA', 'ARG', 'ASN', 'ASP', 'CYS', 'GLN', 'GLU', 'GLY', 'HIS', 'ILE',
         'LEU', 'LYS', 'MET', 'PHE', 'PRO', 'SER', 'THR', 'TRP', 'TYR', 'VAL']
     aa_pairs = set(["".join(c) for c in product([a.lower() for a in aa], repeat=2)])
-    tfs = {
-        "P01100": "FOS",
-        "P05412": "JUN",
-        "O75364": "PITX3",
-        "P04637": "TP53",
-        "P19838": "NFKB1",
-        "P49711": "CTCF",
-        "P41235": "HNF4A",
-    }
 
     # Create output directory
     if not os.path.exists(output_dir):
@@ -99,9 +90,6 @@ def get_tf_idfs(idfs_dir, pmids_dir, output_dir="./", threads=1, max_words=50):
 
     # For each taxon...
     for taxon in taxons:
-
-        if taxon != "vertebrates":
-            continue
 
         # Initialize
         taxon_dir = os.path.join(output_dir, taxon)
@@ -129,7 +117,6 @@ def get_tf_idfs(idfs_dir, pmids_dir, output_dir="./", threads=1, max_words=50):
             pass
         pool.close()
         pool.join()
-
 
         # Return to original directory
         os.chdir(cwd)
@@ -195,9 +182,6 @@ def _get_tf_idfs(uniacc, taxon, pmids_dir, rds_dir, max_words=50):
     tfidfs = {}
     word_count = 0
 
-    if uniacc not in tfs:
-        skip = True
-
     # Skip if uniacc not mapped to an entrezid
     if uniacc in uniacc2entrezid:
         # Skip if entrezid not mapped to a pmid
@@ -209,7 +193,6 @@ def _get_tf_idfs(uniacc, taxon, pmids_dir, rds_dir, max_words=50):
     if not skip:
 
         # Skip if RDS file already exists
-        # out_file = os.path.join("%s.rds" % uniacc)
         out_file = os.path.join("%s.rds" % uniacc)
         if not os.path.exists(out_file):
 
@@ -249,7 +232,7 @@ def _get_tf_idfs(uniacc, taxon, pmids_dir, rds_dir, max_words=50):
                 # Get IDFs
                 df["idf"] = nan
                 for idx, row in df.iterrows():                   
-                    df["idf"][idx] = idfs[row["Var1"]]
+                    df.loc[df["idf"][idx]] = idfs[row["Var1"]]
 
                 # Get TF-IDFs
                 df["tfidf"] = df["idf"] * df["tf"]
@@ -261,17 +244,17 @@ def _get_tf_idfs(uniacc, taxon, pmids_dir, rds_dir, max_words=50):
                 for idx, row in df.iterrows():
 
                     if word_count >= max_words:
-                        df["tfidf"][idx] = -1
+                        df.loc[df["tfidf"][idx]] = -1
 
                     if df["tfidf"][idx] != -1:
 
                         # Filter weird words
                         if unidecode(row["Var1"]) in aa_pairs:
-                            df["tfidf"][idx] = -1
+                            df.loc[df["tfidf"][idx]] = -1
                             continue
 
                         if not regexp.match(unidecode(row["Var1"])):
-                            df["tfidf"][idx] = -1
+                            df.loc[df["tfidf"][idx]] = -1
                             continue
 
                         # Filter redundant words
@@ -285,7 +268,7 @@ def _get_tf_idfs(uniacc, taxon, pmids_dir, rds_dir, max_words=50):
                             partial_ratio = fuzz.partial_ratio(unidecode(row["Var1"]), unidecode(nextrow["Var1"]))
 
                             if ratio >= thresh or partial_ratio >= thresh:
-                                df["tfidf"][nextidx] = -1
+                                df.loc[df["tfidf"][nextidx]] = -1
 
                         # Tokenize
                         tkns = re.findall(r'\w+', unidecode(row["Var1"]))
@@ -315,7 +298,7 @@ def _get_tf_idfs(uniacc, taxon, pmids_dir, rds_dir, max_words=50):
                                     partial_ratio = fuzz.partial_ratio(gene_tkn, tkn)
 
                                     if (ratio + partial_ratio) / 2.0 >= thresh:
-                                        df["tfidf"][idx] = -1
+                                        df.loc[df["tfidf"][idx]] = -1
                                         break
 
                     if df["tfidf"][idx] != -1:
@@ -324,19 +307,19 @@ def _get_tf_idfs(uniacc, taxon, pmids_dir, rds_dir, max_words=50):
                 # Write RDS file
                 pyreadr.write_rds(out_file, df)
 
-                # Make word cloud
-                # _make_word_cloud(uniacc)
-                _make_word_cloud(tfs[uniacc], max_words)
+#                 # Make word cloud
+#                 # _make_word_cloud(uniacc)
+#                 _make_word_cloud(tfs[uniacc], max_words)
 
-def _make_word_cloud(uniacc, max_words=50):
+# def _make_word_cloud(uniacc, max_words=50):
 
-    # Skip if already created
-    png_file = "%s.png" % uniacc
-    if not os.path.exists(png_file):
+#     # Skip if already created
+#     png_file = "%s.png" % uniacc
+#     if not os.path.exists(png_file):
 
-        # Get pmid
-        cmd = "Rscript ../make_word_cloud.R %s %s" % (uniacc, max_words)
-        process = subprocess.run([cmd], shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+#         # Get pmid
+#         cmd = "Rscript ../make_word_cloud.R %s %s" % (uniacc, max_words)
+#         process = subprocess.run([cmd], shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 #-------------#
 # Main        #
