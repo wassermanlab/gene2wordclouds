@@ -1,0 +1,5 @@
+ls ../tf-idfs/fungi/ | perl -e 'while(<>){chomp;$u=substr($_,0,-4);system("Rscript make_word_cloud.R ../tf-idfs/fungi/$_ ./fungi/$u.png 50");}'
+ls ../tf-idfs/insects/ | perl -e 'while(<>){chomp;$u=substr($_,0,-4);system("Rscript make_word_cloud.R ../tf-idfs/insects/$_ ./insects/$u.png 50");}'
+ls ../tf-idfs/nematodes/ | perl -e 'while(<>){chomp;$u=substr($_,0,-4);system("Rscript make_word_cloud.R ../tf-idfs/nematodes/$_ ./nematodes/$u.png 50");}'
+ls ../tf-idfs/plants/ | perl -e 'while(<>){chomp;$u=substr($_,0,-4);system("Rscript make_word_cloud.R ../tf-idfs/plants/$_ ./plants/$u.png 50");}'
+ls ../tf-idfs/vertebrates/ | perl -e 'while(<>){chomp;$u=substr($_,0,-4);system("Rscript make_word_cloud.R ../tf-idfs/vertebrates/$_ ./vertebrates/$u.png 50");}'
