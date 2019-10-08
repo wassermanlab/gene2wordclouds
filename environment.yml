@@ -17,5 +17,6 @@ dependencies:
   - r-rcurl
   - setuptools=41.0.1
   - tqdm=4.35.0
-  - pip:
-    - pyenchant==2.0.0
+  - unidecode=1.1.1
+  # - pip:
+  #   - pyenchant==2.0.0
