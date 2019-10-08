@@ -199,11 +199,11 @@ def _get_tf_idfs(uniacc, taxon, pmids_dir, rds_dir, max_words=50):
         skip = True
 
     # Skip if uniacc not mapped to an entrezid
-    if uniacc not in uniacc2entrezid:
-        skip = True
-
-    # Skip if entrezid not mapped to a pmid
-    if uniacc2entrezid[uniacc] not in entrezid2pmid:
+    if uniacc in uniacc2entrezid:
+        # Skip if entrezid not mapped to a pmid
+        if uniacc2entrezid[uniacc] not in entrezid2pmid:
+            skip = True
+    else:
         skip = True
 
     if not skip:
