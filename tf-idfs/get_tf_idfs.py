@@ -190,34 +190,32 @@ def _get_uniacc_to_genename_mappings(uniacc2entrezid):
 def _get_tf_idfs(uniacc, taxon, pmids_dir, rds_dir, max_words=50):
 
     # Initialize
+    df = None
     skip = False
+    tfidfs = {}
+    word_count = 0
 
     if uniacc not in tfs:
         skip = True
 
-    # Skip if RDS file already exists
-    # out_file = os.path.join("%s.rds" % uniacc)
-    out_file = os.path.join("%s.rds" % tfs[uniacc])
-    if not os.path.exists(out_file):
+    # Skip if uniacc not mapped to an entrezid
+    if uniacc not in uniacc2entrezid:
+        skip = True
 
-        # Initialize
-        df = None
-        tfidfs = {}
-        word_count = 0
+    # Skip if entrezid not mapped to a pmid
+    if uniacc2entrezid[uniacc] not in entrezid2pmid:
+        skip = True
 
-        # Skip if uniacc not mapped to an entrezid
-        if uniacc not in uniacc2entrezid:
-            skip = True
+    if not skip:
 
-        # Skip if entrezid not mapped to a pmid
-        if uniacc2entrezid[uniacc] not in entrezid2pmid:
-            skip = True
-
-        if not skip:
+        # Skip if RDS file already exists
+        # out_file = os.path.join("%s.rds" % uniacc)
+        out_file = os.path.join("%s.rds" % uniacc)
+        if not os.path.exists(out_file):
 
             # For each pmid
             for pmid in entrezid2pmid[uniacc2entrezid[uniacc]]:
-                
+
                 # Skip if no RDS file
                 rds_file = os.path.join(pmids_dir, taxon, "%s.rds" % pmid)
                 if not os.path.exists(rds_file):
