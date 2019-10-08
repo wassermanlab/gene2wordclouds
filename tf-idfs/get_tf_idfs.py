@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 
 import argparse
-from copy import deepcopy
+from functools import partial
 from fuzzywuzzy import fuzz
 import gzip
 from itertools import product
+from multiprocessing import Pool
 from numpy import log10 as log, nan
 import os
 import pandas
@@ -13,6 +14,7 @@ import pyreadr
 import re
 import ssl
 import subprocess
+from tqdm import tqdm
 from unidecode import unidecode
 from urllib import parse, request
 
@@ -30,7 +32,8 @@ def parse_args():
     parser.add_argument("-i", default="./", help="idfs directory (i.e. output directory from get_idfs.py)", metavar="DIR")
     parser.add_argument("-p", default="./", help="pmids directory (i.e. output directory from get_pmids.py)", metavar="DIR")
     parser.add_argument("-o", default="./", help="output directory (default = ./)", metavar="DIR")
-    parser.add_argument("-w", default=50, type=int, help="max. number of words (default = 50)", metavar="INT")
+    parser.add_argument("--threads", type=int, default=1, help="threads to use (default = 1)", metavar="INT")
+    parser.add_argument("--words", default=50, type=int, help="max. number of words (default = 50)", metavar="INT")
 
     return(parser.parse_args())
 
@@ -40,26 +43,31 @@ def main():
     args = parse_args()
 
     # Make files
-    get_tf_idfs(os.path.abspath(args.i), os.path.abspath(args.p), os.path.abspath(args.o), args.w)
+    get_tf_idfs(os.path.abspath(args.i), os.path.abspath(args.p), os.path.abspath(args.o), args.threads, args.words)
 
-def get_tf_idfs(idfs_dir, pmids_dir, output_dir="./", max_words=50):
+def get_tf_idfs(idfs_dir, pmids_dir, output_dir="./", threads=1, max_words=50):
 
     # Initialize
-    regexp = re.compile("^\w.+\w$")
     taxons = ["fungi", "insects", "nematodes", "plants", "vertebrates"]
-    thresh = 89.0
-    aa = ['ALA', 'ARG', 'ASN', 'ASP', 'CYS', 'GLN', 'GLU', 'GLY', 'HIS', 'ILE',
-        'LEU', 'LYS', 'MET', 'PHE', 'PRO', 'SER', 'THR', 'TRP', 'TYR', 'VAL']
-
-    # Get all aminoacid pairs
-    aminoacid_pairs = set(["".join(c) for c in product([a.lower() for a in aa], repeat=2)])
 
     # Globals
     global cwd
+    global tfs
+    global idfs
+    global regexp
+    global thresh
+    global aa_pairs
+    global uniaccs
+    global uniacc2entrezid
+    global entrezid2pmid
+    global entrezid2genename
     cwd = os.getcwd()
-
+    regexp = re.compile("^\w.+\w$")
+    thresh = 89.0
+    aa = ['ALA', 'ARG', 'ASN', 'ASP', 'CYS', 'GLN', 'GLU', 'GLY', 'HIS', 'ILE',
+        'LEU', 'LYS', 'MET', 'PHE', 'PRO', 'SER', 'THR', 'TRP', 'TYR', 'VAL']
+    aa_pairs = set(["".join(c) for c in product([a.lower() for a in aa], repeat=2)])
     tfs = {
-
         "P01100": "FOS",
         "P05412": "JUN",
         "O75364": "PITX3",
@@ -114,53 +122,122 @@ def get_tf_idfs(idfs_dir, pmids_dir, output_dir="./", max_words=50):
         with open(os.path.join(idfs_dir, "idfs.%s.pickle" % taxon), "rb") as f:
             idfs = pickle.load(f)
 
-        for uniacc in sorted(uniaccs):
+        # Parallelize
+        part_funct = partial(_get_tf_idfs, taxon=taxon, pmids_dir=pmids_dir, rds_dir=rds_dir, max_words=max_words)
+        pool = Pool(threads)
+        for _ in tqdm(pool.imap(part_funct, uniaccs), desc=taxon, total=len(uniaccs)):
+            pass
+        pool.close()
+        pool.join()
 
-            if uniacc not in tfs:
-                continue
 
-            # Skip if RDS file already exists
-            # out_file = os.path.join(taxon_dir, "%s.rds" % uniacc)
-            out_file = os.path.join(taxon_dir, "%s.rds" % tfs[uniacc])
-            if not os.path.exists(out_file):
+        # Return to original directory
+        os.chdir(cwd)
 
-                # Initialize
-                df = None
-                tfidfs = {}
-                word_count = 0
+def _get_uniacc_to_genename_mappings(uniacc2entrezid):
 
-                # Skip if uniacc not mapped to an entrezid
-                if uniacc not in uniacc2entrezid:
+    # Initialize
+    entrezids = set()
+    entrezid2genename = {}
+    url = "ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/"
+    file_name = "gene_info.gz"
+
+    # Skip if pickle file already exists
+    pickle_file = ".entrezid2genename.pickle"
+    if not os.path.exists(pickle_file):
+
+        # For each uniacc, entrezid pair...
+        for uniacc, entrezid in uniacc2entrezid.items():
+            entrezids.add(entrezid)
+
+        # Download gene to pubmed mappings
+        request.urlretrieve(os.path.join(url, file_name), file_name)
+
+        with gzip.open(file_name, "r") as f:
+
+            # For each line
+            for line in f:
+
+                # Get gene info
+                info = line.decode("utf-8").split("\t")
+                entrezid = info[1]
+                genename = info[2]
+                synonyms = info[4].split("|")
+
+                # If valid entrezid...
+                if info[1] not in entrezids:
                     continue
 
-                # Skip if entrezid not mapped to a pmid
-                if uniacc2entrezid[uniacc] not in entrezid2pmid:
+                # Map entrezid to gene names
+                entrezid2genename.setdefault(entrezid, [])
+                entrezid2genename[entrezid].append(genename)
+                for synonym in synonyms:
+                    entrezid2genename[entrezid].append(synonym)
+
+        if os.path.exists(file_name):
+            os.remove(file_name)
+
+        # Write pickle file
+        with open(pickle_file, "wb") as f:
+            pickle.dump(entrezid2genename, f)
+
+    # Load pickle file
+    with open(pickle_file, "rb") as f:
+        entrezid2genename = pickle.load(f)
+
+    return(entrezid2genename)
+
+def _get_tf_idfs(uniacc, taxon, pmids_dir, rds_dir, max_words=50):
+
+    # Initialize
+    skip = False
+
+    if uniacc not in tfs:
+        skip = True
+
+    # Skip if RDS file already exists
+    # out_file = os.path.join("%s.rds" % uniacc)
+    out_file = os.path.join("%s.rds" % tfs[uniacc])
+    if not os.path.exists(out_file):
+
+        # Initialize
+        df = None
+        tfidfs = {}
+        word_count = 0
+
+        # Skip if uniacc not mapped to an entrezid
+        if uniacc not in uniacc2entrezid:
+            skip = True
+
+        # Skip if entrezid not mapped to a pmid
+        if uniacc2entrezid[uniacc] not in entrezid2pmid:
+            skip = True
+
+        if not skip:
+
+            # For each pmid
+            for pmid in entrezid2pmid[uniacc2entrezid[uniacc]]:
+                
+                # Skip if no RDS file
+                rds_file = os.path.join(pmids_dir, taxon, "%s.rds" % pmid)
+                if not os.path.exists(rds_file):
                     continue
 
-                # For each pmid
-                for pmid in entrezid2pmid[uniacc2entrezid[uniacc]]:
-                    
-                    # Skip if no RDS file
-                    rds_file = os.path.join(pmids_dir, taxon, "%s.rds" % pmid)
-                    if not os.path.exists(rds_file):
-                        continue
+                # Read RDS
+                result = pyreadr.read_r(os.path.join(rds_dir, rds_file))
 
-                    # Read RDS
-                    result = pyreadr.read_r(os.path.join(rds_dir, rds_file))
+                # Extract data frame
+                pmid_df = result[None]
 
-                    # Extract data frame
-                    pmid_df = result[None]
-
-                    # Append data frame
-                    if df is None:
-                        df = pmid_df
-                    else:
-                        # Append at the end
-                        df = df.append(pmid_df, ignore_index=True)
-
-                # Skip empty data frames
+                # Append data frame
                 if df is None:
-                    continue
+                    df = pmid_df
+                else:
+                    # Append at the end
+                    df = df.append(pmid_df, ignore_index=True)
+
+            # Skip empty data frames
+            if df is not None:
 
                 # Set word freq per PMID to 1
                 df["Freq"] = 1
@@ -191,7 +268,7 @@ def get_tf_idfs(idfs_dir, pmids_dir, output_dir="./", max_words=50):
                     if df["tfidf"][idx] != -1:
 
                         # Filter weird words
-                        if unidecode(row["Var1"]) in aminoacid_pairs:
+                        if unidecode(row["Var1"]) in aa_pairs:
                             df["tfidf"][idx] = -1
                             continue
 
@@ -249,65 +326,9 @@ def get_tf_idfs(idfs_dir, pmids_dir, output_dir="./", max_words=50):
                 # Write RDS file
                 pyreadr.write_rds(out_file, df)
 
-            # Make word cloud
-            # _make_word_cloud(uniacc)
-            _make_word_cloud(tfs[uniacc], max_words)
-
-        # Return to original directory
-        os.chdir(cwd)
-
-def _get_uniacc_to_genename_mappings(uniacc2entrezid):
-
-    # Initialize
-    entrezids = set()
-    entrezid2genename = {}
-    url = "ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/"
-    file_name = "gene_info.gz"
-
-    # Skip if pickle file already exists
-    pickle_file = ".entrezid2genename.pickle"
-    if not os.path.exists(pickle_file):
-
-        # For each uniacc, entrezid pair...
-        for uniacc, entrezid in uniacc2entrezid.items():
-            entrezids.add(entrezid)
-
-        # Download gene to pubmed mappings
-        request.urlretrieve(os.path.join(url, file_name), file_name)
-
-        with gzip.open(file_name, "r") as f:
-
-            # For each line
-            for line in f:
-
-                # Get gene info
-                info = line.decode("utf-8").split("\t")
-                entrezid = info[1]
-                genename = info[2]
-                synonyms = info[4].split("|")
-
-                # If valid entrezid...
-                if info[1] not in entrezids:
-                    continue
-
-                # Map entrezid to gene names
-                entrezid2genename.setdefault(entrezid, [])
-                entrezid2genename[entrezid].append(genename)
-                for synonym in synonyms:
-                    entrezid2genename[entrezid].append(synonym)
-
-        if os.path.exists(file_name):
-            os.remove(file_name)
-
-        # Write pickle file
-        with open(pickle_file, "wb") as f:
-            pickle.dump(entrezid2genename, f)
-
-    # Load pickle file
-    with open(pickle_file, "rb") as f:
-        entrezid2genename = pickle.load(f)
-
-    return(entrezid2genename)
+                # Make word cloud
+                # _make_word_cloud(uniacc)
+                _make_word_cloud(tfs[uniacc], max_words)
 
 def _make_word_cloud(uniacc, max_words=50):
 
