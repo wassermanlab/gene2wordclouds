@@ -8,7 +8,6 @@ from itertools import product
 from multiprocessing import Pool
 from numpy import log10 as log, nan
 import os
-import pandas
 import pickle
 import pyreadr
 import re
@@ -231,8 +230,8 @@ def _get_tf_idfs(uniacc, taxon, pmids_dir, rds_dir, max_words=50):
 
                 # Get IDFs
                 df["idf"] = nan
-                for idx, row in df.iterrows():                   
-                    df.loc[idx, "tfidf"] = idfs[row["Var1"]]
+                for idx, row in df.iterrows():
+                    df.loc[idx, "idf"] = idfs[row["Var1"]]
 
                 # Get TF-IDFs
                 df["tfidf"] = df["idf"] * df["tf"]
@@ -304,22 +303,11 @@ def _get_tf_idfs(uniacc, taxon, pmids_dir, rds_dir, max_words=50):
                     if df.loc[idx, "tfidf"] != -1:
                         word_count += 1
 
+                # Sort data frame by TF-IDFs
+                df = df.sort_values(by="tfidf", ascending=False).reset_index()
+
                 # Write RDS file
                 pyreadr.write_rds(out_file, df)
-
-#                 # Make word cloud
-#                 # _make_word_cloud(uniacc)
-#                 _make_word_cloud(tfs[uniacc], max_words)
-
-# def _make_word_cloud(uniacc, max_words=50):
-
-#     # Skip if already created
-#     png_file = "%s.png" % uniacc
-#     if not os.path.exists(png_file):
-
-#         # Get pmid
-#         cmd = "Rscript ../make_word_cloud.R %s %s" % (uniacc, max_words)
-#         process = subprocess.run([cmd], shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 #-------------#
 # Main        #
