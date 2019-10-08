@@ -232,7 +232,7 @@ def _get_tf_idfs(uniacc, taxon, pmids_dir, rds_dir, max_words=50):
                 # Get IDFs
                 df["idf"] = nan
                 for idx, row in df.iterrows():                   
-                    df.loc[df["idf"][idx]] = idfs[row["Var1"]]
+                    df["idf"][idx] = idfs[row["Var1"]]
 
                 # Get TF-IDFs
                 df["tfidf"] = df["idf"] * df["tf"]
@@ -244,17 +244,17 @@ def _get_tf_idfs(uniacc, taxon, pmids_dir, rds_dir, max_words=50):
                 for idx, row in df.iterrows():
 
                     if word_count >= max_words:
-                        df.loc[df["tfidf"][idx]] = -1
+                        df["tfidf"][idx] = -1
 
                     if df["tfidf"][idx] != -1:
 
                         # Filter weird words
                         if unidecode(row["Var1"]) in aa_pairs:
-                            df.loc[df["tfidf"][idx]] = -1
+                            df["tfidf"][idx] = -1
                             continue
 
                         if not regexp.match(unidecode(row["Var1"])):
-                            df.loc[df["tfidf"][idx]] = -1
+                            df["tfidf"][idx] = -1
                             continue
 
                         # Filter redundant words
@@ -268,7 +268,7 @@ def _get_tf_idfs(uniacc, taxon, pmids_dir, rds_dir, max_words=50):
                             partial_ratio = fuzz.partial_ratio(unidecode(row["Var1"]), unidecode(nextrow["Var1"]))
 
                             if ratio >= thresh or partial_ratio >= thresh:
-                                df.loc[df["tfidf"][nextidx]] = -1
+                                df["tfidf"][nextidx] = -1
 
                         # Tokenize
                         tkns = re.findall(r'\w+', unidecode(row["Var1"]))
@@ -298,7 +298,7 @@ def _get_tf_idfs(uniacc, taxon, pmids_dir, rds_dir, max_words=50):
                                     partial_ratio = fuzz.partial_ratio(gene_tkn, tkn)
 
                                     if (ratio + partial_ratio) / 2.0 >= thresh:
-                                        df.loc[df["tfidf"][idx]] = -1
+                                        df["tfidf"][idx] = -1
                                         break
 
                     if df["tfidf"][idx] != -1:
