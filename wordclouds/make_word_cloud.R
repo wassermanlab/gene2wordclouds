@@ -16,7 +16,5 @@ colnames(tfidfs)<-c("word", "freq")
 tfidfs<-tfidfs[order(tfidfs$freq, decreasing=TRUE),]
 iranks <- max_words - c(1:nrow(tfidfs))
 tfidfs$freq<-iranks
-print(tfidfs[14838:15000,])
-exit(0)
 plotWordCloud(tfidfs[1:nrow(tfidfs),], min.freq=0, scale=c(3, 1), max.words=max_words)
 dev.off()
