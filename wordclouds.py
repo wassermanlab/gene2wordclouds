@@ -12,7 +12,7 @@ import sys
 
 # Import from lib
 sys.path.append(
-    os.path.join(os.path.dirname(os.path.realpath(__file__)), "lib")
+    os.path.join(os.path.dirname(os.path.realpath(__file__)), "utils")
 )
 from abstract2words import __get_abstract_words
 from entrezid2pmids import __get_entrezids_pmids
