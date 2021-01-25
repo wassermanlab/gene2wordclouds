@@ -91,7 +91,7 @@ def __make_word_cloud(words, weights, output_file):
     wc.generate_from_frequencies(frequencies)
     plt.imshow(wc, interpolation="bilinear")
     plt.axis("off")
-    plt.savefig(output_file, dpi=300)
+    plt.savefig(output_file)
 
 if __name__ == "__main__":
     words2cloud()
