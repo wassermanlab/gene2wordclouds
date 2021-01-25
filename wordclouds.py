@@ -2,6 +2,7 @@
 
 import click
 from click_option_group import optgroup, RequiredMutuallyExclusiveOptionGroup
+import hashlib
 import os
 import sys
 
@@ -29,27 +30,49 @@ CONTEXT_SETTINGS = {
     type=click.File("rt")
 )
 @click.option(
-    "--identifier-type",
+    "--id-type",
     help="Identifier type.",
     type=click.Choice(["entrezid", "uniacc"], case_sensitive=False),
     default="entrezid",
     show_default=True
 )
+@click.option(
+    "-o", "--output-dir",
+    help="Output directory.",
+    default="./",
+    show_default=True
+)
+@click.option(
+    "-p", "--prefix",
+    help="Prefix.  [default: md5 digest]",
+)
 
-def wordcloud(identifiers, input_file, identifier_type):
+def wordcloud(identifiers, input_file, id_type, output_dir, prefix):
 
     # Parse identifiers
     if input_file is not None:
         identifiers = []
         for line in input_file:
-            if identifier_type == "uniacc":
+            if id_type == "uniacc":
                 identifiers.append(line.strip("\n"))
             else:
                 identifiers.append(int(line.strip("\n")))
         input_file.close()
 
+    # Get MD5
+    if prefix is None:
+        h = hashlib.md5()
+        h.update(",".join(identifiers).encode("utf-8"))
+        prefix = h.hexdigest()
+
+    # Create output dir
+    output_dir = os.path.join(output_dir, prefix)
+    if not os.path.isdir(output_dir):
+        os.makedirs(output_dir)
+    exit(0)
+
     # UniAcc to EntrezID
-    if identifier_type == "uniacc":
+    if id_type == "uniacc":
         mappings = __get_uniaccs_entrezids(identifiers)
         uniaccs, identifiers = list(map(list, zip(*mappings)))
 
