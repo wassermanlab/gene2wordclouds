@@ -39,8 +39,8 @@ def __get_uniaccs_entrezids(uniaccs):
     # Get Entrez Gene IDs
     params = parse.urlencode(query=params).encode("utf-8")
     req = request.Request(url, params)
-    with request.urlopen(req, context=gcontext) as f:
-        response = f.read().decode("utf-8")
+    with request.urlopen(req, context=gcontext) as handle:
+        response = handle.read().decode("utf-8")
     for line in response.split("\n"):
         m = re.search("(\w+)\t(\d+)", line)
         if m:

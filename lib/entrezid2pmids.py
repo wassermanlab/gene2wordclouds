@@ -23,7 +23,7 @@ CONTEXT_SETTINGS = {
     is_flag=True
 )
 
-def entrezid2pmid(entrezids, add_orthologs):
+def entrezid2pmids(entrezids, add_orthologs):
 
     print_str = "Entrez Gene ID\tPubMed ID(s)"
     if add_orthologs:
@@ -64,15 +64,18 @@ def __get_entrezids_pmids(entrezids, add_orthologs=False):
         pmids = gene2pubmed[gene2pubmed["entrezid"] == eid]["pmid"]
         entrezids_pmids.append([eid, pmids.tolist()])
         if add_orthologs:
-            c = int(homologene[homologene["entrezid"] == eid]["cluster"])
-            eids = homologene[homologene["cluster"] == c]["entrezid"].tolist()
-            eids.remove(eid)
-            pmids = gene2pubmed[gene2pubmed["entrezid"].isin(eids)]["pmid"]
-            entrezids_pmids[-1].append(pmids.tolist())
+            try:
+                c = int(homologene[homologene["entrezid"] == eid]["cluster"])
+                eids = homologene[homologene["cluster"] == c]["entrezid"].tolist()
+                eids.remove(eid)
+                pmids = gene2pubmed[gene2pubmed["entrezid"].isin(eids)]["pmid"]
+                entrezids_pmids[-1].append(pmids.tolist())
+            except:
+                entrezids_pmids[-1].append([])
         else:
-            entrezids_pmids[-1].append(None)
+            entrezids_pmids[-1].append([])
 
     return(entrezids_pmids)
 
 if __name__ == "__main__":
-    entrezid2pmid()
+    entrezid2pmids()
