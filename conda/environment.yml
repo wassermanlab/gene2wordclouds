@@ -1,0 +1,13 @@
+name: wordclouds
+channels:
+  - bioconda
+  - conda-forge
+dependencies:
+  - click=7.1.2
+  - click-option-group=0.5.1
+  - entrezpy=2.1.1
+  - lxml=4.6.2
+  - pandas=1.2.1
+  - python=3.8.5
+  - tqdm=4.35.0
+  - wordcloud=1.8.1
