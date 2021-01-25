@@ -91,34 +91,7 @@ def __make_word_cloud(words, weights, output_file):
     wc.generate_from_frequencies(frequencies)
     plt.imshow(wc, interpolation="bilinear")
     plt.axis("off")
-    plt.savefig(output_file, format="png")
-
-def __filter_words(words):
-
-    # Intialize
-    # allowed_tags = {"ADJ", "ADV", "NOUN", "VERB"}
-    filtered_words = []
-    stopwords_file = os.path.join(
-        os.path.dirname(os.path.realpath(__file__)), "stopwords.txt")
-
-    # Filter stop words
-    if not os.path.exists(stopwords_file):
-        request.urlretrieve(
-            "http://ir.dcs.gla.ac.uk/resources/linguistic_utils/stop_words",
-            stopwords_file)
-    with open(stopwords_file) as handle:
-        stopwords = set([line.strip("\n") for line in handle])
-    for word, tag in nltk.pos_tag(words, tagset="universal"):
-        # if tag not in allowed_tags:
-        #     continue
-        clean_word = regexp.sub("", word)
-        if clean_word.lower() in stopwords:
-            continue
-        if len(clean_word) == 0:
-            continue
-        filtered_words.append((word, tag))
-
-    return(filtered_words)
+    plt.savefig(output_file, dpi=300)
 
 if __name__ == "__main__":
     words2cloud()
