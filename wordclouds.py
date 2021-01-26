@@ -2,13 +2,17 @@
 
 import click
 from click_option_group import optgroup, RequiredMutuallyExclusiveOptionGroup
+from functools import partial
 import gzip
 import hashlib
 from itertools import chain, zip_longest
 import json
+from multiprocessing import Pool
+import numpy as np
 import os
 import pandas as pd
 import sys
+from tqdm import tqdm
 
 # Import from lib
 sys.path.append(
@@ -26,7 +30,7 @@ CONTEXT_SETTINGS = {
 @click.command(no_args_is_help=True, context_settings=CONTEXT_SETTINGS)
 @optgroup.group("Input", cls=RequiredMutuallyExclusiveOptionGroup)
 @optgroup.option(
-    "-i", "--identifier", "identifiers",
+    "-i", "--id", "identifiers",
     help="Identifier (e.g. 10664 or P49711).",
     multiple=True
 )
@@ -36,7 +40,17 @@ CONTEXT_SETTINGS = {
     type=click.File("rt")
 )
 @click.option(
-    "-e", "--email",
+    "--add-orthologs",
+    help="Include PubMed ID(s) of ortholog(s).",
+    is_flag=True
+)
+@click.option(
+    "--background-file",
+    help="Background list of identifiers.",
+    type=click.File("rt")
+)
+@click.option(
+    "--email",
     help="E-mail address.",
     required=True
 )
@@ -48,17 +62,25 @@ CONTEXT_SETTINGS = {
     show_default=True
 )
 @click.option(
-    "-o", "--output-dir",
+    "--output-dir",
     help="Output directory.",
     default="./",
     show_default=True
 )
 @click.option(
-    "-p", "--prefix",
+    "--prefix",
     help="Prefix.  [default: md5 digest]",
 )
+@click.option(
+    "--threads",
+    help="Threads to use.",
+    type=int,
+    default=1,
+    show_default=True
+)
 
-def wordcloud(identifiers, input_file, email, id_type, output_dir, prefix):
+def wordcloud(identifiers, input_file, add_orthologs, background_file, email,
+    id_type, output_dir, prefix, threads):
 
     # Parse identifiers
     if input_file is not None:
@@ -109,7 +131,7 @@ def wordcloud(identifiers, input_file, email, id_type, output_dir, prefix):
     # EntrezID to PMIDs
     json_file = os.path.join(output_dir, "entrezid2pmids.json.gz")
     if not os.path.exists(json_file):
-        mappings = __get_entrezids_pmids(identifiers, add_orthologs=True)
+        mappings = __get_entrezids_pmids(identifiers, add_orthologs)
         with gzip.open(json_file, "wt") as handle:
             handle.write(json.dumps(mappings, sort_keys=True, indent=4))
     with gzip.open(json_file, "rt") as handle:
@@ -142,6 +164,25 @@ def wordcloud(identifiers, input_file, email, id_type, output_dir, prefix):
             df = pd.DataFrame(data, columns=["Word", "Tag", "Counts"])
             df.to_csv(words_file, sep="\t", index=False, compression="gzip")
 
+    # IDFs (i.e. Inverse Document Frequencies)
+    # From https://en.wikipedia.org/wiki/Tf-idf
+    # IDF = log10(N/nt), where N is total number of documents in the corpus
+    # and nt is the number of documents featuring the term t
+    tsv_file = os.path.join(output_dir, "idfs.tsv.gz")
+    if not os.path.exists(tsv_file):
+        data = []; idfs = []
+        all_pmids = set(list(chain.from_iterable(pmids+pmids_orthologs)))
+        pool = Pool(threads)
+        p = partial(__load_PMID_words, words_dir=words_dir)
+        for pmid_words in tqdm(pool.imap(p, all_pmids), total=len(all_pmids)):
+            for pmid_word in pmid_words:
+                data.append(pmid_word)
+        df = pd.DataFrame(data, columns=["PMID", "Word"])
+        N = df["PMID"].nunique()
+        for index, value in df["Word"].value_counts().items():
+            idfs.append([index, np.log10(N/float(value))])
+        df = pd.DataFrame(idfs, columns=["Word", "IDF"])
+        df.to_csv(tsv_file, sep="\t", index=False, compression="gzip")
 
 def __get_chunks(iterable, n, fillvalue=None):
     """
@@ -151,6 +192,19 @@ def __get_chunks(iterable, n, fillvalue=None):
     args = [iter(iterable)] * n
     for g in zip_longest(*args, fillvalue=fillvalue):
         yield(list(filter((fillvalue).__ne__, g)))
+
+def __load_PMID_words(pmid, words_dir):
+
+    # Initialize
+    pmid_words = []
+    words_file = os.path.join(words_dir, "%s.txt.gz" % pmid)
+
+    # Load PMID words
+    df = pd.read_csv(
+        words_file, sep="\t", header=0, usecols=[0, 1]
+    )
+
+    return([[pmid, w] for w in set(df["Word"].tolist())])
 
 if __name__ == "__main__":
     wordcloud()
