@@ -46,7 +46,7 @@ CONTEXT_SETTINGS = {
 @click.option(
     "-o", "--output-file",
     help="Output file.",
-    type=click.File("w"),
+    type=click.Path(),
     required=True
 )
 
@@ -56,27 +56,27 @@ def words2cloud(words, words_file, weights, weights_file, output_file):
     if words_file is not None:
         words = []
         if words_file.name.endswith(".gz"):
-            with gzip.open(words_file.name, "rt") as handle:
-                for line in handle:
-                    words.append(line.strip("\n"))
+            handle = gzip.open(words_file.name, "rt")
+            words_file.close()
         else:
-            for line in words_file:
-                words.append(line.strip("\n"))
-        words_file.close()
+            handle = words_file
+        for line in handle:
+            words.append(line.strip("\n"))
+        handle.close()
 
     # Parse weights
     if weights_file is not None:
         weights = []
         if weights_file.name.endswith(".gz"):
-            with gzip.open(weights_file.name, "rt") as handle:
-                for line in handle:
-                    weights.append(float(line.strip("\n")))
+            handle = gzip.open(weights_file.name, "rt")
+            weights_file.close()
         else:
-            for line in weights_file:
-                weights.append(float(line.strip("\n")))
-        weights_file.close()
+            handle = weights_file
+        for line in weights_file:
+            weights.append(float(line.strip("\n")))
+        handle.close()
 
-    __make_word_cloud(words, weights, output_file.name)
+    __make_word_cloud(words, weights, output_file)
 
 def __make_word_cloud(words, weights, output_file):
 

@@ -83,6 +83,23 @@ CONTEXT_SETTINGS = {
 def wordcloud(identifiers, input_file, add_orthologs, background_file, email,
     id_type, output_dir, prefix, threads):
 
+    # Create dirs
+    output_dir = os.path.join(output_dir, prefix)
+    if not os.path.isdir(output_dir):
+        os.makedirs(output_dir)
+    abstracts_dir = os.path.join(output_dir, "abstracts")
+    if not os.path.isdir(abstracts_dir):
+        os.makedirs(abstracts_dir)
+    words_dir = os.path.join(output_dir, "words")
+    if not os.path.isdir(words_dir):
+        os.makedirs(words_dir)
+    tfidfs_dir = os.path.join(output_dir, "tf-idfs")
+    if not os.path.isdir(tfidfs_dir):
+        os.makedirs(tfidfs_dir)
+    figs_dir = os.path.join(output_dir, "figs")
+    if not os.path.isdir(figs_dir):
+        os.makedirs(figs_dir)
+
     # Identifiers
     if input_file is not None:
         identifiers = []
@@ -103,23 +120,6 @@ def wordcloud(identifiers, input_file, add_orthologs, background_file, email,
         h = hashlib.md5()
         h.update(",".join(identifiers).encode("utf-8"))
         prefix = h.hexdigest()
-
-    # Create dirs
-    output_dir = os.path.join(output_dir, prefix)
-    if not os.path.isdir(output_dir):
-        os.makedirs(output_dir)
-    abstracts_dir = os.path.join(output_dir, "abstracts")
-    if not os.path.isdir(abstracts_dir):
-        os.makedirs(abstracts_dir)
-    words_dir = os.path.join(output_dir, "words")
-    if not os.path.isdir(words_dir):
-        os.makedirs(words_dir)
-    tfidfs_dir = os.path.join(output_dir, "tf-idfs")
-    if not os.path.isdir(tfidfs_dir):
-        os.makedirs(tfidfs_dir)
-    figs_dir = os.path.join(output_dir, "figs")
-    if not os.path.isdir(figs_dir):
-        os.makedirs(figs_dir)
 
     # UniAcc to EntrezID
     if id_type == "uniacc":
