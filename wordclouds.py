@@ -22,6 +22,7 @@ from abstract2words import __get_abstract_words
 from entrezid2pmids import __get_entrezids_pmids
 from pmid2abstract import __get_pmids_abstracts
 from uniacc2entrezid import __get_uniaccs_entrezids
+from words2cloud import __make_word_cloud
 
 CONTEXT_SETTINGS = {
     "help_option_names": ["-h", "--help"],
@@ -82,23 +83,20 @@ CONTEXT_SETTINGS = {
 def wordcloud(identifiers, input_file, add_orthologs, background_file, email,
     id_type, output_dir, prefix, threads):
 
-    # Parse identifiers
+    # Identifiers
     if input_file is not None:
         identifiers = []
         if input_file.name.endswith(".gz"):
-            with gzip.open(input_file.name, "rt") as handle:
-                for line in handle:
-                    if id_type == "uniacc":
-                        identifiers.append(line.strip("\n"))
-                    else:
-                        identifiers.append(int(line.strip("\n")))
+            handle = gzip.open(input_file.name, "rt")
+            input_file.close()
         else:
-            for line in input_file:
-                if id_type == "uniacc":
-                    identifiers.append(line.strip("\n"))
-                else:
-                    identifiers.append(int(line.strip("\n")))
-        input_file.close()
+            handle = input_file
+        for line in handle:
+            if id_type == "uniacc":
+                identifiers.append(line.strip("\n"))
+            else:
+                identifiers.append(int(line.strip("\n")))
+        handle.close()
 
     # Get MD5
     if prefix is None:
@@ -116,6 +114,12 @@ def wordcloud(identifiers, input_file, add_orthologs, background_file, email,
     words_dir = os.path.join(output_dir, "words")
     if not os.path.isdir(words_dir):
         os.makedirs(words_dir)
+    tfidfs_dir = os.path.join(output_dir, "tf-idfs")
+    if not os.path.isdir(tfidfs_dir):
+        os.makedirs(tfidfs_dir)
+    figs_dir = os.path.join(output_dir, "figs")
+    if not os.path.isdir(figs_dir):
+        os.makedirs(figs_dir)
 
     # UniAcc to EntrezID
     if id_type == "uniacc":
@@ -164,11 +168,12 @@ def wordcloud(identifiers, input_file, add_orthologs, background_file, email,
             df = pd.DataFrame(data, columns=["Word", "Tag", "Counts"])
             df.to_csv(words_file, sep="\t", index=False, compression="gzip")
 
-    # IDFs (i.e. Inverse Document Frequencies)
-    # From https://en.wikipedia.org/wiki/Tf-idf
-    # IDF = log10(N/nt), where N is total number of documents in the corpus
-    # and nt is the number of documents featuring the term t
-    tsv_file = os.path.join(output_dir, "idfs.tsv.gz")
+    # Word to IDF (i.e. Inverse Document Frequency)
+    # From https://en.wikipedia.org/wiki/Tf-idf recommendations
+    #  * IDF = log10(N/n(t))
+    # Where N is the total number of documents and nt is the number of
+    # documents that include term t.
+    tsv_file = os.path.join(output_dir, "word2idf.tsv.gz")
     if not os.path.exists(tsv_file):
         data = []; idfs = []
         all_pmids = set(list(chain.from_iterable(pmids+pmids_orthologs)))
@@ -183,6 +188,34 @@ def wordcloud(identifiers, input_file, add_orthologs, background_file, email,
             idfs.append([index, np.log10(N/float(value))])
         df = pd.DataFrame(idfs, columns=["Word", "IDF"])
         df.to_csv(tsv_file, sep="\t", index=False, compression="gzip")
+    df = pd.read_csv(tsv_file, sep="\t", header=0)
+    idfs = dict(zip(df["Word"].tolist(), df["IDF"].tolist()))
+
+    # Word to TF-IDF (i.e. Term Frequency–IDF)
+    # From https://en.wikipedia.org/wiki/Tf-idf recommendations
+    #  * TF = log10(1+f(t,d)) and TF-IDF = TF * IDF
+    # Where f(t,d) is the frequency of term t in document d. However, we
+    # focus on the set of documents assigned to gene g (i.e. ng). We have
+    # modified the computation of TF accordingly:
+    #  * TF = log10(1+ng(t))
+    # Where ng(t) is the number of documents of assigned to gene g that
+    # include term t.
+    if id_type == "uniacc":
+        iterator = zip(entrezids, uniaccs, pmids, pmids_orthologs)
+    else:
+        iterator = zip(entrezids, entrezids, pmids, pmids_orthologs)
+    for iteration in iterator:
+        if iteration[1] != "P49711":
+            continue
+        __compute_TFIDFs(iteration, idfs, tfidfs_dir, words_dir)
+
+    # Word Cloud
+    for f in os.listdir(tfidfs_dir):
+        df = pd.read_csv(os.path.join(tfidfs_dir, f), sep="\t", header=0)
+        fig_file = os.path.join(figs_dir, "%s.png" % f[:-7])
+        __make_word_cloud(
+            df["Word"].tolist(), df["TF-IDF"].tolist(), fig_file
+        )   
 
 def __get_chunks(iterable, n, fillvalue=None):
     """
@@ -193,18 +226,48 @@ def __get_chunks(iterable, n, fillvalue=None):
     for g in zip_longest(*args, fillvalue=fillvalue):
         yield(list(filter((fillvalue).__ne__, g)))
 
-def __load_PMID_words(pmid, words_dir):
+def __load_PMID_words(pmid, words_dir, unique=True):
 
     # Initialize
     pmid_words = []
     words_file = os.path.join(words_dir, "%s.txt.gz" % pmid)
 
     # Load PMID words
-    df = pd.read_csv(
-        words_file, sep="\t", header=0, usecols=[0, 1]
-    )
+    df = pd.read_csv(words_file, sep="\t", header=0, usecols=[0, 1])
 
-    return([[pmid, w] for w in set(df["Word"].tolist())])
+    if unique:
+        return([[pmid, w] for w in set(df["Word"].tolist())])
+    else:
+        return([[pmid, w] for w in df["Word"].tolist()])
+
+def __compute_TFIDFs(zipped_values, idfs, tfidfs_dir, words_dir):
+
+    # Initialize
+    data = []; tfidfs = []
+    entrezid = zipped_values[0]
+    gene = str(zipped_values[1])
+    pmids = zipped_values[2] + zipped_values[3]
+
+    # Compute TF-IDF
+    tsv_file = os.path.join(tfidfs_dir, "%s.tsv.gz" % gene)
+    if not os.path.exists(tsv_file):
+        for pmid in pmids:
+            pmid_words = __load_PMID_words(pmid, words_dir, False)
+            for pmid_word in pmid_words:
+                data.append(pmid_word)
+        df = pd.DataFrame(data, columns=["PMID", "Word"])
+        N = df["PMID"].nunique()
+        df["n(t,g)"] = 1 # set the number of documents that term t occurs to 1
+        df = df.groupby("Word").sum().reset_index()
+        for idx, row in df.iterrows():
+            word = row["Word"]
+            ntg = row["n(t,g)"]
+            tfidfs.append([word, np.log10(1+float(ntg))*idfs[word]])
+        # for index, value in df["Word"].value_counts().items():
+        #     tfidfs.append([index, np.log10(1+float(value)/N)*idfs[index]])
+        tfidfs.sort(key=lambda x: x[-1], reverse=True)
+        df = pd.DataFrame(tfidfs, columns=["Word", "TF-IDF"])
+        df.to_csv(tsv_file, sep="\t", index=False, compression="gzip")
 
 if __name__ == "__main__":
     wordcloud()
