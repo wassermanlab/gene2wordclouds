@@ -13,7 +13,8 @@ def symbolcount():
 
     cwd = os.getcwd()
     outdir = os.path.join(cwd, 'symbolstats')
-    os.mkdir(outdir)
+    if not os.path.exists(outdir):
+        os.mkdir(outdir)
     os.chdir(outdir)
 
     countstart(idfs)
