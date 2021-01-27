@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 import click
-from click_option_group import optgroup, RequiredMutuallyExclusiveOptionGroup
+from click_option_group import (optgroup, MutuallyExclusiveOptionGroup,
+    RequiredMutuallyExclusiveOptionGroup)
 from functools import partial
 import gzip
 import hashlib
@@ -40,6 +41,39 @@ CONTEXT_SETTINGS = {
     "--input-file",
     help="List of identifiers.",
     type=click.File("rt")
+)
+@optgroup.group("Background", cls=MutuallyExclusiveOptionGroup)
+@optgroup.option(
+    "--background-file",
+    help="Background list of identifiers.",
+    type=click.File("rt")
+)
+@optgroup.option(
+    "--taxid",
+    help="Taxonomic identifier (e.g. 9606).",
+    type=int
+)
+@optgroup.group("Word filters")
+@optgroup.option(
+    "--non-alphanumeric",
+    help="Filter non-alphanumeric words (e.g. punctuation characters).",
+    is_flag=True,
+    default=True,
+    show_default=True
+)
+@optgroup.option(
+    "--stemming",
+    help="Filter words with the same stem (e.g. like, likely, liking, etc.).",
+    is_flag=True,
+    default=True,
+    show_default=True
+)
+@optgroup.option(
+    "--stop-words",
+    help="Filter stop words (i.e. most common English words).",
+    is_flag=True,
+    default=True,
+    show_default=True
 )
 @click.option(
     "--add-orthologs",
