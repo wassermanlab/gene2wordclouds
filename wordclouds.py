@@ -20,6 +20,7 @@ sys.path.append(
 )
 from abstract2words import __get_abstract_words
 from entrezid2pmids import __get_entrezids_pmids
+from gene2pmid_distribution import gene2pmid_distribution
 from pmid2abstract import __get_pmids_abstracts
 from uniacc2entrezid import __get_uniaccs_entrezids
 from words2cloud import __make_word_cloud
