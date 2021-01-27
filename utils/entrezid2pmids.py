@@ -19,21 +19,21 @@ CONTEXT_SETTINGS = {
 )
 @click.option(
     "-o", "--orthologs", "add_orthologs",
-    help="Include PubMed ID(s) of ortholog(s).",
+    help="Also add PubMed ID(s) of ortholog(s).",
     is_flag=True
 )
 
-def entrezid2pmids(entrezids, add_orthologs):
+def cli(**params):
 
     print_str = "Entrez Gene ID\tPubMed ID(s)"
-    if add_orthologs:
+    if params["add_orthologs"]:
         print_str += "\tPubMed ID(s) of ortholog(s)"
     print(print_str)
     for entrezid, pmids, orthologs_pmids in __get_entrezids_pmids(
-        entrezids, add_orthologs
+        params["entrezids"], params["add_orthologs"]
     ):
         print_str = "%s\t%s" % (entrezid, ",".join(map(str, pmids)))
-        if add_orthologs:
+        if params["add_orthologs"]:
             print_str += "\t%s" % ",".join(map(str, orthologs_pmids))
         print(print_str)
 
@@ -78,4 +78,4 @@ def __get_entrezids_pmids(entrezids, add_orthologs=False):
     return(entrezids_pmids)
 
 if __name__ == "__main__":
-    entrezid2pmids()
+    cli()

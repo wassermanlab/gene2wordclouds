@@ -30,10 +30,12 @@ CONTEXT_SETTINGS = {
     required=True,
 )
 
-def pmid2abstract(pmids, email, dummy_dir):
+def cli(**params):
 
     print("PubMed ID\tAbstract")
-    for pmid, abstract in __get_pmids_abstracts(pmids, email):
+    for pmid, abstract in __get_pmids_abstracts(
+        params["pmids"], params["email"], params["dummy_dir"]
+    ):
         print("%s\t%s" % (pmid, abstract))
 
 def __get_pmids_abstracts(
@@ -73,4 +75,4 @@ def __get_pmids_abstracts(
     return([[k, v] for k, v in pmids_abstracts.items()])
 
 if __name__ == "__main__":
-    pmid2abstract()
+    cli()

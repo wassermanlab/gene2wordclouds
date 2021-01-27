@@ -17,10 +17,10 @@ CONTEXT_SETTINGS = {
     required=True,
 )
 
-def uniacc2entrezid(uniaccs):
+def cli(**params):
 
     print("UniProt Accession\tEntrez Gene ID")
-    for uniacc, entrezid in __get_uniaccs_entrezids(uniaccs):
+    for uniacc, entrezid in __get_uniaccs_entrezids(params["uniaccs"]):
         print("%s\t%s" % (uniacc, entrezid))
 
 def __get_uniaccs_entrezids(uniaccs):
@@ -50,4 +50,4 @@ def __get_uniaccs_entrezids(uniaccs):
     return(uniaccs_entrezids)
 
 if __name__ == "__main__":
-    uniacc2entrezid()
+    cli()

@@ -42,25 +42,28 @@ CONTEXT_SETTINGS = {
     is_flag=True,
 )
 
-def abstract2words(abstract, input_file, non_alphanumeric, non_letters, 
-    stop_words):
+def cli(**params):
 
     # Parse abstract
-    if abstract is None:
-        abstract = ""
-        if input_file.name.endswith(".gz"):
-            handle = gzip.open(input_file.name, "rt")
-            input_file.close()
+    if params["abstract"] is None:
+        if params["input_file"].name.endswith(".gz"):
+            handle = gzip.open(params["input_file"].name, "rt")
+            params["input_file"].close()
         else:
-            handle = input_file
+            handle = params["input_file"]
         for line in handle:
-            abstract += line
+            if params["abstract"] is None:
+                params["abstract"] = line
+            else:
+                params["abstract"] += line
         handle.close()      
 
-    print("Word\tStem(s)\tCounts")
-    for word, stems, counts in __get_abstract_words(abstract, non_alphanumeric,
-        non_letters, stop_words):
-        print("%s\t%s\t%s" % (word, ";".join(stems), counts))
+    print("Word\tStem(s)\tCount")
+    for word, stems, counts in __get_abstract_words(
+        params["abstract"], params["non_alphanumeric"], params["non_letters"],
+        params["stop_words"]
+    ):
+        print("%s\t%s\t%s" % (word, ",".join(stems), counts))
 
 def __get_abstract_words(abstract, non_alphanumeric, non_letters, stop_words):
 
@@ -70,7 +73,7 @@ def __get_abstract_words(abstract, non_alphanumeric, non_letters, stop_words):
 
     # Filter stop words
     if stop_words:
-        stopwords = __stop_words()
+        stopwords = __get_stop_words()
 
     # Get words
     for s in [word_tokenize(t) for t in sent_tokenize(abstract.lower())]:
@@ -82,24 +85,16 @@ def __get_abstract_words(abstract, non_alphanumeric, non_letters, stop_words):
                 if re.search(r"^[^a-z]+$", token):
                     continue
             if stop_words:
-                if __remove_non_alphanumeric(token) in stopwords:
+                if __remove_non_alphanumeric_characters(token) in stopwords:
                     continue
-            word = __strip_non_alphanumeric(token)
-            stems = sorted([stemmer.stem(w) for w in __extract_words(word)])
+            word = __strip_non_alphanumeric_characters(token)
+            alphanumeric_words = __get_alphanumeric_words(word)
+            stems = sorted([stemmer.stem(w) for w in alphanumeric_words])
             words.append((word, tuple(stems)))
 
     return([[k[0], k[1], v] for k, v in collections.Counter(words).items()])
 
-def __strip_non_alphanumeric(string):
-    return(re.sub(r"^[^0-9a-z]+|[^0-9a-z]+$", "", string))
-
-def __extract_words(string):
-    return(re.findall(r"\w+", string))
-
-def __remove_non_alphanumeric(string):
-    return(re.sub(r"[^0-9a-z]", "", string))
-
-def __stop_words():
+def __get_stop_words():
     """
     https://github.com/stopwords-iso/stopwords-en
     """
@@ -115,5 +110,14 @@ def __stop_words():
     with open(stopwords_file) as handle:
         return(set([line.strip("\n") for line in handle]))
 
+def __remove_non_alphanumeric_characters(string):
+    return(re.sub(r"[^0-9a-z]", "", string))
+
+def __strip_non_alphanumeric_characters(string):
+    return(re.sub(r"^[^0-9a-z]+|[^0-9a-z]+$", "", string))
+
+def __get_alphanumeric_words(string):
+    return(re.findall(r"[0-9a-z]+", string))
+
 if __name__ == "__main__":
-    abstract2words()
+    cli()

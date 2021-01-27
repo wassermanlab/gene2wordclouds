@@ -53,45 +53,13 @@ CONTEXT_SETTINGS = {
     help="Taxonomic identifier (e.g. 9606).",
     type=int
 )
-@optgroup.group("Word filters")
-@optgroup.option(
-    "--non-alphanumeric",
-    help="Filter non-alphanumeric words (e.g. punctuation characters).",
-    is_flag=True,
-    default=True,
-    show_default=True
-)
-@optgroup.option(
-    "--stemming",
-    help="Filter words with the same stem (e.g. like, likely, liking, etc.).",
-    is_flag=True,
-    default=True,
-    show_default=True
-)
-@optgroup.option(
-    "--stop-words",
-    help="Filter stop words (i.e. most common English words).",
-    is_flag=True,
-    default=True,
-    show_default=True
-)
-@click.option(
-    "--add-orthologs",
-    help="Include PubMed ID(s) of ortholog(s).",
-    is_flag=True
-)
-@click.option(
-    "--background-file",
-    help="Background list of identifiers.",
-    type=click.File("rt")
-)
 @click.option(
     "--email",
     help="E-mail address.",
     required=True
 )
 @click.option(
-    "--id-type",
+    "--identifier-type",
     help="Identifier type.",
     type=click.Choice(["entrezid", "uniacc"], case_sensitive=False),
     default="entrezid",
@@ -115,8 +83,11 @@ CONTEXT_SETTINGS = {
     show_default=True
 )
 
-def wordcloud(identifiers, input_file, add_orthologs, background_file, email,
-    id_type, output_dir, prefix, threads):
+# def wordcloud(identifiers, input_file, add_orthologs, background_file, email,
+#     id_type, output_dir, prefix, threads):
+def cli(**params):
+    print(params)
+    exit(0)
 
     # Create dirs
     output_dir = os.path.join(output_dir, prefix)
@@ -305,4 +276,4 @@ def __compute_TFIDFs(zipped_values, idfs, tfidfs_dir, words_dir):
         df.to_csv(tsv_file, sep="\t", index=False, compression="gzip")
 
 if __name__ == "__main__":
-    wordcloud()
+    cli()
