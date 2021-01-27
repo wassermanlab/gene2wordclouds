@@ -46,16 +46,14 @@ def cli(**params):
 
     # Parse abstract
     if params["abstract"] is None:
+        params["abstract"] = ""
         if params["input_file"].name.endswith(".gz"):
             handle = gzip.open(params["input_file"].name, "rt")
             params["input_file"].close()
         else:
             handle = params["input_file"]
         for line in handle:
-            if params["abstract"] is None:
-                params["abstract"] = line
-            else:
-                params["abstract"] += line
+            params["abstract"] += line
         handle.close()      
 
     print("Word\tStem(s)\tCount")

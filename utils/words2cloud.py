@@ -2,12 +2,8 @@
 
 import click
 from click_option_group import optgroup, RequiredMutuallyExclusiveOptionGroup
-import collections
 import gzip
 import matplotlib.pyplot as plt
-import nltk
-import numpy as np
-import os
 import re
 from wordcloud import WordCloud
 
@@ -50,35 +46,35 @@ CONTEXT_SETTINGS = {
     required=True
 )
 
-def words2cloud(words, words_file, weights, weights_file, output_file):
+def cli(**params):
 
     # Parse words
-    if words_file is not None:
-        words = []
-        if words_file.name.endswith(".gz"):
-            handle = gzip.open(words_file.name, "rt")
-            words_file.close()
+    if params["words_file"] is not None:
+        params["words"] = []
+        if params["words_file"].name.endswith(".gz"):
+            handle = gzip.open(params["words_file"].name, "rt")
+            params["words_file"].close()
         else:
-            handle = words_file
+            handle = params["words_file"]
         for line in handle:
-            words.append(line.strip("\n"))
+            params["words"].append(line.strip("\n"))
         handle.close()
 
     # Parse weights
-    if weights_file is not None:
-        weights = []
-        if weights_file.name.endswith(".gz"):
-            handle = gzip.open(weights_file.name, "rt")
-            weights_file.close()
+    if params["weights_file"] is not None:
+        params["weights"] = []
+        if params["weights_file"].name.endswith(".gz"):
+            handle = gzip.open(params["weights_file"].name, "rt")
+            params["weights_file"].close()
         else:
-            handle = weights_file
-        for line in weights_file:
-            weights.append(float(line.strip("\n")))
+            handle = params["weights_file"]
+        for line in handle:
+            params["weights"].append(int(line.strip("\n")))
         handle.close()
 
-    __make_word_cloud(words, weights, output_file)
+    __get_word_cloud(params["words"], params["weights"], params["output_file"])
 
-def __make_word_cloud(words, weights, output_file):
+def __get_word_cloud(words, weights, output_file):
 
     # Initialize
     frequencies = {}
@@ -94,4 +90,4 @@ def __make_word_cloud(words, weights, output_file):
     plt.savefig(output_file)
 
 if __name__ == "__main__":
-    words2cloud()
+    cli()
