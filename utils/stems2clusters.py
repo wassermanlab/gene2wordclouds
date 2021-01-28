@@ -56,6 +56,11 @@ CONTEXT_SETTINGS = {
     help="File with weights/tf-idfs.",
     type=click.File("rt")
 )
+@click.option(
+    "-f", "--full-list", "full_list",
+    help="Output only the full unfiltered list of words with weights and clusters.",
+    is_flag=True
+)
 
 def cli(**params):
 
@@ -107,10 +112,10 @@ def cli(**params):
             params["weights"].append(int(float(line.strip("\n"))))
         handle.close()
 
-    for w, we, c in __get_word_clusters(params["words"], params["stems"], params["counts"], params["weights"]):
+    for w, we, c in __get_word_clusters(params["words"], params["stems"], params["counts"], params["weights"], params["full_list"]):
         print("%s\t%s\t%s" % (w, we, c))
 
-def __get_word_clusters(words, stems, counts, weights):
+def __get_word_clusters(words, stems, counts, weights, full_list=False):
 
     # Initialize
     df = pd.DataFrame(list(zip(words, stems, counts, weights)),
@@ -143,7 +148,10 @@ def __get_word_clusters(words, stems, counts, weights):
     df_filter = df.groupby('cluster').head(1)
     
     # Return the word and the weight
-    return([[r['word'], r['weight'], r['cluster']] for i, r in df_filter.iterrows()])
+    if full_list: 
+        return([[r['word'], r['weight'], r['cluster']] for i, r in df.iterrows()])
+    else:
+        return([[r['word'], r['weight'], r['cluster']] for i, r in df_filter.iterrows()])
 
 if __name__ == "__main__":
     cli()
