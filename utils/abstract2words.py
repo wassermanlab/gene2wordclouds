@@ -27,13 +27,8 @@ CONTEXT_SETTINGS = {
 )
 @optgroup.group("Word filters")
 @optgroup.option(
-    "--non-alphanumeric",
-    help="Filter non-alphanumeric words (e.g. punctuation characters).",
-    is_flag=True,
-)
-@optgroup.option(
     "--non-letters",
-    help="Filter non-letter words (e.g. numbers).",
+    help="Filter words without letters.",
     is_flag=True,
 )
 @optgroup.option(
@@ -57,28 +52,21 @@ def cli(**params):
         handle.close()      
 
     print("Word\tStem(s)\tCount")
-    for word, stems, counts in __get_abstract_words(
-        params["abstract"], params["non_alphanumeric"], params["non_letters"],
-        params["stop_words"]
+    for word, stems, count in __get_abstract_words(
+        params["abstract"], params["non_letters"], params["stop_words"]
     ):
-        print("%s\t%s\t%s" % (word, ",".join(stems), counts))
+        print("%s\t%s\t%s" % (word, ",".join(stems), count))
 
-def __get_abstract_words(abstract, non_alphanumeric, non_letters, stop_words):
+def __get_abstract_words(abstract, non_letters, stop_words):
 
     # Initialize
     words = []
     stemmer = SnowballStemmer("english", ignore_stopwords=True)
-
-    # Filter stop words
-    if stop_words:
-        stopwords = __get_stop_words()
+    stopwords = __get_stop_words()
 
     # Get words
     for s in [word_tokenize(t) for t in sent_tokenize(abstract.lower())]:
         for token in s:
-            if non_alphanumeric:
-                if re.search(r"^[^0-9a-z]+$", token):
-                    continue
             if non_letters:
                 if re.search(r"^[^a-z]+$", token):
                     continue
@@ -86,21 +74,26 @@ def __get_abstract_words(abstract, non_alphanumeric, non_letters, stop_words):
                 if __remove_non_alphanumeric_characters(token) in stopwords:
                     continue
             word = __strip_non_alphanumeric_characters(token)
-            alphanumeric_words = __get_alphanumeric_words(word)
-            stems = sorted([stemmer.stem(w) for w in alphanumeric_words])
-            words.append((word, tuple(stems)))
+            if non_letters:
+                word_list = __get_letter_words(word)
+                stems = sorted([stemmer.stem(w) for w in word_list])
+            else:
+                word_list = __get_alphanumeric_words(word)
+                stems = sorted([stemmer.stem(w) for w in word_list])
+            if len(stems) > 0:
+                words.append((word, tuple(stems)))
 
     return([[k[0], k[1], v] for k, v in collections.Counter(words).items()])
 
 def __get_stop_words():
     """
-    https://github.com/stopwords-iso/stopwords-en
+    https://github.com/stopwords-iso/stopwords-enletter_words
     """
 
     # Intialize
     url = "https://raw.githubusercontent.com/stopwords-iso/stopwords-en/master/stopwords-en.txt"
     stopwords_file = os.path.join(os.path.dirname(os.path.realpath(__file__)),
-        "stopwords-en.txt")
+        "data", "stopwords-en.txt")
 
     # Stop words
     if not os.path.exists(stopwords_file):
@@ -113,6 +106,9 @@ def __remove_non_alphanumeric_characters(string):
 
 def __strip_non_alphanumeric_characters(string):
     return(re.sub(r"^[^0-9a-z]+|[^0-9a-z]+$", "", string))
+
+def __get_letter_words(string):
+    return(re.findall(r"[a-z]+", string))
 
 def __get_alphanumeric_words(string):
     return(re.findall(r"[0-9a-z]+", string))
