@@ -74,8 +74,8 @@ def __get_abstract_words(abstract, non_letters, stop_words):
                 if __remove_non_alphanumeric_characters(token) in stopwords:
                     continue
             word = __strip_non_alphanumeric_characters(token)
-            word_list = __get_alphanumeric_words(word)
-            stems = sorted([stemmer.stem(w) for w in word_list])
+            nr_words = set(__get_alphanumeric_words(word))
+            stems = sorted([stemmer.stem(w) for w in nr_words])
             if len(stems) > 0:
                 words.append((word, tuple(stems)))
 
