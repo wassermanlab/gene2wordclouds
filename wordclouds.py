@@ -119,7 +119,7 @@ def main(**params):
     __get_TFIDFs(iterator, idfs, out_dir, params["threads"])
 
     # Word Cloud
-    __get_word_clouds(out_dir, params["threads"])
+    __get_word_clouds(out_dir, params["threads"], filter_by_stem=True)
 
 def __get_identifiers(identifiers, input_file, input_type):
 
@@ -457,7 +457,9 @@ def __get_word_clouds(output_dir="./", threads=1, filter_by_stem=False):
             header=0, converters={"Stem": ast.literal_eval})
         for _, row in df.iterrows():
             if filter_by_stem:
-                pass
+                intersection = len(stems.intersection(set(row["Stem"])))
+                if intersection == len(row["Stem"]):
+                    continue
             words.append(row["Word"])
             weights.append(row["Combo TF-IDF"])
             for stem in row["Stem"]:
