@@ -455,8 +455,7 @@ def __get_word_clouds(output_dir="./", threads=1, filter_by_stem=False):
             header=0, converters={"Stem": ast.literal_eval})
         for _, row in df.iterrows():
             if filter_by_stem:
-                intersection = len(stems.intersection(set(row["Stem"])))
-                if intersection == len(row["Stem"]):
+                if stems.intersection(set(row["Stem"])):
                     continue
             words.append(row["Word"])
             weights.append(row["Combo TF-IDF"])
