@@ -119,7 +119,7 @@ def main(**params):
     __get_TFIDFs(iterator, idfs, out_dir, params["threads"])
 
     # Word Cloud
-    __get_word_clouds(out_dir, params["threads"], filter_by_stem=True)
+    __get_word_clouds(out_dir, params["threads"], filter_by_stem=False)
 
 def __get_identifiers(identifiers, input_file, input_type):
 
@@ -445,14 +445,12 @@ def __compute_gene_TFIDFs(iteration, idfs, output_dir="./", threads=1):
 def __get_word_clouds(output_dir="./", threads=1, filter_by_stem=False):
 
     # Initialize
-    words = []
-    weights = []
     figs_dir = os.path.join(output_dir, "figs")
     tfidfs_dir = os.path.join(output_dir, "tf-idfs")
-    stems = set()
 
     # Get word clouds
     for tsv_file in os.listdir(tfidfs_dir):
+        words = []; weights = []; stems = set()
         df = pd.read_csv(os.path.join(tfidfs_dir, tsv_file), sep="\t",
             header=0, converters={"Stem": ast.literal_eval})
         for _, row in df.iterrows():
