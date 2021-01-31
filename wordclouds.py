@@ -119,7 +119,7 @@ def main(**params):
     __get_TFIDFs(iterator, idfs, out_dir, params["threads"])
 
     # Word Cloud
-    __get_word_clouds(out_dir, params["threads"], filter_by_stem=False)
+    __get_word_clouds(out_dir, params["threads"], filter_by_stem=True)
 
 def __get_identifiers(identifiers, input_file, input_type):
 
