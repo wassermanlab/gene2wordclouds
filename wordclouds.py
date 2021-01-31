@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import ast
 import click
 from click_option_group import (optgroup, MutuallyExclusiveOptionGroup,
     RequiredMutuallyExclusiveOptionGroup)
@@ -14,6 +15,8 @@ import numpy as np
 import os
 import pandas as pd
 from tqdm import tqdm
+# import timeit
+bar_format = "{percentage:3.0f}%|{bar:20}{r_bar}"
 
 # Import utils
 from utils.abstract2words import __get_abstract_words
@@ -183,7 +186,7 @@ def __entrezid2pmids(entrezids, output_dir="./"):
     json_file = os.path.join(output_dir, "entrezid2pmids.json.gz")
     if not os.path.exists(json_file):
         entrezids_pmids = []
-        kwargs = {"total": len(entrezids), "ncols": 100}
+        kwargs = {"total": len(entrezids), "bar_format": bar_format}
         gene2pubmed, homologene = __load_datasets(True)
         for entrezid in tqdm(entrezids, **kwargs):
             pmids, orthologs_pmids = __get_entrezid_pmids(entrezid,
@@ -208,7 +211,7 @@ def __pmid2abstract(pmids, email, output_dir="./"):
             pmids.remove(int(abstract_file[:-7]))
     if len(pmids) > 0:
         chunks = [chunk for chunk in __get_chunks(pmids, 1000)]
-        kwargs = {"total": len(chunks), "ncols": 100}
+        kwargs = {"total": len(chunks), "bar_format": bar_format}
         for chunk in tqdm(chunks, **kwargs):
             for p, a in __get_pmids_abstracts(chunk, email):
                 abstract_file = os.path.join(abstracts_dir, "%s.txt.gz" % p)
@@ -233,7 +236,7 @@ def __abstract2words(output_dir="./", threads=1):
             abstract_files.append(abstract_file)
     if len(abstract_files) > 0:
         pool = Pool(threads)
-        kwargs = {"total": len(abstract_files), "ncols": 100}
+        kwargs = {"total": len(abstract_files), "bar_format": bar_format}
         for abstract_file, abstract_words in tqdm(
             pool.imap(__get_abstract_words_wrapper, abstract_files), **kwargs
         ):
@@ -274,34 +277,43 @@ def __get_IDFs(pmids, output_dir="./", threads=1):
     """
 
     # Initialize
-    idfs = []
-    # pmids_words_stems = []
-    pmids_words = []
-    kwargs = {"total": len(pmids), "ncols": 100}
+    idfs = {}
+    word2idf = []
+    stems2idf = []
+    pmids_words_stems = []
     words_dir = os.path.join(output_dir, "words")
 
     # Compute IDFs
-    tsv_file = os.path.join(output_dir, "idfs.tsv.gz")
-    if not os.path.exists(tsv_file):
+    words_tsv_file = os.path.join(output_dir, "word2idf.tsv.gz")
+    stems_tsv_file = os.path.join(output_dir, "stems2idf.tsv.gz")
+    if not os.path.exists(words_tsv_file) or not os.path.exists(stems_tsv_file):
         pool = Pool(threads)
         p = partial(__load_PMID_words_and_stems, words_dir=words_dir)
+        kwargs = {"total": len(pmids), "bar_format": bar_format}
         for l in tqdm(pool.imap(p, pmids), **kwargs):
-            # for pmid, word, stems in l:
-            #     if len(stems) > 1:
-            #         for stem in stems:
-            #             pmids_words_stems.append([pmid, word, tuple([stem])])
-            #     pmids_words_stems.append([pmid, word, stems])
-            for pmid, word, _ in l:
-                pmids_words.append([pmid, word])
-        # df = pd.DataFrame(pmids_words_stems, columns=["PMID", "Word", "Stem"])
-        df = pd.DataFrame(pmids_words, columns=["PMID", "Word"])
-        N = df["PMID"].nunique()
-        for t, nt in df["Word"].value_counts().items():
-            idfs.append([t, np.log10(N/float(nt))])
-        df = pd.DataFrame(idfs, columns=["Word", "IDF"])
-        df.to_csv(tsv_file, sep="\t", index=False, compression="gzip")
-    df = pd.read_csv(tsv_file, sep="\t", header=0)
-    idfs = dict(zip(df["Word"].tolist(), df["IDF"].tolist()))
+            for pmid, word, stems in l:
+                pmids_words_stems.append([pmid, word, stems])
+        df = pd.DataFrame(pmids_words_stems, columns=["PMID", "Word", "Stem"])
+        N = float(df["PMID"].nunique())
+        words = df.groupby("Word")["PMID"].aggregate(set)
+        stems = df.groupby("Stem")["PMID"].aggregate(set)
+        stems2pmids = stems.to_dict()
+        for t, nt in words.iteritems():
+            word2idf.append([t, np.log10(N/len(nt))])
+        df = pd.DataFrame(word2idf, columns=["Word", "IDF"])
+        df.to_csv(words_tsv_file, sep="\t", index=False, compression="gzip")
+        kwargs = {"total": len(stems2pmids), "bar_format": bar_format}
+        for t in tqdm(stems2pmids, **kwargs):
+            stems2idf.append([t, np.log10(N/__get_stems_nt(t, stems2pmids))])
+        df = pd.DataFrame(stems2idf, columns=["Stem", "IDF"])
+        df.to_csv(stems_tsv_file, sep="\t", index=False, compression="gzip")
+
+    # Load IDFs
+    df = pd.read_csv(words_tsv_file, sep="\t", header=0)
+    idfs.update(dict(zip(df["Word"].tolist(), df["IDF"].tolist())))
+    df = pd.read_csv(stems_tsv_file, sep="\t", header=0,
+        converters={"Stem": ast.literal_eval})
+    idfs.update(dict(zip(df["Stem"].tolist(), df["IDF"].tolist())))
 
     return(idfs)
 
@@ -321,30 +333,19 @@ def __load_PMID_words_and_stems(pmid, words_dir):
 
     return([[pmid, word, stems] for word, stems in unique_words_stems])
 
-# def __stem2pmids(df):
-#     """
-#     THIS NEEDS TO BE OPTIMIZED CLEARLY!!!
-#     """
+def __get_stems_nt(stems, stems2pmids):
 
-#     # Initialize
-#     stem2pmids = {}
+    # Initialize
+    pmids = stems2pmids[stems]
 
-#     # Stem 2 PubMed IDs
-#     unique_stems = list(df["Stem"].unique())
-#     kwargs = {"total": len(unique_stems), "ncols": 100}
-#     for stems in tqdm(unique_stems, **kwargs):
-#         if stems in stem2pmids:
-#             continue
-#         ilocs = list(df[df["Stem"]==stems].index)
-#         stem2pmids.setdefault(stems, set(df.iloc[ilocs]["PMID"].tolist()))
-#         for stem in stems:
-#             s = tuple([stem])
-#             if s not in stem2pmids:
-#                 ilocs = list(df[df["Stem"]==s].index)
-#                 stem2pmids.setdefault(s, set(df.iloc[ilocs]["PMID"].tolist()))
-#             stem2pmids[stems] = stem2pmids[stems].union(stem2pmids[s])
+    # Get nt
+    if len(stems) > 1:
+        for stem in stems:
+            stem = tuple([stem])
+            if stem in stems2pmids:
+                pmids = pmids.union(stems2pmids[stem])
 
-#     return(stem2pmids)
+    return(len(pmids))
 
 def __get_iterator(entrezids, pmids, pmids_orthologs, output_dir="./"):
 
@@ -374,7 +375,7 @@ def __get_TFIDFs(iterator, idfs, output_dir="./", threads=1):
     """
 
     # Initialize
-    kwargs = {"total": len(iterator), "ncols": 100}
+    kwargs = {"total": len(iterator), "bar_format": bar_format}
     examples = set([3725, 6688, 7157, 10664])
 
     for iteration in iterator:
@@ -406,8 +407,9 @@ def __get_TFIDFs(iterator, idfs, output_dir="./", threads=1):
 def __compute_gene_TFIDFs(iteration, idfs, output_dir="./", threads=1):
 
     # Initialize
+    term2tfidfs = {}
     tfidfs = []
-    pmids_words = []
+    pmids_words_stems = []
     word2stems = {}
     entrezid = iteration[0]
     pmids = list(iteration[1])
@@ -421,28 +423,47 @@ def __compute_gene_TFIDFs(iteration, idfs, output_dir="./", threads=1):
         p = partial(__load_PMID_words_and_stems, words_dir=words_dir)
         for l in pool.imap(p, pmids):
             for pmid, word, stems in l:
-                pmids_words.append([pmid, word])
+                pmids_words_stems.append([pmid, word, stems])
                 word2stems.setdefault(word, stems)
-        df = pd.DataFrame(pmids_words, columns=["PMID", "Word"])
-        for t, ngt in df["Word"].value_counts().items():
-            tfidfs.append([t, word2stems[t], np.log10(1+ngt) * idfs[t]])
-        df = pd.DataFrame(tfidfs, columns=["Word", "Stem", "TF-IDF"])
-        df.sort_values(by=["TF-IDF"], ascending=False, inplace=True)
+        df = pd.DataFrame(pmids_words_stems, columns=["PMID", "Word", "Stem"])
+        words = df.groupby("Word")["PMID"].aggregate(set)
+        for t, nt in words.iteritems():
+            term2tfidfs.setdefault(t, np.log10(1+len(nt))*idfs[t])
+        stems = df.groupby("Stem")["PMID"].aggregate(set)
+        stems2pmids = stems.to_dict()
+        for t in stems2pmids:
+            nt = __get_stems_nt(t, stems2pmids)
+            term2tfidfs.setdefault(t, np.log10(1+nt)*idfs[t])
+        for word, stems in word2stems.items():
+            tfidfs.append([word, stems, term2tfidfs[word], term2tfidfs[stems],
+                np.sqrt(term2tfidfs[word]*term2tfidfs[stems])])
+        df = pd.DataFrame(tfidfs, columns=["Word", "Stem", "Word TF-IDF",
+            "Stem TF-IDF", "Combo TF-IDF"])
+        df.sort_values(["Combo TF-IDF"], ascending=False, inplace=True)
         df.to_csv(tsv_file, sep="\t", index=False, compression="gzip")
 
 def __get_word_clouds(output_dir="./", threads=1, filter_by_stem=False):
 
     # Initialize
+    words = []
+    weights = []
     figs_dir = os.path.join(output_dir, "figs")
     tfidfs_dir = os.path.join(output_dir, "tf-idfs")
+    stems = set()
 
     # Get word clouds
     for tsv_file in os.listdir(tfidfs_dir):
-        df = pd.read_csv(os.path.join(tfidfs_dir, tsv_file), sep="\t", header=0)
-        words = df["Word"].tolist()
-        weights = df["TF-IDF"].tolist()
+        df = pd.read_csv(os.path.join(tfidfs_dir, tsv_file), sep="\t",
+            header=0, converters={"Stem": ast.literal_eval})
+        for _, row in df.iterrows():
+            if filter_by_stem:
+                pass
+            words.append(row["Word"])
+            weights.append(row["Combo TF-IDF"])
+            for stem in row["Stem"]:
+                stems.add(stem)
         fig_file = os.path.join(figs_dir, "%s.png" % tsv_file[:-7])
-        __get_word_cloud(words, weights, fig_file) 
+        __get_word_cloud(words, weights, fig_file)
 
 if __name__ == "__main__":
     main()
