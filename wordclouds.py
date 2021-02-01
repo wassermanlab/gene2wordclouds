@@ -100,10 +100,6 @@ def main(**params):
     # EntrezID to PMIDs
     entrezids, pmids, pmids_orthologs = __entrezid2pmids(identifiers, out_dir)
 
-    ##################
-    # Backgroud here #
-    ##################
-
     # PMID to Abstract
     pmids_set = set(list(chain.from_iterable(pmids+pmids_orthologs)))
     __pmid2abstract(copy.copy(pmids_set), params["email"], out_dir)
@@ -115,11 +111,12 @@ def main(**params):
     idfs = __get_IDFs(copy.copy(pmids_set), out_dir, params["threads"])
 
     # TF-IDF (i.e. Term Frequency–IDF)
-    iterator = __get_iterator(entrezids, pmids, pmids_orthologs, out_dir)
-    __get_TFIDFs(iterator, idfs, out_dir, params["threads"])
+    __get_TFIDFs(copy.copy(entrezids), pmids, pmids_orthologs, idfs, out_dir,
+        params["threads"])
 
     # Word Cloud
-    __get_word_clouds(out_dir, params["threads"], filter_by_stem=True)
+    __get_word_clouds(copy.copy(entrezids), out_dir, params["threads"],
+        filter_by_stem=True)
 
 def __get_identifiers(identifiers, input_file, input_type):
 
@@ -271,7 +268,7 @@ def __get_chunks(iterable, n, fillvalue=None):
 def __get_IDFs(pmids, output_dir="./", threads=1):
     """
     From https://en.wikipedia.org/wiki/Tf-idf recommendations:
-     * IDF = log10(N/n(t))
+     * IDF = log10(N÷n(t))
     Where N is the total number of documents and nt is the number of
     documents that include term t.
     """
@@ -347,22 +344,8 @@ def __get_stems_nt(stems, stems2pmids):
 
     return(len(pmids))
 
-def __get_iterator(entrezids, pmids, pmids_orthologs, output_dir="./"):
-
-    # Initialize
-    iterator = []
-    tfidfs_dir = os.path.join(output_dir, "tf-idfs")
-
-    # Get iterator
-    for i in range(len(entrezids)):
-        json_file = os.path.join(tfidfs_dir, "%s.json.gz" % entrezids[i])
-        if os.path.exists(json_file):
-            continue
-        iterator.append([entrezids[i], set(pmids[i] + pmids_orthologs[i])])
-
-    return(iterator)
-
-def __get_TFIDFs(iterator, idfs, output_dir="./", threads=1):
+def __get_TFIDFs(entrezids, pmids, pmids_orthologs, idfs, output_dir="./",
+    threads=1):
     """
     From https://en.wikipedia.org/wiki/Tf-idf recommendations
      * TF = log10(1+f(t,d)) and TF-IDF = TF * IDF
@@ -375,36 +358,23 @@ def __get_TFIDFs(iterator, idfs, output_dir="./", threads=1):
     """
 
     # Initialize
-    kwargs = {"total": len(iterator), "bar_format": bar_format}
-    examples = set([3725, 6688, 7157, 10664])
+    iterator = []
+    tfidfs_dir = os.path.join(output_dir, "tf-idfs")
 
-    for iteration in iterator:
-        if iteration[0] in examples:
-            __compute_gene_TFIDFs(iteration, idfs, output_dir, threads)
+    # Get iterator
+    for i in range(len(entrezids)):
+        tsv_file = os.path.join(tfidfs_dir, "%s.tsv.gz" % entrezids[i])
+        if os.path.exists(tsv_file):
+            continue
+        iterator.append([entrezids[i], set(pmids[i] + pmids_orthologs[i])])
 
-    # # Get TF-IDFs
-    # if len(iterator) > 0:
-    #     pool = Pool(threads)
-    #     p = partial(__compute_gene_TFIDF, word2idf=word2idf, stem2idf=stem2idf,
-    #         output_dir=output_dir)
-    #     for _ in tqdm(pool.imap(p, iterator), **kwargs):
-    #         pass
+    # Compute TF-IDFs
+    if len(iterator):
+        kwargs = {"total": len(iterator), "bar_format": bar_format}
+        for iteration in tqdm(iterator, **kwargs):
+            __get_gene_TFIDFs(iteration, idfs, output_dir, threads)
 
-    # # Initialize
-    # data = []; tfidfs = []
-    # entrezid = zipped_values[0]
-    # gene = str(zipped_values[1])
-    # words_dir = os.path.join(output_dir, "words")
-    # tfidfs_dir = os.path.join(output_dir, "tf-idfs")
-
-    # if id_type == "uniacc":
-    #     pass
-    # for iteration in iterator:
-    #     if iteration[1] != "P49711":
-    #         continue
-    #     __compute_TFIDFs(iteration, idfs, tfidfs_dir, words_dir)
-
-def __compute_gene_TFIDFs(iteration, idfs, output_dir="./", threads=1):
+def __get_gene_TFIDFs(iteration, idfs, output_dir="./", threads=1):
 
     # Initialize
     term2tfidfs = {}
@@ -416,7 +386,7 @@ def __compute_gene_TFIDFs(iteration, idfs, output_dir="./", threads=1):
     words_dir = os.path.join(output_dir, "words")
     tfidfs_dir = os.path.join(output_dir, "tf-idfs")
 
-    # Compute TF-IDFs
+    # Compute gene TF-IDFs
     tsv_file = os.path.join(tfidfs_dir, "%s.tsv.gz" % entrezid)
     if not os.path.exists(tsv_file):
         pool = Pool(threads)
@@ -428,13 +398,19 @@ def __compute_gene_TFIDFs(iteration, idfs, output_dir="./", threads=1):
         df = pd.DataFrame(pmids_words_stems, columns=["PMID", "Word", "Stem"])
         words = df.groupby("Word")["PMID"].aggregate(set)
         for t, nt in words.iteritems():
+            if t not in idfs:
+                continue
             term2tfidfs.setdefault(t, np.log10(1+len(nt))*idfs[t])
         stems = df.groupby("Stem")["PMID"].aggregate(set)
         stems2pmids = stems.to_dict()
         for t in stems2pmids:
+            if t not in idfs:
+                continue
             nt = __get_stems_nt(t, stems2pmids)
             term2tfidfs.setdefault(t, np.log10(1+nt)*idfs[t])
         for word, stems in word2stems.items():
+            if word not in term2tfidfs or stems not in term2tfidfs:
+                continue
             tfidfs.append([word, stems, term2tfidfs[word], term2tfidfs[stems],
                 np.sqrt(term2tfidfs[word]*term2tfidfs[stems])])
         df = pd.DataFrame(tfidfs, columns=["Word", "Stem", "Word TF-IDF",
@@ -442,27 +418,55 @@ def __compute_gene_TFIDFs(iteration, idfs, output_dir="./", threads=1):
         df.sort_values(["Combo TF-IDF"], ascending=False, inplace=True)
         df.to_csv(tsv_file, sep="\t", index=False, compression="gzip")
 
-def __get_word_clouds(output_dir="./", threads=1, filter_by_stem=False):
+def __get_word_clouds(entrezids, output_dir="./", threads=1,
+    filter_by_stem=False):
 
     # Initialize
+    iterator = []
     figs_dir = os.path.join(output_dir, "figs")
     tfidfs_dir = os.path.join(output_dir, "tf-idfs")
 
+    # Get iterator
+    for i in range(len(entrezids)):
+        png_file = os.path.join(figs_dir, "%s.png" % entrezids[i])
+        tsv_file = os.path.join(tfidfs_dir, "%s.tsv.gz" % entrezids[i])
+        if os.path.exists(png_file):
+            continue
+        if os.path.exists(tsv_file):
+            iterator.append(entrezids[i])
+
     # Get word clouds
-    for tsv_file in os.listdir(tfidfs_dir):
-        words = []; weights = []; stems = set()
-        df = pd.read_csv(os.path.join(tfidfs_dir, tsv_file), sep="\t",
-            header=0, converters={"Stem": ast.literal_eval})
-        for _, row in df.iterrows():
-            if filter_by_stem:
-                if stems.intersection(set(row["Stem"])):
-                    continue
-            words.append(row["Word"])
-            weights.append(row["Combo TF-IDF"])
-            for stem in row["Stem"]:
-                stems.add(stem)
-        fig_file = os.path.join(figs_dir, "%s.png" % tsv_file[:-7])
-        __get_word_cloud(words, weights, fig_file)
+    if len(iterator):
+        pool = Pool(threads)
+        p = partial(__get_gene_word_cloud, output_dir=output_dir,
+            filter_by_stem=filter_by_stem)
+        kwargs = {"total": len(iterator), "bar_format": bar_format}
+        for _ in tqdm(pool.imap(p, iterator), **kwargs):
+            pass
+
+def __get_gene_word_cloud(entrezid, output_dir="./", filter_by_stem=False):
+
+    # Initialize
+    words = []
+    weights = []
+    stems = set()
+    figs_dir = os.path.join(output_dir, "figs")
+    tfidfs_dir = os.path.join(output_dir, "tf-idfs")
+
+    # Get word cloud
+    png_file = os.path.join(figs_dir, "%s.png" % entrezid)
+    tsv_file = os.path.join(tfidfs_dir, "%s.tsv.gz" % entrezid)
+    df = pd.read_csv(tsv_file, sep="\t", header=0,
+        converters={"Stem": ast.literal_eval})
+    for _, row in df.iterrows():
+        if filter_by_stem:
+            if stems.intersection(set(row["Stem"])):
+                continue
+        words.append(row["Word"])
+        weights.append(row["Combo TF-IDF"])
+        for stem in row["Stem"]:
+            stems.add(stem)
+    __get_word_cloud(words, weights, png_file)
 
 if __name__ == "__main__":
     main()

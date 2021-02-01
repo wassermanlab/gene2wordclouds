@@ -83,7 +83,7 @@ def __get_word_cloud(words, weights, output_file):
     for word, weight in zip(words, weights):
         frequencies.setdefault(word, 0.)
         frequencies[word] += weight
-    wc = WordCloud(background_color="white", relative_scaling=0)
+    wc = WordCloud(background_color="white")
     wc.generate_from_frequencies(frequencies)
     plt.imshow(wc, interpolation="bilinear")
     plt.axis("off")
