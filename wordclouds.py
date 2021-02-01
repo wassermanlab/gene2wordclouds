@@ -118,6 +118,10 @@ def main(**params):
     __get_word_clouds(copy.copy(entrezids), out_dir, params["threads"],
         filter_by_stem=True)
 
+    ######################
+    # Compute statistics #
+    ######################
+
 def __get_identifiers(identifiers, input_file, input_type):
 
     # Get identifiers
@@ -346,16 +350,6 @@ def __get_stems_nt(stems, stems2pmids):
 
 def __get_TFIDFs(entrezids, pmids, pmids_orthologs, idfs, output_dir="./",
     threads=1):
-    """
-    From https://en.wikipedia.org/wiki/Tf-idf recommendations
-     * TF = log10(1+f(t,d)) and TF-IDF = TF * IDF
-    Where f(t,d) is the frequency of term t in document d.
-    Since we focus on the set of documents assigned to gene g (i.e. ng),
-    we have modified the computation of TF accordingly:
-     * TF = log10(1+ng(t))
-    Where ng(t) is the number of documents assigned to gene g that
-    include term t.
-    """
 
     # Initialize
     iterator = []
@@ -375,6 +369,16 @@ def __get_TFIDFs(entrezids, pmids, pmids_orthologs, idfs, output_dir="./",
             __get_gene_TFIDFs(iteration, idfs, output_dir, threads)
 
 def __get_gene_TFIDFs(iteration, idfs, output_dir="./", threads=1):
+    """
+    From https://en.wikipedia.org/wiki/Tf-idf recommendations
+     * TF = log10(1+f(t,d)) and TF-IDF = TF * IDF
+    Where f(t,d) is the frequency of term t in document d.
+    Since we focus on the set of documents assigned to gene g (i.e. ng),
+    we have modified the computation of TF accordingly:
+     * TF = log10(1+ng(t))
+    Where ng(t) is the number of documents assigned to gene g that
+    include term t.
+    """
 
     # Initialize
     term2tfidfs = {}
