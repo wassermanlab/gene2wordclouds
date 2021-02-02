@@ -19,12 +19,12 @@ from tqdm import tqdm
 bar_format = "{percentage:3.0f}%|{bar:20}{r_bar}"
 
 # Import utils
-from utils.abstract2words import __get_abstract_words
-from utils.entrezid2pmids import __load_datasets, __get_entrezid_pmids
-from utils.gene2pmid_distribution import gene2pmid_distribution
-from utils.pmid2abstract import __get_pmids_abstracts
 from utils.uniacc2entrezid import __get_uniaccs_entrezids
+from utils.entrezid2pmids import __load_datasets, __get_entrezid_pmids
+from utils.pmid2abstract import __get_pmids_abstracts
+from utils.abstract2words import __get_abstract_words
 from utils.words2cloud import __get_word_cloud
+from utils.gene2pmid_stats import __get_genes4pmids_stats, __get_pmids4genes_stats
 
 CONTEXT_SETTINGS = {
     "help_option_names": ["-h", "--help"],
@@ -82,6 +82,14 @@ CONTEXT_SETTINGS = {
     default=1,
     show_default=True
 )
+@click.option(
+    "--zscore",
+    help="Filter pmids with |zscore| higher than threshold.",
+    type=float,
+    default=None,
+    show_default=True
+)
+
 
 def main(**params):
 
@@ -100,6 +108,9 @@ def main(**params):
     # EntrezID to PMIDs
     entrezids, pmids, pmids_orthologs = __entrezid2pmids(identifiers, out_dir)
 
+    # Compute Statistics (Filter on zscore if applicable)
+    pmids, pmids_orthologs = __gene2pmidstats(entrezids, pmids, pmids_orthologs, params["zscore"], out_dir)
+
     # PMID to Abstract
     pmids_set = set(list(chain.from_iterable(pmids+pmids_orthologs)))
     __pmid2abstract(copy.copy(pmids_set), params["email"], out_dir)
@@ -117,10 +128,6 @@ def main(**params):
     # Word Cloud
     __get_word_clouds(copy.copy(entrezids), out_dir, params["threads"],
         filter_by_stem=True)
-
-    ######################
-    # Compute statistics #
-    ######################
 
 def __get_identifiers(identifiers, input_file, input_type):
 
@@ -164,6 +171,8 @@ def __create_directories(prefix, output_dir="./"):
         os.makedirs(os.path.join(output_dir, "tf-idfs"))
     if not os.path.isdir(os.path.join(output_dir, "figs")):
         os.makedirs(os.path.join(output_dir, "figs"))
+    if not os.path.isdir(os.path.join(output_dir, "stats")):
+        os.makedirs(os.path.join(output_dir, "stats"))
 
     return(output_dir)
 
@@ -201,6 +210,40 @@ def __entrezid2pmids(entrezids, output_dir="./"):
 
     return(entrezids, pmids, pmids_orthologs)
 
+def __gene2pmidstats(entrezids, pmids, pmids_orthologs, zscore_filter, out_dir):
+    
+    # Initialize
+    stats_dir = os.path.join(out_dir, "stats")
+    
+    # Output stats and plot
+    genesperpmid = os.path.join(stats_dir, "genesperpmids_table.tsv.gz")
+    if not os.path.exists(genesperpmid):
+        __get_genes4pmids_stats(entrezids, pmids, pmids_orthologs, stats_dir)
+    with gzip.open(genesperpmid, 'rt') as handle:
+        df = pd.read_table(handle)
+        handle.close()
+    
+    pmidspergenes = os.path.join(stats_dir, "pmidspergene_table.tsv.gz")
+    if not os.path.exists(pmidspergenes):
+        __get_pmids4genes_stats(entrezids, pmids, pmids_orthologs, stats_dir)
+    
+    # Filter on z-score
+    if zscore_filter is not None:         
+        df_filter = df[abs(df["Z-score"]) <= zscore_filter]
+        filter_file = os.path.join(stats_dir, "distribution_zscore%s_table.tsv.gz" % (zscore_filter))
+        df_filter.to_csv(filter_file, sep="\t", index=False)
+        
+        pmids2remove = df[abs(df["Z-score"]) > zscore_filter]["PMID"]
+        
+        for i in range(len(entrezids)):
+            for p in pmids2remove:
+                if p in pmids[i]:
+                    pmids[i].remove(p)
+                if p in pmids_orthologs[i]:
+                    pmids_orthologs[i].remove(p)
+        
+    return(pmids, pmids_orthologs)
+      
 def __pmid2abstract(pmids, email, output_dir="./"):
 
     # Initialize
@@ -209,7 +252,10 @@ def __pmid2abstract(pmids, email, output_dir="./"):
     # Get abstracts
     for abstract_file in os.listdir(abstracts_dir):
         if abstract_file.endswith(".txt.gz"):
-            pmids.remove(int(abstract_file[:-7]))
+            try:
+                pmids.remove(int(abstract_file[:-7]))
+            except KeyError:
+                pass
     if len(pmids) > 0:
         chunks = [chunk for chunk in __get_chunks(pmids, 1000)]
         kwargs = {"total": len(chunks), "bar_format": bar_format}
@@ -219,6 +265,7 @@ def __pmid2abstract(pmids, email, output_dir="./"):
                 with gzip.open(abstract_file, "wt") as handle:
                     if a is not None:
                         handle.write(a)
+
 
 def __abstract2words(output_dir="./", threads=1):
 
@@ -462,15 +509,16 @@ def __get_gene_word_cloud(entrezid, output_dir="./", filter_by_stem=False):
     tsv_file = os.path.join(tfidfs_dir, "%s.tsv.gz" % entrezid)
     df = pd.read_csv(tsv_file, sep="\t", header=0,
         converters={"Stem": ast.literal_eval})
-    for _, row in df.iterrows():
-        if filter_by_stem:
-            if stems.intersection(set(row["Stem"])):
-                continue
-        words.append(row["Word"])
-        weights.append(row["Combo TF-IDF"])
-        for stem in row["Stem"]:
-            stems.add(stem)
-    __get_word_cloud(words, weights, png_file)
+    if not df.empty:
+        for _, row in df.iterrows():
+            if filter_by_stem:
+                if stems.intersection(set(row["Stem"])):
+                    continue
+            words.append(row["Word"])
+            weights.append(row["Combo TF-IDF"])
+            for stem in row["Stem"]:
+                stems.add(stem)
+        __get_word_cloud(words, weights, png_file)
 
 if __name__ == "__main__":
     main()
