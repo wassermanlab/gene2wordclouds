@@ -229,11 +229,11 @@ def __gene2pmidstats(entrezids, pmids, pmids_orthologs, zscore_filter, out_dir):
     
     # Filter on z-score
     if zscore_filter is not None:         
-        df_filter = df[abs(df["Z-score"]) <= zscore_filter]
+        df_filter = df[df["Z-score"] <= zscore_filter]
         filter_file = os.path.join(stats_dir, "distribution_zscore%s_table.tsv.gz" % (zscore_filter))
         df_filter.to_csv(filter_file, sep="\t", index=False)
         
-        pmids2remove = df[abs(df["Z-score"]) > zscore_filter]["PMID"]
+        pmids2remove = df[df["Z-score"] > zscore_filter]["PMID"]
         
         for i in range(len(entrezids)):
             for p in pmids2remove:
