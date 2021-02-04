@@ -109,7 +109,8 @@ def main(**params):
     entrezids, pmids, pmids_orthologs = __entrezid2pmids(identifiers, out_dir)
 
     # Compute Statistics (Filter on zscore if applicable)
-    pmids, pmids_orthologs = __gene2pmidstats(entrezids, pmids, pmids_orthologs, params["zscore"], out_dir)
+    pmids, pmids_orthologs = __gene2pmidstats(entrezids, pmids, pmids_orthologs, 
+                                              params["zscore"], out_dir)
 
     # PMID to Abstract
     pmids_set = set(list(chain.from_iterable(pmids+pmids_orthologs)))
@@ -163,16 +164,19 @@ def __create_directories(prefix, output_dir="./"):
     output_dir = os.path.join(output_dir, prefix)
     if not os.path.isdir(output_dir):
         os.makedirs(output_dir)
+    if not os.path.isdir(os.path.join(output_dir, "stats")):
+        os.makedirs(os.path.join(output_dir, "stats"))
     if not os.path.isdir(os.path.join(output_dir, "abstracts")):
         os.makedirs(os.path.join(output_dir, "abstracts"))
     if not os.path.isdir(os.path.join(output_dir, "words")):
         os.makedirs(os.path.join(output_dir, "words"))
     if not os.path.isdir(os.path.join(output_dir, "tf-idfs")):
         os.makedirs(os.path.join(output_dir, "tf-idfs"))
+    if not os.path.isdir(os.path.join(output_dir, "filtered")):
+        os.makedirs(os.path.join(output_dir, "filtered"))
     if not os.path.isdir(os.path.join(output_dir, "figs")):
         os.makedirs(os.path.join(output_dir, "figs"))
-    if not os.path.isdir(os.path.join(output_dir, "stats")):
-        os.makedirs(os.path.join(output_dir, "stats"))
+
 
     return(output_dir)
 
@@ -503,10 +507,13 @@ def __get_gene_word_cloud(entrezid, output_dir="./", filter_by_stem=False):
     stems = set()
     figs_dir = os.path.join(output_dir, "figs")
     tfidfs_dir = os.path.join(output_dir, "tf-idfs")
+    filtered_dir = os.path.join(output_dir, "filtered")
+    maxword=200
 
     # Get word cloud
     png_file = os.path.join(figs_dir, "%s.png" % entrezid)
     tsv_file = os.path.join(tfidfs_dir, "%s.tsv.gz" % entrezid)
+    filtered_file = os.path.join(filtered_dir, "%s.tsv.gz" % entrezid)
     df = pd.read_csv(tsv_file, sep="\t", header=0,
         converters={"Stem": ast.literal_eval})
     if not df.empty:
@@ -518,7 +525,8 @@ def __get_gene_word_cloud(entrezid, output_dir="./", filter_by_stem=False):
             weights.append(row["Combo TF-IDF"])
             for stem in row["Stem"]:
                 stems.add(stem)
-        __get_word_cloud(words, weights, png_file)
+        __get_word_cloud(words, weights, png_file, maxword)
+        pd.DataFrame(list(zip(words[0:maxword], weights[0:maxword]))).to_csv(filtered_file, sep="\t", index=False, header=None)
 
 if __name__ == "__main__":
     main()

@@ -154,10 +154,8 @@ def __get_pmids4genes_plot(df, mean, std, outdir):
             x.append(i); y.append(v)
         ax.plot(x, y, "o", label=l, color=c)
     
-    x = 2*std+mean
     kwargs = {"ls" : "--", "lw" : 1}
-    ax.axvline(x=x, color="black", label="Z-score = 2 (%s)" % round(x, 3),
-        **kwargs)
+    ax.axvline(x=mean, color="black", label="Mean (%s)" % round(mean,3), **kwargs)
     ax.legend(frameon=False)
     ax.set(xscale="log", yscale="log")
     ax.set_xlabel("PMIDs")

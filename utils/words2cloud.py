@@ -45,6 +45,14 @@ CONTEXT_SETTINGS = {
     type=click.Path(),
     required=True
 )
+@click.option(
+    "--numwords",
+    help="Number of words to display on word cloud.",
+    type=int,
+    default=200,
+    show_default=True
+)
+
 
 def cli(**params):
 
@@ -72,9 +80,9 @@ def cli(**params):
             params["weights"].append(int(line.strip("\n")))
         handle.close()
 
-    __get_word_cloud(params["words"], params["weights"], params["output_file"])
+    __get_word_cloud(params["words"], params["weights"], params["output_file"], params["numwords"])
 
-def __get_word_cloud(words, weights, output_file):
+def __get_word_cloud(words, weights, output_file, numwords):
 
     # Initialize
     frequencies = {}
@@ -83,7 +91,7 @@ def __get_word_cloud(words, weights, output_file):
     for word, weight in zip(words, weights):
         frequencies.setdefault(word, 0.)
         frequencies[word] += weight
-    wc = WordCloud(background_color="white")
+    wc = WordCloud(background_color="white", max_words=numwords)
     wc.generate_from_frequencies(frequencies)
     plt.imshow(wc, interpolation="bilinear")
     plt.axis("off")
