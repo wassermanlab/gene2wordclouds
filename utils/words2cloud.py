@@ -53,7 +53,6 @@ CONTEXT_SETTINGS = {
     show_default=True
 )
 
-
 def cli(**params):
 
     # Parse words
@@ -80,7 +79,8 @@ def cli(**params):
             params["weights"].append(int(line.strip("\n")))
         handle.close()
 
-    __get_word_cloud(params["words"], params["weights"], params["output_file"], params["numwords"])
+    __get_word_cloud(params["words"], params["weights"], params["output_file"],
+        params["numwords"])
 
 def __get_word_cloud(words, weights, output_file, numwords):
 
@@ -95,7 +95,8 @@ def __get_word_cloud(words, weights, output_file, numwords):
     wc.generate_from_frequencies(frequencies)
     plt.imshow(wc, interpolation="bilinear")
     plt.axis("off")
-    plt.savefig(output_file)
+    plt.savefig(output_file, bbox_inches="tight", transparent=True,
+        pad_inches=0)
 
 if __name__ == "__main__":
     cli()

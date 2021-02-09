@@ -128,7 +128,7 @@ def main(**params):
 
     # Word Cloud
     __get_word_clouds(copy.copy(entrezids), out_dir, params["threads"],
-        filter_by_stem=True)
+        filter_self=True, filter_stems=True)
 
 def __get_identifiers(identifiers, input_file, input_type):
 
@@ -466,8 +466,8 @@ def __get_gene_TFIDFs(iteration, idfs, output_dir="./", threads=1):
         df.sort_values(["Combo TF-IDF"], ascending=False, inplace=True)
         df.to_csv(tsv_file, sep="\t", index=False, compression="gzip")
 
-def __get_word_clouds(entrezids, output_dir="./", threads=1,
-    filter_by_stem=False):
+def __get_word_clouds(entrezids, output_dir="./", threads=1, filter_self=False,
+    filter_stems=False):
 
     # Initialize
     iterator = []
@@ -476,9 +476,9 @@ def __get_word_clouds(entrezids, output_dir="./", threads=1,
 
     # Get iterator
     for i in range(len(entrezids)):
-        png_file = os.path.join(figs_dir, "%s.png" % entrezids[i])
+        svg_file = os.path.join(figs_dir, "%s.svg" % entrezids[i])
         tsv_file = os.path.join(tfidfs_dir, "%s.tsv.gz" % entrezids[i])
-        if os.path.exists(png_file):
+        if os.path.exists(svg_file):
             continue
         if os.path.exists(tsv_file):
             iterator.append(entrezids[i])
@@ -487,12 +487,13 @@ def __get_word_clouds(entrezids, output_dir="./", threads=1,
     if len(iterator):
         pool = Pool(threads)
         p = partial(__get_gene_word_cloud, output_dir=output_dir,
-            filter_by_stem=filter_by_stem)
+            filter_self=filter_self, filter_stems=filter_stems)
         kwargs = {"total": len(iterator), "bar_format": bar_format}
         for _ in tqdm(pool.imap(p, iterator), **kwargs):
             pass
 
-def __get_gene_word_cloud(entrezid, output_dir="./", filter_by_stem=False):
+def __get_gene_word_cloud(entrezid, output_dir="./", filter_self=False,
+    filter_stems=False):
 
     # Initialize
     words = []
@@ -504,22 +505,23 @@ def __get_gene_word_cloud(entrezid, output_dir="./", filter_by_stem=False):
     maxword=200
 
     # Get word cloud
-    png_file = os.path.join(figs_dir, "%s.png" % entrezid)
+    svg_file = os.path.join(figs_dir, "%s.svg" % entrezid)
     tsv_file = os.path.join(tfidfs_dir, "%s.tsv.gz" % entrezid)
     filtered_file = os.path.join(filtered_dir, "%s.tsv.gz" % entrezid)
     df = pd.read_csv(tsv_file, sep="\t", header=0,
         converters={"Stem": ast.literal_eval})
     if not df.empty:
         for _, row in df.iterrows():
-            if filter_by_stem:
+            if filter_stems:
                 if stems.intersection(set(row["Stem"])):
                     continue
             words.append(row["Word"])
             weights.append(row["Combo TF-IDF"])
             for stem in row["Stem"]:
                 stems.add(stem)
-        __get_word_cloud(words, weights, png_file, maxword)
-        pd.DataFrame(list(zip(words[0:maxword], weights[0:maxword]))).to_csv(filtered_file, sep="\t", index=False, header=None)
+        __get_word_cloud(words, weights, svg_file, maxword)
+        df = pd.DataFrame(list(zip(words[0:maxword], weights[0:maxword])))
+        df.to_csv(filtered_file, sep="\t", index=False, header=None)
 
 if __name__ == "__main__":
     main()
