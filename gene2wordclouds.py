@@ -24,7 +24,9 @@ from utils.entrezid2pmids import __load_datasets, __get_entrezid_pmids
 from utils.pmid2abstract import __get_pmids_abstracts
 from utils.abstract2words import __get_abstract_words
 from utils.words2cloud import __get_word_cloud
-from utils.gene2pmid_stats import __get_genes4pmids_stats, __get_pmids4genes_stats
+from utils.gene2pmid_stats import (
+    __get_genes4pmids_stats, __get_pmids4genes_stats
+)
 
 CONTEXT_SETTINGS = {
     "help_option_names": ["-h", "--help"],
@@ -84,10 +86,8 @@ CONTEXT_SETTINGS = {
 )
 @click.option(
     "--zscore",
-    help="Filter pmids with |zscore| higher than threshold.",
-    type=float,
-    default=None,
-    show_default=True
+    help="Filter PMIDs by Z-score.  [default: None]",
+    type=float
 )
 
 
@@ -103,14 +103,14 @@ def main(**params):
 
     # UniAcc to EntrezID
     if params["input_type"] == "uniacc":
-        uniaccs, identifiers = __uniacc2entrezid(identifiers, out_dir)  
+        _, identifiers = __uniacc2entrezid(identifiers, out_dir)  
 
     # EntrezID to PMIDs
     entrezids, pmids, pmids_orthologs = __entrezid2pmids(identifiers, out_dir)
 
-    # Compute Statistics (Filter on zscore if applicable)
-    pmids, pmids_orthologs = __gene2pmidstats(entrezids, pmids, pmids_orthologs, 
-                                              params["zscore"], out_dir)
+    # Compute statistics (if applicable, filter PMIDs by Z-score)
+    pmids, pmids_orthologs = __gene2pmidstats(entrezids, pmids,
+        pmids_orthologs, out_dir, params["zscore"])
 
     # PMID to Abstract
     pmids_set = set(list(chain.from_iterable(pmids+pmids_orthologs)))
@@ -214,40 +214,33 @@ def __entrezid2pmids(entrezids, output_dir="./"):
 
     return(entrezids, pmids, pmids_orthologs)
 
-def __gene2pmidstats(entrezids, pmids, pmids_orthologs, zscore_filter, out_dir):
-    
+def __gene2pmidstats(entrezids, pmids, pmids_orthologs, out_dir, zscore):
+
     # Initialize
     stats_dir = os.path.join(out_dir, "stats")
-    
-    # Output stats and plot
+
+    # Compute statistics
     genesperpmid = os.path.join(stats_dir, "genesperpmids_table.tsv.gz")
     if not os.path.exists(genesperpmid):
         __get_genes4pmids_stats(entrezids, pmids, pmids_orthologs, stats_dir)
-    with gzip.open(genesperpmid, 'rt') as handle:
+    with gzip.open(genesperpmid, "rt") as handle:
         df = pd.read_table(handle)
         handle.close()
-    
     pmidspergenes = os.path.join(stats_dir, "pmidspergene_table.tsv.gz")
     if not os.path.exists(pmidspergenes):
         __get_pmids4genes_stats(entrezids, pmids, pmids_orthologs, stats_dir)
-    
-    # Filter on z-score
-    if zscore_filter is not None:         
-        df_filter = df[df["Z-score"] <= zscore_filter]
-        filter_file = os.path.join(stats_dir, "distribution_zscore%s_table.tsv.gz" % (zscore_filter))
-        df_filter.to_csv(filter_file, sep="\t", index=False)
-        
-        pmids2remove = df[df["Z-score"] > zscore_filter]["PMID"]
-        
+
+    # Filter PMIDs by Z-score
+    if zscore is not None:
+        pmids2filter = set(df[df["Z-score"] >= zscore]["PMID"].tolist())
         for i in range(len(entrezids)):
-            for p in pmids2remove:
-                if p in pmids[i]:
-                    pmids[i].remove(p)
-                if p in pmids_orthologs[i]:
-                    pmids_orthologs[i].remove(p)
-        
+            s = set(pmids[i])
+            pmids[i] = list(s.difference(pmids2filter))
+            s = set(pmids_orthologs[i])
+            pmids_orthologs[i] = list(s.difference(pmids2filter))
+
     return(pmids, pmids_orthologs)
-      
+
 def __pmid2abstract(pmids, email, output_dir="./"):
 
     # Initialize

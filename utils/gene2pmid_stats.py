@@ -48,8 +48,10 @@ def cli(**params):
     entrezids, pmids, pmids_orthologs = list(map(list, zip(*mappings)))
     params["input_file"].close()    
 
-    __get_genes4pmids_stats(entrezids, pmids, pmids_orthologs, params["output_dir"])   
-    __get_pmids4genes_stats(entrezids, pmids, pmids_orthologs, params["output_dir"]) 
+    __get_genes4pmids_stats(entrezids, pmids, pmids_orthologs,
+        params["output_dir"])   
+    __get_pmids4genes_stats(entrezids, pmids, pmids_orthologs,
+        params["output_dir"]) 
 
 def __get_genes4pmids_stats(entrezids, pmids, pmids_orthologs, outdir):
     # Count genes per PMIDs
