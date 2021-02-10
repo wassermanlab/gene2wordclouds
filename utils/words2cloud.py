@@ -88,17 +88,17 @@ def __get_word_cloud(words, weights, output_file, numwords):
     frequencies = {}
 
     # Make word cloud
-    fig = plt.figure(figsize=(3.54, 3.54/2))
+    fig = plt.figure(figsize=(3.5, 3.5/2), dpi=300)
     ax = fig.add_subplot()
     for word, weight in zip(words, weights):
         frequencies.setdefault(word, 0.)
         frequencies[word] += weight
-    wc = WordCloud(width=1062, height=531, background_color="white",
+    wc = WordCloud(width=1050, height=525, background_color="white",
         max_words=numwords)
     wc.generate_from_frequencies(frequencies)
     ax.imshow(wc, interpolation="bilinear")
     ax.axis("off")
-    fig.savefig(output_file, bbox_inches="tight", pad_inches=0, dpi=300)
+    fig.savefig(output_file, bbox_inches="tight", pad_inches=0)
 
 if __name__ == "__main__":
     cli()
