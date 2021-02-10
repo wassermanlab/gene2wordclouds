@@ -57,7 +57,7 @@ def cli(**params):
     ):
         print("%s\t%s\t%s" % (word, ",".join(stems), count))
 
-def __get_abstract_words(abstract, non_letters, stop_words):
+def __get_abstract_words(abstract, non_letters=False, stop_words=False):
 
     # Initialize
     words = []

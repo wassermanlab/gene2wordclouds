@@ -96,7 +96,7 @@ def __get_word_cloud(words, weights, output_file, numwords):
     plt.imshow(wc, interpolation="bilinear")
     plt.axis("off")
     plt.savefig(output_file, bbox_inches="tight", transparent=True,
-        pad_inches=0)
+        pad_inches=0, dpi=300)
 
 if __name__ == "__main__":
     cli()

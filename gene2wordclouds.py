@@ -19,14 +19,16 @@ from tqdm import tqdm
 bar_format = "{percentage:3.0f}%|{bar:20}{r_bar}"
 
 # Import utils
-from utils.uniacc2entrezid import __get_uniaccs_entrezids
-from utils.entrezid2pmids import __load_datasets, __get_entrezid_pmids
-from utils.pmid2abstract import __get_pmids_abstracts
 from utils.abstract2words import __get_abstract_words
+from utils.entrezid2aliases import (__get_entrezid_aliases,
+    __load_datasets as __load_datasets_entrezid2aliases)
+from utils.entrezid2pmids import (__get_entrezid_pmids,
+    __load_datasets as __load_datasets_entrezid2pmids)
+from utils.gene2pmid_stats import (__get_genes4pmids_stats,
+    __get_pmids4genes_stats)
+from utils.pmid2abstract import __get_pmids_abstracts
+from utils.uniacc2entrezid import __get_uniaccs_entrezids
 from utils.words2cloud import __get_word_cloud
-from utils.gene2pmid_stats import (
-    __get_genes4pmids_stats, __get_pmids4genes_stats
-)
 
 CONTEXT_SETTINGS = {
     "help_option_names": ["-h", "--help"],
@@ -128,7 +130,7 @@ def main(**params):
 
     # Word Cloud
     __get_word_clouds(copy.copy(entrezids), out_dir, params["threads"],
-        filter_self=True, filter_stems=True)
+        filter_stems=True)
 
 def __get_identifiers(identifiers, input_file, input_type):
 
@@ -201,7 +203,7 @@ def __entrezid2pmids(entrezids, output_dir="./"):
     if not os.path.exists(json_file):
         entrezids_pmids = []
         kwargs = {"total": len(entrezids), "bar_format": bar_format}
-        gene2pubmed, homologene = __load_datasets(True)
+        gene2pubmed, homologene = __load_datasets_entrezid2pmids(True)
         for entrezid in tqdm(entrezids, **kwargs):
             pmids, orthologs_pmids = __get_entrezid_pmids(entrezid,
                 gene2pubmed, homologene)
@@ -466,34 +468,39 @@ def __get_gene_TFIDFs(iteration, idfs, output_dir="./", threads=1):
         df.sort_values(["Combo TF-IDF"], ascending=False, inplace=True)
         df.to_csv(tsv_file, sep="\t", index=False, compression="gzip")
 
-def __get_word_clouds(entrezids, output_dir="./", threads=1, filter_self=False,
+def __get_word_clouds(entrezids, output_dir="./", threads=1,
     filter_stems=False):
 
     # Initialize
     iterator = []
     figs_dir = os.path.join(output_dir, "figs")
     tfidfs_dir = os.path.join(output_dir, "tf-idfs")
+    gene_info, homologene = __load_datasets_entrezid2aliases(orthologs=True)
 
-    # Get iterator
-    for i in range(len(entrezids)):
-        svg_file = os.path.join(figs_dir, "%s.svg" % entrezids[i])
-        tsv_file = os.path.join(tfidfs_dir, "%s.tsv.gz" % entrezids[i])
-        if os.path.exists(svg_file):
-            continue
-        if os.path.exists(tsv_file):
-            iterator.append(entrezids[i])
+    # # Get iterator
+    # for i in range(len(entrezids)):
+    #     svg_file = os.path.join(figs_dir, "%s.svg" % entrezids[i])
+    #     tsv_file = os.path.join(tfidfs_dir, "%s.tsv.gz" % entrezids[i])
+    #     if os.path.exists(svg_file):
+    #         continue
+    #     if os.path.exists(tsv_file):
+    #         iterator.append(entrezids[i])
+
+    __get_gene_word_cloud(7528, gene_info, homologene, output_dir, filter_stems)
+    exit(0)
 
     # Get word clouds
     if len(iterator):
         pool = Pool(threads)
-        p = partial(__get_gene_word_cloud, output_dir=output_dir,
-            filter_self=filter_self, filter_stems=filter_stems)
+        p = partial(__get_gene_word_cloud, gene_info=gene_info,
+            homologene=homologene, output_dir=output_dir,
+            filter_stems=filter_stems)
         kwargs = {"total": len(iterator), "bar_format": bar_format}
         for _ in tqdm(pool.imap(p, iterator), **kwargs):
             pass
 
-def __get_gene_word_cloud(entrezid, output_dir="./", filter_self=False,
-    filter_stems=False):
+def __get_gene_word_cloud(entrezid, gene_info, homologene=None,
+    output_dir="./", filter_stems=False):
 
     # Initialize
     words = []
@@ -504,6 +511,11 @@ def __get_gene_word_cloud(entrezid, output_dir="./", filter_self=False,
     filtered_dir = os.path.join(output_dir, "filtered")
     maxword=200
 
+    # Get gene aliases
+    aliases = __get_entrezid_aliases(entrezid, gene_info, homologene)
+    aliases_str = " ".join(list(chain.from_iterable(aliases)))
+    aliases = set([w for w, _, _ in __get_abstract_words(aliases_str)])
+
     # Get word cloud
     svg_file = os.path.join(figs_dir, "%s.svg" % entrezid)
     tsv_file = os.path.join(tfidfs_dir, "%s.tsv.gz" % entrezid)
@@ -512,6 +524,8 @@ def __get_gene_word_cloud(entrezid, output_dir="./", filter_self=False,
         converters={"Stem": ast.literal_eval})
     if not df.empty:
         for _, row in df.iterrows():
+            if row["Word"] in aliases:
+                continue
             if filter_stems:
                 if stems.intersection(set(row["Stem"])):
                     continue
