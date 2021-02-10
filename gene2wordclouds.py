@@ -486,7 +486,8 @@ def __get_word_clouds(entrezids, output_dir="./", threads=1,
     #     if os.path.exists(tsv_file):
     #         iterator.append(entrezids[i])
 
-    __get_gene_word_cloud(7528, gene_info, homologene, output_dir, filter_stems)
+    for entrezid in [7528, 10664]:
+        __get_gene_word_cloud(entrezid, gene_info, homologene, output_dir, filter_stems)
     exit(0)
 
     # Get word clouds
@@ -517,7 +518,7 @@ def __get_gene_word_cloud(entrezid, gene_info, homologene=None,
     aliases = set([w for w, _, _ in __get_abstract_words(aliases_str)])
 
     # Get word cloud
-    svg_file = os.path.join(figs_dir, "%s.svg" % entrezid)
+    png_file = os.path.join(figs_dir, "%s.png" % entrezid)
     tsv_file = os.path.join(tfidfs_dir, "%s.tsv.gz" % entrezid)
     filtered_file = os.path.join(filtered_dir, "%s.tsv.gz" % entrezid)
     df = pd.read_csv(tsv_file, sep="\t", header=0,
@@ -533,7 +534,7 @@ def __get_gene_word_cloud(entrezid, gene_info, homologene=None,
             weights.append(row["Combo TF-IDF"])
             for stem in row["Stem"]:
                 stems.add(stem)
-        __get_word_cloud(words, weights, svg_file, maxword)
+        __get_word_cloud(words, weights, png_file, maxword)
         df = pd.DataFrame(list(zip(words[0:maxword], weights[0:maxword])))
         df.to_csv(filtered_file, sep="\t", index=False, header=None)
 
