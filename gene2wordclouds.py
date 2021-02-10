@@ -106,6 +106,10 @@ def main(**params):
     if params["input_type"] == "uniacc":
         _, identifiers = __uniacc2entrezid(identifiers, out_dir)  
 
+    # GRAB ALIASES
+    #
+    #
+
     # EntrezID to PMIDs
     entrezids, pmids, pmids_orthologs = __entrezid2pmids(identifiers, out_dir)
 
@@ -476,17 +480,12 @@ def __get_word_clouds(entrezids, output_dir="./", filter_stems=False):
 
     # Get iterator
     for i in range(len(entrezids)):
-        svg_file = os.path.join(figs_dir, "%s.svg" % entrezids[i])
+        png_file = os.path.join(figs_dir, "%s.png" % entrezids[i])
         tsv_file = os.path.join(tfidfs_dir, "%s.tsv.gz" % entrezids[i])
-        if os.path.exists(svg_file):
+        if os.path.exists(png_file):
             continue
         if os.path.exists(tsv_file):
             iterator.append(entrezids[i])
-
-    for entrezid in [3725, 7528, 10664]:
-        __get_gene_word_cloud(entrezid, gene_info, homologene, output_dir,
-                filter_stems)
-    exit(0)
 
     # Get word clouds
     if len(iterator):
