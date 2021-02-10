@@ -95,7 +95,9 @@ def __get_word_cloud(words, weights, output_file, numwords):
     wc.generate_from_frequencies(frequencies)
     plt.imshow(wc, interpolation="bilinear")
     plt.axis("off")
-    plt.savefig(output_file, bbox_inches="tight", transparent=True,
+    fig = plt.figure()
+    fig.set_size_inches(3.54, 3.54/2)
+    fig.savefig(output_file, bbox_inches="tight", transparent=True,
         pad_inches=0, dpi=300)
 
 if __name__ == "__main__":
