@@ -483,6 +483,11 @@ def __get_word_clouds(entrezids, output_dir="./", filter_stems=False):
         if os.path.exists(tsv_file):
             iterator.append(entrezids[i])
 
+    for entrezid in [3725, 7528, 10664]:
+        __get_gene_word_cloud(entrezid, gene_info, homologene, output_dir,
+                filter_stems)
+    exit(0)
+
     # Get word clouds
     if len(iterator):
         kwargs = {"total": len(iterator), "bar_format": bar_format}
@@ -502,10 +507,12 @@ def __get_gene_word_cloud(entrezid, gene_info, homologene=None,
     filtered_dir = os.path.join(output_dir, "filtered")
     maxword=200
 
-    # Get gene aliases
+    # Get aliases
     aliases = __get_entrezid_aliases(entrezid, gene_info, homologene)
     aliases_str = " ".join(list(chain.from_iterable(aliases)))
-    aliases = set([w for w, _, _ in __get_abstract_words(aliases_str)])
+    aliases_stems = set(
+        [s for _, stems, _ in __get_abstract_words(aliases_str) for s in stems]
+    )
 
     # Get word cloud
     png_file = os.path.join(figs_dir, "%s.png" % entrezid)
@@ -515,9 +522,9 @@ def __get_gene_word_cloud(entrezid, gene_info, homologene=None,
         converters={"Stem": ast.literal_eval})
     if not df.empty:
         for _, row in df.iterrows():
-            if row["Word"] in aliases:
-                continue
             if filter_stems:
+                if aliases_stems.intersection(set(row["Stem"])):
+                    continue
                 if stems.intersection(set(row["Stem"])):
                     continue
             words.append(row["Word"])
