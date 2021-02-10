@@ -505,6 +505,7 @@ def __get_gene_word_cloud(entrezid, gene_info, homologene=None,
     # Initialize
     words = []
     weights = []
+    stems = set()
     figs_dir = os.path.join(output_dir, "figs")
     tfidfs_dir = os.path.join(output_dir, "tf-idfs")
     filtered_dir = os.path.join(output_dir, "filtered")
@@ -513,9 +514,7 @@ def __get_gene_word_cloud(entrezid, gene_info, homologene=None,
     # Get gene aliases
     aliases = __get_entrezid_aliases(entrezid, gene_info, homologene)
     aliases_str = " ".join(list(chain.from_iterable(aliases)))
-    stems = set(
-        [s for _, stems, _ in __get_abstract_words(aliases_str) for s in stems]
-    )
+    aliases = set([w for w, _, _ in __get_abstract_words(aliases_str)])
 
     # Get word cloud
     svg_file = os.path.join(figs_dir, "%s.svg" % entrezid)
