@@ -15,7 +15,6 @@ import numpy as np
 import os
 import pandas as pd
 from tqdm import tqdm
-# import timeit
 bar_format = "{percentage:3.0f}%|{bar:20}{r_bar}"
 
 # Import utils
@@ -129,8 +128,7 @@ def main(**params):
         params["threads"])
 
     # Word Cloud
-    __get_word_clouds(copy.copy(entrezids), out_dir, params["threads"],
-        filter_stems=True)
+    __get_word_clouds(copy.copy(entrezids), out_dir, filter_stems=True)
 
 def __get_identifiers(identifiers, input_file, input_type):
 
@@ -468,8 +466,7 @@ def __get_gene_TFIDFs(iteration, idfs, output_dir="./", threads=1):
         df.sort_values(["Combo TF-IDF"], ascending=False, inplace=True)
         df.to_csv(tsv_file, sep="\t", index=False, compression="gzip")
 
-def __get_word_clouds(entrezids, output_dir="./", threads=1,
-    filter_stems=False):
+def __get_word_clouds(entrezids, output_dir="./", filter_stems=False):
 
     # Initialize
     iterator = []
@@ -477,28 +474,21 @@ def __get_word_clouds(entrezids, output_dir="./", threads=1,
     tfidfs_dir = os.path.join(output_dir, "tf-idfs")
     gene_info, homologene = __load_datasets_entrezid2aliases(orthologs=True)
 
-    # # Get iterator
-    # for i in range(len(entrezids)):
-    #     svg_file = os.path.join(figs_dir, "%s.svg" % entrezids[i])
-    #     tsv_file = os.path.join(tfidfs_dir, "%s.tsv.gz" % entrezids[i])
-    #     if os.path.exists(svg_file):
-    #         continue
-    #     if os.path.exists(tsv_file):
-    #         iterator.append(entrezids[i])
-
-    for entrezid in [7528, 10664]:
-        __get_gene_word_cloud(entrezid, gene_info, homologene, output_dir, filter_stems)
-    exit(0)
+    # Get iterator
+    for i in range(len(entrezids)):
+        svg_file = os.path.join(figs_dir, "%s.svg" % entrezids[i])
+        tsv_file = os.path.join(tfidfs_dir, "%s.tsv.gz" % entrezids[i])
+        if os.path.exists(svg_file):
+            continue
+        if os.path.exists(tsv_file):
+            iterator.append(entrezids[i])
 
     # Get word clouds
     if len(iterator):
-        pool = Pool(threads)
-        p = partial(__get_gene_word_cloud, gene_info=gene_info,
-            homologene=homologene, output_dir=output_dir,
-            filter_stems=filter_stems)
         kwargs = {"total": len(iterator), "bar_format": bar_format}
-        for _ in tqdm(pool.imap(p, iterator), **kwargs):
-            pass
+        for entrezid in tqdm(iterator, **kwargs):
+            __get_gene_word_cloud(entrezid, gene_info, homologene, output_dir,
+                filter_stems)
 
 def __get_gene_word_cloud(entrezid, gene_info, homologene=None,
     output_dir="./", filter_stems=False):

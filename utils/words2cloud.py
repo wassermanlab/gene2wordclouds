@@ -99,6 +99,7 @@ def __get_word_cloud(words, weights, output_file, numwords):
     ax.imshow(wc, interpolation="bilinear")
     ax.axis("off")
     fig.savefig(output_file, bbox_inches="tight", pad_inches=0)
+    plt.close(fig)
 
 if __name__ == "__main__":
     cli()
