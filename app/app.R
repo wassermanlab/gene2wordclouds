@@ -30,7 +30,7 @@ resources_links <- c(
   "#",
   "https://www.ncbi.nlm.nih.gov/sra/",
   "https://www.ncbi.nlm.nih.gov/sra/",
-  "#",
+  "http://cisbp.ccbr.utoronto.ca/data/2.00/DataFiles/PWMs/Files/",
   "http://thebrain.bwh.harvard.edu/uniprobe/details34.php?id=",
   "https://www.ncbi.nlm.nih.gov/sra/",
   "http://remap.univ-amu.fr/target_page/"
@@ -305,18 +305,33 @@ server <- function(input, output, session) {
         
         # If resource has a link, create an a tag
         if(resource_name %in% resources_with_link) {
+          
           for (accession in accessions[[1]]) {
+            
+            base_link <- resources_links[resource_name]
+            
+            # Modify link if necessary
+            full_link <- 
+              switch (resource_name,
+                      "CIS.BP" = paste(base_link, accession, ".txt", sep = ""),
+                      "ReMap" = paste(base_link, accession, ":9606", sep = ""),
+                      "UniPROBE" = paste(base_link, str_remove(accession, "UP0"), sep = ""),
+                      paste(base_link, accession, sep = "")
+              )
+            
+            
+            
             htmlResourceContent <- paste(
               htmlResourceContent,
               "<li><a target='_blank' href='",
-              resources_links[resource_name],
-              accession,
+              full_link,
               "'>",
               accession,
               "</a></li>",
               sep = ""
             )
           }
+          
         } else {
           # If resource doesn't have a link, create just an li tag
           for (accession in accessions[[1]]) {
