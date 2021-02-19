@@ -28,12 +28,12 @@ resources_links <- c(
   "http://chip-atlas.org/view?id=",
   "#",
   "#",
-  "#",
-  "#",
-  "#",
+  "https://www.ncbi.nlm.nih.gov/sra/",
+  "https://www.ncbi.nlm.nih.gov/sra/",
   "#",
   "http://thebrain.bwh.harvard.edu/uniprobe/details34.php?id=",
-  "#"
+  "https://www.ncbi.nlm.nih.gov/sra/",
+  "http://remap.univ-amu.fr/target_page/"
 )
 
 names(resources_links) <- colnames(genesTable)[11:21]
@@ -293,6 +293,7 @@ server <- function(input, output, session) {
     
     for (resource_name in colnames(genesTable)[11:21]) {
 
+      resources_with_link <- names(resources_links)[resources_links != "#"]
       htmlResourceContent <- ""
       
       cellValue <- genesTable %>% filter(Gene.Name == rv$gene) %>% select({{ resource_name }})
@@ -302,15 +303,31 @@ server <- function(input, output, session) {
         cellValue <- as.character(cellValue)
         accessions <- strsplit(cellValue, ";")
         
-        
-        for (accession in accessions[[1]]) {
-          htmlResourceContent <- paste(
-            htmlResourceContent,
-            "<li><a target='_blank' href='/'>",
-            accession,
-            "</a></li>",
-            sep = ""
-          )
+        # If resource has a link, create an a tag
+        if(resource_name %in% resources_with_link) {
+          for (accession in accessions[[1]]) {
+            htmlResourceContent <- paste(
+              htmlResourceContent,
+              "<li><a target='_blank' href='",
+              resources_links[resource_name],
+              accession,
+              "'>",
+              accession,
+              "</a></li>",
+              sep = ""
+            )
+          }
+        } else {
+          # If resource doesn't have a link, create just an li tag
+          for (accession in accessions[[1]]) {
+            htmlResourceContent <- paste(
+              htmlResourceContent,
+              "<li>",
+              accession,
+              "</li>",
+              sep = ""
+            )
+          }
         }
         
         ### Wrap list of accessions into an li for the specific resource (eg. ChipSeq-Atlas)
