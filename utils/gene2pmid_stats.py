@@ -32,7 +32,7 @@ CONTEXT_SETTINGS = {
 )
 @click.option(
     "--zscore",
-    help="Filter pmids with |zscore| higher than threshold.",
+    help="Filter out pmids with |zscore| higher than threshold.",
     type=float,
     default=None
 )
@@ -48,12 +48,12 @@ def cli(**params):
     entrezids, pmids, pmids_orthologs = list(map(list, zip(*mappings)))
     params["input_file"].close()    
 
-    __get_genes4pmids_stats(entrezids, pmids, pmids_orthologs,
-        params["output_dir"])   
-    __get_pmids4genes_stats(entrezids, pmids, pmids_orthologs,
-        params["output_dir"]) 
+    __get_genes4pmids_stats(entrezids, pmids, pmids_orthologs, params["output_dir"])   
+    __get_pmids4genes_stats(entrezids, pmids, pmids_orthologs, params["output_dir"]) 
 
 def __get_genes4pmids_stats(entrezids, pmids, pmids_orthologs, outdir):
+    genesperpmid = os.path.join(outdir, "genesperpmid_table.tsv.gz")
+    
     # Count genes per PMIDs
     data = []
     counts_pmids = __count_genes_per_paper(entrezids, pmids)
@@ -77,7 +77,7 @@ def __get_genes4pmids_stats(entrezids, pmids, pmids_orthologs, outdir):
     std = np.std(df["Genes"].tolist())
     df["Z-score"] = [__Z_score(x, mean, std) for x in df["Genes"].tolist()]
     
-    df.to_csv(os.path.join(outdir, "genesperpmids_table.tsv.gz"), sep="\t", index=False)
+    df.to_csv(genesperpmid, sep="\t", index=False, compression="gzip")
     
     # Plot
     __get_genes4pmids_plot(df, mean, std, outdir)
@@ -86,6 +86,7 @@ def __get_genes4pmids_stats(entrezids, pmids, pmids_orthologs, outdir):
 
 
 def __get_pmids4genes_stats(entrezids, pmids, pmids_orthologs, outdir):
+    pmidspergenes = os.path.join(outdir, "pmidspergene_table.tsv.gz")
     columns = ["Genes", "PMIDs", "Ortholog PMIDs", "All PMIDs"]
     
     data = []
@@ -98,7 +99,7 @@ def __get_pmids4genes_stats(entrezids, pmids, pmids_orthologs, outdir):
     std = np.std(df["All PMIDs"].tolist())
     df["Z-score"] = [__Z_score(x, mean, std) for x in df["All PMIDs"].tolist()]
     
-    df.to_csv(os.path.join(outdir, "pmidspergene_table.tsv.gz"), sep="\t", index=False)
+    df.to_csv(pmidspergenes, sep="\t", index=False, compression="gzip")
     
     # Plot
     __get_pmids4genes_plot(df, mean, std, outdir)
@@ -139,11 +140,12 @@ def __get_genes4pmids_plot(df, mean, std, outdir):
         **kwargs)
     ax.legend(frameon=False)
     ax.set(xscale="log", yscale="log")
+    ax.set_title("Number of Gene(s) per PMID")
     ax.set_xlabel("Genes")
     ax.set_ylabel("PMIDs")
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-    fig.savefig(os.path.join(outdir, "geneVSpmid_distribution.png"))
+    fig.savefig(os.path.join(outdir, "genesperpmid_distribution.png"))
     plt.clf()
     
 def __get_pmids4genes_plot(df, mean, std, outdir):
@@ -160,11 +162,12 @@ def __get_pmids4genes_plot(df, mean, std, outdir):
     ax.axvline(x=mean, color="black", label="Mean (%s)" % round(mean,3), **kwargs)
     ax.legend(frameon=False)
     ax.set(xscale="log", yscale="log")
+    ax.set_title("Number of PMID(s) per Gene")
     ax.set_xlabel("PMIDs")
     ax.set_ylabel("Genes")
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-    fig.savefig(os.path.join(outdir, "pmidVSgene_distribution.png"))
+    fig.savefig(os.path.join(outdir, "pmidspergene_distribution.png"))
     plt.clf()
 
 if __name__ == "__main__":

@@ -14,6 +14,7 @@ from multiprocessing import Pool
 import numpy as np
 import os
 import pandas as pd
+import matplotlib.pyplot as plt
 from tqdm import tqdm
 bar_format = "{percentage:3.0f}%|{bar:20}{r_bar}"
 
@@ -28,6 +29,8 @@ from utils.gene2pmid_stats import (__get_genes4pmids_stats,
 from utils.pmid2abstract import __get_pmids_abstracts
 from utils.uniacc2entrezid import __get_uniaccs_entrezids
 from utils.words2cloud import __get_word_cloud
+from utils.gene2genecomparison import (__get_genes4stems_stats,
+                                       __get_pairwisecomparison)
 
 CONTEXT_SETTINGS = {
     "help_option_names": ["-h", "--help"],
@@ -104,11 +107,10 @@ def main(**params):
 
     # UniAcc to EntrezID
     if params["input_type"] == "uniacc":
-        _, identifiers = __uniacc2entrezid(identifiers, out_dir)  
+        _, identifiers = __uniacc2entrezid(identifiers, out_dir)
 
     # GRAB ALIASES
-    #
-    #
+    gene_info, stem_aliases = __entrezid2alias(identifiers)
 
     # EntrezID to PMIDs
     entrezids, pmids, pmids_orthologs = __entrezid2pmids(identifiers, out_dir)
@@ -132,7 +134,10 @@ def main(**params):
         params["threads"])
 
     # Word Cloud
-    __get_word_clouds(copy.copy(entrezids), out_dir, filter_stems=True)
+    filt_entrezids = __get_word_clouds(copy.copy(entrezids), stem_aliases, out_dir, filter_stems=True)
+
+    # Pairwise Comparisons of TFs
+    __get_gene2comparison(filt_entrezids, gene_info, stem_aliases, out_dir)
 
 def __get_identifiers(identifiers, input_file, input_type):
 
@@ -198,9 +203,23 @@ def __uniacc2entrezid(uniaccs, output_dir="./"):
 
     return(uniaccs, entrezids)
 
+def __entrezid2alias(entrezids):
+    gene_info, homologene = __load_datasets_entrezid2aliases(orthologs=True)
+
+    entrezid_alias = dict()
+    for id in entrezids:
+        aliases = __get_entrezid_aliases(id, gene_info, homologene)
+        aliases_str = " ".join(list(chain.from_iterable(aliases)))
+        aliases_stems = set(
+            [s for _, stems, _ in __get_abstract_words(aliases_str, True, True) for s in stems])
+
+        entrezid_alias[id] = aliases_stems
+
+    return(gene_info, entrezid_alias)
+
 def __entrezid2pmids(entrezids, output_dir="./"):
 
-    # Get PubMed IDs 
+    # Get PubMed IDs
     json_file = os.path.join(output_dir, "entrezid2pmids.json.gz")
     if not os.path.exists(json_file):
         entrezids_pmids = []
@@ -213,7 +232,7 @@ def __entrezid2pmids(entrezids, output_dir="./"):
         with gzip.open(json_file, "wt") as handle:
             handle.write(json.dumps(entrezids_pmids, indent=4))
     with gzip.open(json_file, "rt") as handle:
-        entrezids_pmids = json.load(handle)    
+        entrezids_pmids = json.load(handle)
     entrezids, pmids, pmids_orthologs = list(map(list, zip(*entrezids_pmids)))
 
     return(entrezids, pmids, pmids_orthologs)
@@ -224,12 +243,11 @@ def __gene2pmidstats(entrezids, pmids, pmids_orthologs, out_dir, zscore):
     stats_dir = os.path.join(out_dir, "stats")
 
     # Compute statistics
-    genesperpmid = os.path.join(stats_dir, "genesperpmids_table.tsv.gz")
+    genesperpmid = os.path.join(stats_dir, "genesperpmid_table.tsv.gz")
     if not os.path.exists(genesperpmid):
         __get_genes4pmids_stats(entrezids, pmids, pmids_orthologs, stats_dir)
-    with gzip.open(genesperpmid, "rt") as handle:
-        df = pd.read_table(handle)
-        handle.close()
+    df = pd.read_table(genesperpmid)
+
     pmidspergenes = os.path.join(stats_dir, "pmidspergene_table.tsv.gz")
     if not os.path.exists(pmidspergenes):
         __get_pmids4genes_stats(entrezids, pmids, pmids_orthologs, stats_dir)
@@ -266,7 +284,6 @@ def __pmid2abstract(pmids, email, output_dir="./"):
                 with gzip.open(abstract_file, "wt") as handle:
                     if a is not None:
                         handle.write(a)
-
 
 def __abstract2words(output_dir="./", threads=1):
 
@@ -470,19 +487,20 @@ def __get_gene_TFIDFs(iteration, idfs, output_dir="./", threads=1):
         df.sort_values(["Combo TF-IDF"], ascending=False, inplace=True)
         df.to_csv(tsv_file, sep="\t", index=False, compression="gzip")
 
-def __get_word_clouds(entrezids, output_dir="./", filter_stems=False):
+def __get_word_clouds(entrezids, stem_aliases, output_dir="./", filter_stems=False):
 
     # Initialize
     iterator = []
     figs_dir = os.path.join(output_dir, "figs")
     tfidfs_dir = os.path.join(output_dir, "tf-idfs")
-    gene_info, homologene = __load_datasets_entrezid2aliases(orthologs=True)
+    filt_entrezids = []
 
     # Get iterator
     for i in range(len(entrezids)):
         png_file = os.path.join(figs_dir, "%s.png" % entrezids[i])
         tsv_file = os.path.join(tfidfs_dir, "%s.tsv.gz" % entrezids[i])
         if os.path.exists(png_file):
+            filt_entrezids.append(entrezids[i])
             continue
         if os.path.exists(tsv_file):
             iterator.append(entrezids[i])
@@ -491,11 +509,17 @@ def __get_word_clouds(entrezids, output_dir="./", filter_stems=False):
     if len(iterator):
         kwargs = {"total": len(iterator), "bar_format": bar_format}
         for entrezid in tqdm(iterator, **kwargs):
-            __get_gene_word_cloud(entrezid, gene_info, homologene, output_dir,
+            __get_gene_word_cloud(entrezid, stem_aliases[entrezid], output_dir,
                 filter_stems)
+            png_file = os.path.join(figs_dir, "%s.png" % entrezid)
+            if os.path.exists(png_file):
+                filt_entrezids.append(entrezid)
 
-def __get_gene_word_cloud(entrezid, gene_info, homologene=None,
-    output_dir="./", filter_stems=False):
+    return(filt_entrezids)
+
+
+def __get_gene_word_cloud(entrezid, aliases_stems, output_dir="./",
+                          filter_stems=False):
 
     # Initialize
     words = []
@@ -505,13 +529,6 @@ def __get_gene_word_cloud(entrezid, gene_info, homologene=None,
     tfidfs_dir = os.path.join(output_dir, "tf-idfs")
     filtered_dir = os.path.join(output_dir, "filtered")
     maxword=200
-
-    # Get aliases
-    aliases = __get_entrezid_aliases(entrezid, gene_info, homologene)
-    aliases_str = " ".join(list(chain.from_iterable(aliases)))
-    aliases_stems = set(
-        [s for _, stems, _ in __get_abstract_words(aliases_str) for s in stems]
-    )
 
     # Get word cloud
     png_file = os.path.join(figs_dir, "%s.png" % entrezid)
@@ -533,6 +550,28 @@ def __get_gene_word_cloud(entrezid, gene_info, homologene=None,
         __get_word_cloud(words, weights, png_file, maxword)
         df = pd.DataFrame(list(zip(words[0:maxword], weights[0:maxword])))
         df.to_csv(filtered_file, sep="\t", index=False, header=None)
+
+def __get_gene2comparison(entrezids, gene_info, stem_aliases, output_dir="./"):
+    tfidfs_dir = os.path.join(output_dir, "tf-idfs")
+    stats_dir = os.path.join(output_dir, "stats")
+    cur_dir = os.path.dirname(os.path.realpath(__file__))
+
+    genesperstem = os.path.join(stats_dir, "genesperstem_table.tsv.gz")
+    json_file = os.path.join(stats_dir, "entrezid2stems.json.gz")
+
+    if (not os.path.exists(genesperstem)) | (not os.path.exists(json_file)):
+        stems_df, entrezids2stems = __get_genes4stems_stats(entrezids, tfidfs_dir, stats_dir)
+    else:
+        stems_df = pd.read_table(genesperstem, sep="\t")
+        with gzip.open(json_file, "rt") as handle:
+            entrezids2stems = json.load(handle)
+
+    # Sort entrezid based on provided clustering class
+    tfclass_file = os.path.join(cur_dir, "utils", "data", "TFClass.tsv")
+    tfclass = pd.read_table(tfclass_file, sep="\t", names=['symbol', 'class'])
+
+    # Pairwise Comparison
+    __get_pairwisecomparison(stems_df, entrezids, tfclass, gene_info, entrezids2stems, 2, tfidfs_dir, stats_dir)
 
 if __name__ == "__main__":
     main()
