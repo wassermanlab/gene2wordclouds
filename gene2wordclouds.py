@@ -555,6 +555,7 @@ def __get_gene2comparison(entrezids, gene_info, stem_aliases, output_dir="./"):
     tfidfs_dir = os.path.join(output_dir, "tf-idfs")
     stats_dir = os.path.join(output_dir, "stats")
     cur_dir = os.path.dirname(os.path.realpath(__file__))
+    data_dir = os.path.join(cur_dir, "utils", "data")
 
     genesperstem = os.path.join(stats_dir, "genesperstem_table.tsv.gz")
     json_file = os.path.join(stats_dir, "entrezid2stems.json.gz")
@@ -567,9 +568,15 @@ def __get_gene2comparison(entrezids, gene_info, stem_aliases, output_dir="./"):
             entrezids2stems = json.load(handle)
 
     # Sort entrezid based on provided clustering class
-    tfclass_file = os.path.join(cur_dir, "utils", "data", "TFClass.tsv")
-    tfclass = pd.read_table(tfclass_file, sep="\t", names=['symbol', 'class'])
+    tfclass_file = os.path.join(data_dir, "TFClass.tsv")
+    tfclass = pd.read_table(tfclass_file, sep="\t", names=['symbol', 'class']).astype({'class':'str'})
+    tfclass['subclass'] = [ a[0:a.rfind('.')] for a in [ s[0:s.rfind('.')] for s in list(tfclass['class'])] ]
 
+    classname_file = os.path.join(data_dir, "TFClass_subnames.tsv")
+    classname = pd.read_table(classname_file, sep="\t", names=['subclass', 'full_name']).astype({'subclass':'str'})
+
+    tfclass = tfclass.merge(classname)
+    
     # Pairwise Comparison
     __get_pairwisecomparison(stems_df, entrezids, tfclass, gene_info, entrezids2stems, 2, tfidfs_dir, stats_dir)
 
