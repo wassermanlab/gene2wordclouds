@@ -1,0 +1,320 @@
+value	symbol1	symbol2	class1	class2
+1.0000000000000002	ZNF705D	ZNF705B	C2H2 zinc finger factors	Uncharacterized
+0.9999999999999996	ZNF492	ZNF98	Uncharacterized	C2H2 zinc finger factors
+0.9128709291752768	ZNF107	ZNF737	C2H2 zinc finger factors	Uncharacterized
+0.8660254037844388	ZNF273	ZNF227	Uncharacterized	C2H2 zinc finger factors
+0.7867957924694431	ZNF69	ZNF440	Uncharacterized	C2H2 zinc finger factors
+0.7833494518006406	DUXA	ZNF264	Homeo domain factors	C2H2 zinc finger factors
+0.7499999999999999	ZNF556	ZNF761	C2H2 zinc finger factors	Uncharacterized
+0.7416198487095662	ZNF705G	ZNF705B	C2H2 zinc finger factors	Uncharacterized
+0.7302967433402214	ZNF486	ZNF114	Uncharacterized	C2H2 zinc finger factors
+0.7071067811865478	ZNF821	ZNF500	Uncharacterized	C2H2 zinc finger factors
+0.7071067811865475	ZNF596	ZNF705B	C2H2 zinc finger factors	Uncharacterized
+0.6882472016116852	ZNF430	ZNF556	Uncharacterized	C2H2 zinc finger factors
+0.6859943405700353	ZNF528	ZNF527	C2H2 zinc finger factors	Uncharacterized
+0.6701662532667126	ZNF708	ZNF18	Uncharacterized	C2H2 zinc finger factors
+0.6546536707079772	ZNF429	ZNF273	C2H2 zinc finger factors	Uncharacterized
+0.6546536707079771	MYRFL	ETV3L	NDT80 domain factors	Tryptophan cluster factors
+0.6373774391990981	ZNF783	ZNF500	Uncharacterized	C2H2 zinc finger factors
+0.6344166391652172	ZNF253	ZNF565	Uncharacterized	C2H2 zinc finger factors
+0.6324555320336761	ZNF728	ZNF770	Uncharacterized	C2H2 zinc finger factors
+0.6123724356957945	ZNF345	ZNF273	C2H2 zinc finger factors	Uncharacterized
+0.6034514291237711	ZNF17	ZNF708	C2H2 zinc finger factors	Uncharacterized
+0.5934424260562084	ZNF426	ZNF565	Uncharacterized	C2H2 zinc finger factors
+0.5773502691896257	ZNF100	ZNF737	C2H2 zinc finger factors	Uncharacterized
+0.5700877125495689	CSRNP2	ZNF500	AXUD/CSRNP domain factors	C2H2 zinc finger factors
+0.5477225575051661	ZNF573	ZNF114	Uncharacterized	C2H2 zinc finger factors
+0.5298129428260177	ZNF182	ZNF708	C2H2 zinc finger factors	Uncharacterized
+0.5252257314388902	ZNF700	ZNF567	Uncharacterized	C2H2 zinc finger factors
+0.5243788202755697	ZNF43	ZNF708	C2H2 zinc finger factors	Uncharacterized
+0.5222329678670936	ZNF891	ZNF705B	C2H2 zinc finger factors	Uncharacterized
+0.5222329678670935	ZNF883	ZNF484	Uncharacterized	C2H2 zinc finger factors
+0.5198266334512448	BORCS8-MEF2B	PROX2	MADS box factors	Homeo domain factors
+0.5004139736699607	BCL11B	TBR1	C2H2 zinc finger factors	T-Box factors
+0.5	ZNF99	ZNF737	C2H2 zinc finger factors	Uncharacterized
+0.4914034382397221	STAT3	NFKB1	STAT domain factors	Rel homology region (RHR) factors
+0.4913036844405174	ZNF681	ZNF189	Uncharacterized	C2H2 zinc finger factors
+0.4837794468468967	ZNF684	ZNF688	C2H2 zinc finger factors	Uncharacterized
+0.4756997082610132	MYC	TP53	Basic helix-loop-helix factors (bHLH)	p53 domain factors
+0.4753729174324822	HIF1A	STAT3	Basic helix-loop-helix factors (bHLH)	STAT domain factors
+0.472455591261534	ZNF257	ZNF256	Uncharacterized	C2H2 zinc finger factors
+0.4693579962529179	TAL1	GATA1	Basic helix-loop-helix factors (bHLH)	Other C4 zinc finger-type factors
+0.4584330035168174	PRDM12	PRDM15	Uncharacterized	C2H2 zinc finger factors
+0.4497318628009165	EPAS1	HIF1A	Basic leucine zipper factors (bZIP)	Basic helix-loop-helix factors (bHLH)
+0.4488896267447487	NFE2L2	NFKB1	Basic leucine zipper factors (bZIP)	Rel homology region (RHR) factors
+0.4472135954999579	ZNF611	ZNF12	C2H2 zinc finger factors	Uncharacterized
+0.4472135954999579	FOXB2	ZNF883	Fork head / winged helix factors	Uncharacterized
+0.4452817782808605	ZNF670	ZNF254	C2H2 zinc finger factors	Uncharacterized
+0.4396267355433287	SP7	RUNX2	C2H2 zinc finger factors	Runt domain factors
+0.4375949744936836	ZNF473	ZNF672	Uncharacterized	C2H2 zinc finger factors
+0.4374068891725131	PAX6	ISL1	Paired box factors	Homeo domain factors
+0.437212538030378	NKX2-5	GATA4	Homeo domain factors	Other C4 zinc finger-type factors
+0.4321847832349328	PAX2	EGR2	Paired box factors	C2H2 zinc finger factors
+0.4250375681120074	ZNF704	ZNF395	C2H2 zinc finger factors	Uncharacterized
+0.4240369578639071	SPI1	GATA1	Tryptophan cluster factors	Other C4 zinc finger-type factors
+0.4234151591787102	POU6F2	BORCS8-MEF2B	Homeo domain factors	MADS box factors
+0.42340489921997054	ZNF70	ZNF69	C2H2 zinc finger factors	Uncharacterized
+0.4225771273642583	ZNF835	CSRNP3	C2H2 zinc finger factors	AXUD/CSRNP domain factors
+0.4199819515766668	ZNF679	DMRTB1	C2H2 zinc finger factors	DM-type intertwined zinc finger factors
+0.4153132798136547	SATB2	BCL11B	Homeo domain factors	C2H2 zinc finger factors
+0.4128109240758247	PDX1	NEUROG3	Homeo domain factors	Basic helix-loop-helix factors (bHLH)
+0.4114888789934837	SOX2	PAX6	High-mobility group (HMG) domain factors	Paired box factors
+0.4102773338167755	OLIG2	NKX2-2	Basic helix-loop-helix factors (bHLH)	Homeo domain factors
+0.4082482904638631	ZNF160	ZNF273	C2H2 zinc finger factors	Uncharacterized
+0.40824829046386296	SEBOX	ZNF556	Homeo domain factors	C2H2 zinc finger factors
+0.4048881650894581	ADNP2	ZNF780A	Homeo domain factors	C2H2 zinc finger factors
+0.3971665820548073	MESP2	UNCX	Basic helix-loop-helix factors (bHLH)	Homeo domain factors
+0.3941780613961432	ZNF260	SKIDA1	C2H2 zinc finger factors	Uncharacterized
+0.3932139793061901	FOXP3	STAT3	Fork head / winged helix factors	STAT domain factors
+0.3923474203620064	HNF4A	HNF1A	Nuclear receptors with C4 zinc fingers	Homeo domain factors
+0.39223227027636814	ZNF208	ZNF112	C2H2 zinc finger factors	Uncharacterized
+0.3901909749221532	OTX2	PAX2	Homeo domain factors	Paired box factors
+0.3887669429964693	EMX1	TBR1	Homeo domain factors	T-Box factors
+0.3871682296535445	MYB	RUNX1	Tryptophan cluster factors	Runt domain factors
+0.3854730993209315	TBX5	NKX2-5	T-Box factors	Homeo domain factors
+0.37565179854201897	IRF1	STAT1	Tryptophan cluster factors	STAT domain factors
+0.3745029431365692	TCF24	ZNF391	Basic helix-loop-helix factors (bHLH)	C2H2 zinc finger factors
+0.3714886173456078	IRF5	STAT4	Tryptophan cluster factors	STAT domain factors
+0.3670875474342804	FOXA2	NKX2-2	Fork head / winged helix factors	Homeo domain factors
+0.3668996928526714	ZBTB39	ZFHX2	C2H2 zinc finger factors	Homeo domain factors
+0.3664336567521557	AHR	NFE2L2	Basic helix-loop-helix factors (bHLH)	Basic leucine zipper factors (bZIP)
+0.36514837167011066	ZNF674	ZNF630	C2H2 zinc finger factors	Uncharacterized
+0.36329248857073004	EGR1	FOS	C2H2 zinc finger factors	Basic leucine zipper factors (bZIP)
+0.3611575592573077	ZNF83	ZNF273	C2H2 zinc finger factors	Uncharacterized
+0.36074504334969015	ZSCAN21	ZNF708	C2H2 zinc finger factors	Uncharacterized
+0.35729480050524826	ZNF8	ZNF829	Uncharacterized	C2H2 zinc finger factors
+0.3534038006024117	HAND2	NKX2-5	Basic helix-loop-helix factors (bHLH)	Homeo domain factors
+0.3533781387953876	TBX21	FOXP3	T-Box factors	Fork head / winged helix factors
+0.3503245248726854	USF3	ZNF468	Basic helix-loop-helix factors (bHLH)	C2H2 zinc finger factors
+0.35023639845788995	ZNF280B	SKIDA1	C2H2 zinc finger factors	Uncharacterized
+0.3422405428512632	HOXB1	EGR2	Homeo domain factors	C2H2 zinc finger factors
+0.33944845147452635	TBXT	FOXA2	T-Box factors	Fork head / winged helix factors
+0.3389463976313626	GSC	MYOD1	Homeo domain factors	Basic helix-loop-helix factors (bHLH)
+0.33715774787405484	CRX	NRL	Homeo domain factors	Basic leucine zipper factors (bZIP)
+0.33364515567166736	E2F1	MYC	Fork head / winged helix factors	Basic helix-loop-helix factors (bHLH)
+0.33340569485233035	ELF5	ZNF594	Tryptophan cluster factors	C2H2 zinc finger factors
+0.3326117873091988	NEUROD6	EMX1	Basic helix-loop-helix factors (bHLH)	Homeo domain factors
+0.3302509200862115	FLI1	TAL1	Tryptophan cluster factors	Basic helix-loop-helix factors (bHLH)
+0.32875466391488123	PTF1A	PDX1	Basic helix-loop-helix factors (bHLH)	Homeo domain factors
+0.3268404069287938	WT1	SOX9	C2H2 zinc finger factors	High-mobility group (HMG) domain factors
+0.3247735579006715	NKX2-1	PAX6	Homeo domain factors	Paired box factors
+0.3241763593892432	MKX	ZNF732	Homeo domain factors	C2H2 zinc finger factors
+0.3216337604513385	CREBL2	ZNF620	Basic leucine zipper factors (bZIP)	C2H2 zinc finger factors
+0.3212231466133504	FOXG1	EMX1	Fork head / winged helix factors	Homeo domain factors
+0.3209715167282991	ZBTB46	BATF3	C2H2 zinc finger factors	Basic leucine zipper factors (bZIP)
+0.31795430406007896	TWIST1	SNAI1	Basic helix-loop-helix factors (bHLH)	C2H2 zinc finger factors
+0.3160864093370961	PAX9	MSX1	Paired box factors	Homeo domain factors
+0.3155900959506869	FOXJ2	ZNF76	Fork head / winged helix factors	C2H2 zinc finger factors
+0.3146532482312364	TCF7L2	PPARG	High-mobility group (HMG) domain factors	Nuclear receptors with C4 zinc fingers
+0.31428091185703383	DBX1	NEUROG2	Homeo domain factors	Basic helix-loop-helix factors (bHLH)
+0.3142176183856732	RORC	FOXP3	Nuclear receptors with C4 zinc fingers	Fork head / winged helix factors
+0.3131160310429142	RBPJ	SMAD1	Rel homology region (RHR) factors	SMAD/NF-1 DNA-binding domain factors
+0.31301652892562	NR2E3	NRL	Nuclear receptors with C4 zinc fingers	Basic leucine zipper factors (bZIP)
+0.3121040382630767	ETV6	RUNX1	Tryptophan cluster factors	Runt domain factors
+0.3103520709777834	ATOH7	POU4F2	Basic helix-loop-helix factors (bHLH)	Homeo domain factors
+0.30471305147102673	PROX1	PAX6	Homeo domain factors	Paired box factors
+0.3042845398370061	FOXD3	SOX10	Fork head / winged helix factors	High-mobility group (HMG) domain factors
+0.30369403054816835	FOXL1	ZBTB40	Fork head / winged helix factors	C2H2 zinc finger factors
+0.3032609998834607	TBX6	MESP2	T-Box factors	Basic helix-loop-helix factors (bHLH)
+0.3025776814286548	MEF2C	SMAD1	MADS box factors	SMAD/NF-1 DNA-binding domain factors
+0.3018745152504108	KLF4	MYC	C2H2 zinc finger factors	Basic helix-loop-helix factors (bHLH)
+0.3010298711628105	CUX2	ETV1	Homeo domain factors	Tryptophan cluster factors
+0.3002730997379377	ZSCAN18	ZNF331	Uncharacterized	C2H2 zinc finger factors
+0.2972099490784295	NFE2L1	NRF1	Basic leucine zipper factors (bZIP)	Uncharacterized
+0.29704426289300234	ZNF776	FERD3L	C2H2 zinc finger factors	Basic helix-loop-helix factors (bHLH)
+0.2952118968086572	ATOH1	ISL1	Basic helix-loop-helix factors (bHLH)	Homeo domain factors
+0.2923529977653126	TFAP2A	ISL1	Basic helix-span-helix factors (bHSH)	Homeo domain factors
+0.29150876508207263	NKRF	ZNF768	Uncharacterized	C2H2 zinc finger factors
+0.29138575870717925	ZNF91	ZNF92	C2H2 zinc finger factors	Uncharacterized
+0.287890986040667	POU3F2	TBR1	Homeo domain factors	T-Box factors
+0.2873478855663454	ZBTB22	ZNF573	C2H2 zinc finger factors	Uncharacterized
+0.2857142857142857	PURG	ZNF619	Uncharacterized	C2H2 zinc finger factors
+0.2829775851568027	BCL6	MYC	C2H2 zinc finger factors	Basic helix-loop-helix factors (bHLH)
+0.2823733468498826	HSF1	NFE2L2	Heat shock factors	Basic leucine zipper factors (bZIP)
+0.2806917861068948	ZNF662	RFX7	C2H2 zinc finger factors	Fork head / winged helix factors
+0.2804163217681395	PITX3	NR4A2	Homeo domain factors	Nuclear receptors with C4 zinc fingers
+0.280285101520231	ZNF740	ZNF8	C2H2 zinc finger factors	Uncharacterized
+0.2797671502854032	ZNF143	THAP11	C2H2 zinc finger factors	C2CH THAP-type zinc finger factors
+0.27774673122473803	TBX18	UNCX	T-Box factors	Homeo domain factors
+0.2765297412812847	IKZF1	RUNX1	C2H2 zinc finger factors	Runt domain factors
+0.27519499703020245	CDC5L	NKRF	Tryptophan cluster factors	Uncharacterized
+0.2748832530976198	POU3F1	ZNF484	Homeo domain factors	C2H2 zinc finger factors
+0.2741249873151301	BBX	ZNF500	High-mobility group (HMG) domain factors	C2H2 zinc finger factors
+0.27401701449377536	TAL2	ZNF484	Basic helix-loop-helix factors (bHLH)	C2H2 zinc finger factors
+0.2740047921122617	MEOX1	TBXT	Homeo domain factors	T-Box factors
+0.2733759577000273	NR5A1	FOXL2	Nuclear receptors with C4 zinc fingers	Fork head / winged helix factors
+0.27287361213577904	ETS1	STAT3	Tryptophan cluster factors	STAT domain factors
+0.2721138856611605	FOXM1	HIF1A	Fork head / winged helix factors	Basic helix-loop-helix factors (bHLH)
+0.270430129157677	MAFA	PDX1	Basic leucine zipper factors (bZIP)	Homeo domain factors
+0.2697961073388989	OTP	SIM1	Homeo domain factors	Basic helix-loop-helix factors (bHLH)
+0.2687171820814176	ENO1	HIF1A	Uncharacterized	Basic helix-loop-helix factors (bHLH)
+0.2672612419124244	ZNF626	ZSCAN32	Uncharacterized	C2H2 zinc finger factors
+0.2644718419629145	HOMEZ	GLI4	Homeo domain factors	C2H2 zinc finger factors
+0.26421715489507985	HHEX	TCF7L2	Homeo domain factors	High-mobility group (HMG) domain factors
+0.26359051860038624	SIX2	FOXD1	Homeo domain factors	Fork head / winged helix factors
+0.26352313834736496	ZHX3	ZNF880	Homeo domain factors	C2H2 zinc finger factors
+0.26215526280295204	TCF4	TCF7L2	Basic helix-loop-helix factors (bHLH)	High-mobility group (HMG) domain factors
+0.26184479772639524	EBF3	LHX2	Rel homology region (RHR) factors	Homeo domain factors
+0.2612831717793987	ZBTB10	ZBTB8A	Uncharacterized	C2H2 zinc finger factors
+0.25928148942086576	CC2D1B	ZNF528	Uncharacterized	C2H2 zinc finger factors
+0.25898385617807	FEZF2	TBR1	C2H2 zinc finger factors	T-Box factors
+0.25886349545339626	DMTF1	ZNF500	Tryptophan cluster factors	C2H2 zinc finger factors
+0.25883569148730545	SALL1	SIX2	C2H2 zinc finger factors	Homeo domain factors
+0.25819888974716115	ZNF540	ZNF641	Uncharacterized	C2H2 zinc finger factors
+0.257443248610439	PRDM1	IRF4	C2H2 zinc finger factors	Tryptophan cluster factors
+0.25739105216115843	GCM1	ASCL2	GCM domain factors	Basic helix-loop-helix factors (bHLH)
+0.2570996157530041	BSX	ZNF483	Homeo domain factors	C2H2 zinc finger factors
+0.2558762025099149	NOBOX	FIGLA	Homeo domain factors	Basic helix-loop-helix factors (bHLH)
+0.25575404428464066	BHLHE22	BARHL2	Basic helix-loop-helix factors (bHLH)	Homeo domain factors
+0.25127227284768383	ERG	AR	Tryptophan cluster factors	Nuclear receptors with C4 zinc fingers
+0.24855623552344336	TBX1	ISL1	T-Box factors	Homeo domain factors
+0.24771684715343115	SP140L	CSRNP2	SAND domain factors	AXUD/CSRNP domain factors
+0.2474358296526968	ZNF774	PURG	C2H2 zinc finger factors	Uncharacterized
+0.2464000131182529	TCF21	TBX18	Basic helix-loop-helix factors (bHLH)	T-Box factors
+0.2449489742783178	ZNF516	ZNF573	C2H2 zinc finger factors	Uncharacterized
+0.24474534704521936	NACC1	ZBTB8A	Uncharacterized	C2H2 zinc finger factors
+0.2445264187786395	MESP1	TBX1	Basic helix-loop-helix factors (bHLH)	T-Box factors
+0.24192057674315445	HIF3A	EPAS1	Basic helix-loop-helix factors (bHLH)	Basic leucine zipper factors (bZIP)
+0.2416993411609729	MITF	SOX10	Basic helix-loop-helix factors (bHLH)	High-mobility group (HMG) domain factors
+0.2410808544498581	SOX17	FOXA2	High-mobility group (HMG) domain factors	Fork head / winged helix factors
+0.2399343517520677	LRRFIP1	ZNF574	Leucine-rich repeat flightless-interacting proteins	C2H2 zinc finger factors
+0.23679901964513536	SKOR2	ZNF483	Uncharacterized	C2H2 zinc finger factors
+0.23570226039551576	TGIF2	ZNF500	Homeo domain factors	C2H2 zinc finger factors
+0.2355659769146826	ZFHX4	ZNF529	Homeo domain factors	C2H2 zinc finger factors
+0.2352376310770464	TFDP2	TFDP1	Uncharacterized	Fork head / winged helix factors
+0.2339366755325124	EHF	ZNF557	Tryptophan cluster factors	C2H2 zinc finger factors
+0.23372261898725724	NKX2-4	ZBTB41	Homeo domain factors	C2H2 zinc finger factors
+0.23249527748763854	CREB5	ZNF486	Basic leucine zipper factors (bZIP)	Uncharacterized
+0.23223088046907586	HLF	ARNTL	Basic leucine zipper factors (bZIP)	Basic helix-loop-helix factors (bHLH)
+0.2317776002045137	SOX14	HELT	High-mobility group (HMG) domain factors	Basic helix-loop-helix factors (bHLH)
+0.2310102569456168	SRF	EGR1	MADS box factors	C2H2 zinc finger factors
+0.23079207121499054	FOXN4	VSX2	Fork head / winged helix factors	Homeo domain factors
+0.2280491625631333	ASCL4	ZBED4	Basic helix-loop-helix factors (bHLH)	C2H2 zinc finger factors
+0.2274592198183685	SCX	SOX9	Basic helix-loop-helix factors (bHLH)	High-mobility group (HMG) domain factors
+0.225	ISX	ZNF792	Homeo domain factors	C2H2 zinc finger factors
+0.2229978693352242	FOXN2	ZNF704	Fork head / winged helix factors	C2H2 zinc finger factors
+0.22166536637423653	SALL4	POU5F1	C2H2 zinc finger factors	Homeo domain factors
+0.2182178902359924	ZHX1	ZNF780A	Homeo domain factors	C2H2 zinc finger factors
+0.21744954585406565	IRF6	TP63	Tryptophan cluster factors	p53 domain factors
+0.21613560278844765	OLIG3	LHX9	Basic helix-loop-helix factors (bHLH)	Homeo domain factors
+0.21515086245939474	TBX19	POU1F1	T-Box factors	Homeo domain factors
+0.21489770149657486	CTCF	MYC	C2H2 zinc finger factors	Basic helix-loop-helix factors (bHLH)
+0.21454791463671324	MECOM	RUNX1	C2H2 zinc finger factors	Runt domain factors
+0.2129911651792984	KLF1	GATA1	C2H2 zinc finger factors	Other C4 zinc finger-type factors
+0.21292401138871472	ARX	PAX6	Homeo domain factors	Paired box factors
+0.21103786222637214	FOXB1	EGR2	Fork head / winged helix factors	C2H2 zinc finger factors
+0.21099892877738854	JPH2	ZNF662	Uncharacterized	C2H2 zinc finger factors
+0.21065949228256486	PAX5	MYC	Paired box factors	Basic helix-loop-helix factors (bHLH)
+0.20927186214624885	ZGPAT	IKZF3	C3H zinc finger factors	C2H2 zinc finger factors
+0.206896551724138	RFX8	ZNF707	Fork head / winged helix factors	C2H2 zinc finger factors
+0.20611562262017896	MEOX2	SOX2	Homeo domain factors	High-mobility group (HMG) domain factors
+0.20608503698969144	HNF4G	ZNF705B	Nuclear receptors with C4 zinc fingers	Uncharacterized
+0.2058354730882125	BATF	IRF4	Basic leucine zipper factors (bZIP)	Tryptophan cluster factors
+0.20465780403866032	RREB1	ZNF486	C2H2 zinc finger factors	Uncharacterized
+0.2040035871289076	REST	CREB1	C2H2 zinc finger factors	Basic leucine zipper factors (bZIP)
+0.20384166219444386	ZBTB20	CREB1	C2H2 zinc finger factors	Basic leucine zipper factors (bZIP)
+0.2029531222278744	MGA	E2F7	Basic helix-loop-helix factors (bHLH)	Fork head / winged helix factors
+0.2018214539786613	NFAT5	HIF1A	Rel homology region (RHR) factors	Basic helix-loop-helix factors (bHLH)
+0.2012608122258735	NFE2	KLF1	Basic leucine zipper factors (bZIP)	C2H2 zinc finger factors
+0.19705921270232693	FOXN3	ETV7	Fork head / winged helix factors	Tryptophan cluster factors
+0.1969139924572169	FOXE1	IRF6	Fork head / winged helix factors	Tryptophan cluster factors
+0.1944610119215837	ZBTB16	POU5F1	C2H2 zinc finger factors	Homeo domain factors
+0.19322902833617805	NFX1	CDC5L	NFX1-type putative zinc finger factors	Tryptophan cluster factors
+0.19286324372971486	CIC	DUX4	High-mobility group (HMG) domain factors	Homeo domain factors
+0.19117647058823528	NFXL1	ZNF530	NFX1-type putative zinc finger factors	C2H2 zinc finger factors
+0.19058446655069952	TFAP4	ZNF704	Basic helix-loop-helix factors (bHLH)	C2H2 zinc finger factors
+0.18993429409939652	SLC2A4RG	ZGPAT	Uncharacterized	C3H zinc finger factors
+0.18911966929078367	CEBPE	IKZF1	Basic leucine zipper factors (bZIP)	C2H2 zinc finger factors
+0.1889822365046136	ZHX2	ZNF732	Homeo domain factors	C2H2 zinc finger factors
+0.1875879524714151	FOXH1	ZNF417	Fork head / winged helix factors	C2H2 zinc finger factors
+0.18686117268849275	ZNF652	ZBTB10	C2H2 zinc finger factors	Uncharacterized
+0.1857050324942459	PBX4	MLXIPL	Homeo domain factors	Basic helix-loop-helix factors (bHLH)
+0.1840242255036892	KLF16	FOXJ3	C2H2 zinc finger factors	Fork head / winged helix factors
+0.18391244744349414	SRY	NR5A1	High-mobility group (HMG) domain factors	Nuclear receptors with C4 zinc fingers
+0.1830631833116372	NFIL3	NR1D1	Basic leucine zipper factors (bZIP)	Nuclear receptors with C4 zinc fingers
+0.18164975363768848	ZNF582	PAX1	C2H2 zinc finger factors	Paired box factors
+0.1814665465778244	TCFL5	ZSCAN16	Basic helix-loop-helix factors (bHLH)	C2H2 zinc finger factors
+0.17983912556023096	BACH2	PRDM1	Basic leucine zipper factors (bZIP)	C2H2 zinc finger factors
+0.17745250288859332	FOXI1	GCM2	Fork head / winged helix factors	GCM domain factors
+0.1747471945741967	ETV2	MESP1	Tryptophan cluster factors	Basic helix-loop-helix factors (bHLH)
+0.17399778549682227	POU5F1B	RFX7	Homeo domain factors	Fork head / winged helix factors
+0.17388921162090012	MIXL1	TBXT	Homeo domain factors	T-Box factors
+0.1719348490359843	FEV	LMX1B	Tryptophan cluster factors	Homeo domain factors
+0.17051417234230912	SATB1	MYC	Homeo domain factors	Basic helix-loop-helix factors (bHLH)
+0.16869616290928865	ZFP42	POU5F1	C2H2 zinc finger factors	Homeo domain factors
+0.1681021029774474	HBP1	ZNF800	High-mobility group (HMG) domain factors	C2H2 zinc finger factors
+0.16717130750738826	NPAS4	FOS	Basic helix-loop-helix factors (bHLH)	Basic leucine zipper factors (bZIP)
+0.16675706527316767	MYBL2	E2F1	Tryptophan cluster factors	Fork head / winged helix factors
+0.16474318585802594	CREB3L3	SREBF1	Basic leucine zipper factors (bZIP)	Basic helix-loop-helix factors (bHLH)
+0.16222142113076252	ATF7	ZNF225	Basic leucine zipper factors (bZIP)	C2H2 zinc finger factors
+0.16185097349632888	KLF10	SMAD3	C2H2 zinc finger factors	SMAD/NF-1 DNA-binding domain factors
+0.16144063423010602	BCL11A	MYB	C2H2 zinc finger factors	Tryptophan cluster factors
+0.1610152971798826	CSRNP1	ZNF584	AXUD/CSRNP domain factors	C2H2 zinc finger factors
+0.16026795146487272	ZNF521	EBF1	C2H2 zinc finger factors	Rel homology region (RHR) factors
+0.16017174591296	KCNIP3	CREB1	Uncharacterized	Basic leucine zipper factors (bZIP)
+0.16012815380508716	ZNF470	ZNF284	Uncharacterized	C2H2 zinc finger factors
+0.15956974176382074	KLF15	FOXO1	C2H2 zinc finger factors	Fork head / winged helix factors
+0.1584752664942132	ZBTB11	NKRF	C2H2 zinc finger factors	Uncharacterized
+0.15823951351524115	TGIF1	SMAD2	Homeo domain factors	SMAD/NF-1 DNA-binding domain factors
+0.15776420204293645	ASCL3	ZNF143	Basic helix-loop-helix factors (bHLH)	C2H2 zinc finger factors
+0.1571468165481551	DMBX1	ZNF792	Homeo domain factors	C2H2 zinc finger factors
+0.15701131513374553	BATF2	ZBTB46	Basic leucine zipper factors (bZIP)	C2H2 zinc finger factors
+0.15589299354147926	PLSCR1	JUN	Uncharacterized	Basic leucine zipper factors (bZIP)
+0.15586992159713742	ATMIN	ZNF479	Uncharacterized	C2H2 zinc finger factors
+0.15567942971833054	OVOL1	GRHL3	C2H2 zinc finger factors	Grainyhead
+0.1555355911194223	NKX3-1	AR	Homeo domain factors	Nuclear receptors with C4 zinc fingers
+0.1542564093574852	TRPS1	RUNX2	Other C4 zinc finger-type factors	Runt domain factors
+0.15214515486254615	ZSCAN20	ZNF426	C2H2 zinc finger factors	Uncharacterized
+0.15059852933666287	ESRRB	SOX2	Nuclear receptors with C4 zinc fingers	High-mobility group (HMG) domain factors
+0.14956751857491352	SPDEF	KLF4	Tryptophan cluster factors	C2H2 zinc finger factors
+0.14941460185414432	ZSCAN5B	NOBOX	C2H2 zinc finger factors	Homeo domain factors
+0.14921701460403902	OVOL2	GRHL2	C2H2 zinc finger factors	Grainyhead
+0.149071198499986	NKX6-3	ZNF493	Homeo domain factors	C2H2 zinc finger factors
+0.1465069091747616	HOXB13	AR	Homeo domain factors	Nuclear receptors with C4 zinc fingers
+0.14612497198594798	MYRF	OLIG1	NDT80 domain factors	Basic helix-loop-helix factors (bHLH)
+0.14574577203253436	PGBD1	ZKSCAN4	Uncharacterized	C2H2 zinc finger factors
+0.14544255533972206	TCF7	VDR	High-mobility group (HMG) domain factors	Nuclear receptors with C4 zinc fingers
+0.1454416829392854	MTF1	NFE2L2	C2H2 zinc finger factors	Basic leucine zipper factors (bZIP)
+0.14433756729740646	MYPOP	ZNF284	Uncharacterized	C2H2 zinc finger factors
+0.14385736420700407	ZFY	TGIF2LY	Uncharacterized	Homeo domain factors
+0.14348601079588785	HDX	ZNF362	Homeo domain factors	C2H2 zinc finger factors
+0.14143116796634184	NOTO	TBXT	Homeo domain factors	T-Box factors
+0.13981728140845512	ZFHX3	ZNF561	Homeo domain factors	C2H2 zinc finger factors
+0.13782946160499282	ZNF699	ZNF8	C2H2 zinc finger factors	Uncharacterized
+0.13616844374485948	SP5	LEF1	C2H2 zinc finger factors	High-mobility group (HMG) domain factors
+0.1311271994161306	HLX	EGR2	Homeo domain factors	C2H2 zinc finger factors
+0.13077473096865844	ZNF860	NKX3-2	C2H2 zinc finger factors	Homeo domain factors
+0.1299101731012636	ZFX	AR	C2H2 zinc finger factors	Nuclear receptors with C4 zinc fingers
+0.1296722254908901	CUX1	MYC	Homeo domain factors	Basic helix-loop-helix factors (bHLH)
+0.1290564332299168	ZNF384	ZNF430	C2H2 zinc finger factors	Uncharacterized
+0.12885772383492425	FOXQ1	TWIST1	Fork head / winged helix factors	Basic helix-loop-helix factors (bHLH)
+0.1270236722143628	GLIS3	HNF1A	C2H2 zinc finger factors	Homeo domain factors
+0.12443684462055753	FOXE3	PITX3	Fork head / winged helix factors	Homeo domain factors
+0.12262786789699315	SOX30	CCDC169-SOHLH2	High-mobility group (HMG) domain factors	Basic helix-loop-helix factors (bHLH)
+0.1214598384834784	ZNF367	HNF4G	Uncharacterized	Nuclear receptors with C4 zinc fingers
+0.1201572407504967	DEAF1	CC2D1A	SAND domain factors	Uncharacterized
+0.1179320441312158	BHLHA9	ZNF141	Basic helix-loop-helix factors (bHLH)	C2H2 zinc finger factors
+0.11396057645963795	THAP1	ZNF619	C2CH THAP-type zinc finger factors	C2H2 zinc finger factors
+0.11285817127990574	GSC2	TBX1	Homeo domain factors	T-Box factors
+0.11180339887498948	ZNF519	ZNF737	C2H2 zinc finger factors	Uncharacterized
+0.10990005466235238	RBPJL	NEUROG3	Rel homology region (RHR) factors	Basic helix-loop-helix factors (bHLH)
+0.10744306187005068	ESX1	HSFY2	Homeo domain factors	Heat shock factors
+0.10618744368274573	PKNOX2	NPAS2	Homeo domain factors	Basic helix-loop-helix factors (bHLH)
+0.10341753799900384	ZBTB8B	SKIL	C2H2 zinc finger factors	Uncharacterized
+0.10156856301880983	AEBP1	SMAD3	C2H2 zinc finger factors	SMAD/NF-1 DNA-binding domain factors
+0.09907367412097016	SPZ1	CREM	Uncharacterized	Basic leucine zipper factors (bZIP)
+0.0955280399643153	CASZ1	TBX3	C2H2 zinc finger factors	T-Box factors
+0.09104463009115372	ZNF878	POU6F2	C2H2 zinc finger factors	Homeo domain factors
+0.07968190728895959	ZNF793	NKX6-3	C2H2 zinc finger factors	Homeo domain factors
+0.07813453848974923	ZNF419	BATF3	C2H2 zinc finger factors	Basic leucine zipper factors (bZIP)
+0.07603404070804562	ZNF705A	BATF3	C2H2 zinc finger factors	Basic leucine zipper factors (bZIP)
+0.07412493166611013	ZSCAN29	ERV3-1-ZNF117	C2H2 zinc finger factors	Uncharacterized
+0.07337471263750264	CARF	MEF2D	Uncharacterized	MADS box factors
+0.07214791053658227	ZNF543	SOX15	C2H2 zinc finger factors	High-mobility group (HMG) domain factors
+0.07171912952882703	ZGLP1	CREB1	Other C4 zinc finger-type factors	Basic leucine zipper factors (bZIP)
+0.06952953927407758	ZNF750	TP63	Uncharacterized	p53 domain factors
+0.05851648396714392	ZFP92	SHOX	C2H2 zinc finger factors	Homeo domain factors
+0.057353933467640436	ZNF675	ZNF75A	Uncharacterized	C2H2 zinc finger factors
+0.0	ZNF786	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF862	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF572	ZNF93	C2H2 zinc finger factors	Uncharacterized

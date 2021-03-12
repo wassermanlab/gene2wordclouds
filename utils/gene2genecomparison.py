@@ -155,8 +155,6 @@ def __get_genes4stems_plot(df, mean, std, outdir):
     kwargs = {"ls" : "--", "lw" : 1}
     ax.axvline(x=z2, color="black", label="Z-score = 2 (%s)" % round(z2, 3),
         **kwargs)
-    ax.axvline(x=mean, color="blue", label="Z-score = 0 (%s)" % round(mean, 3),
-        **kwargs)
     ax.legend(frameon=False)
     ax.set(xscale="log", yscale="log")
     ax.set_title("Number of Gene(s) per Stem")
@@ -249,13 +247,18 @@ def __get_manual_matrix_symbol(entrezids, symbols, colors, tfidfs_dir, legend, p
         matrix_man.append(np.array(tfidf_vec))
         
 #    pd.DataFrame(entrezids).to_csv(os.path.join(outdir, "filtentrezids.txt"), sep="\t", header=False, index=False)
-        
-#    df_matrix_man = pd.DataFrame(matrix_man)
-#    df_matrix_man.to_csv(os.path.join(outdir, "matrix_man_contains.tsv"), sep="\t", header=False, index=False)    
+     
+    matrix_exact_o = pd.DataFrame(matrix_man)
+    matrix_exact_r = matrix_exact_o
+    matrix_exact_r = pd.DataFrame(np.rot90(np.fliplr(matrix_exact_r)))
+    
+    matrix_man = (matrix_exact_o * matrix_exact_r) ** (1/2)
+    
+#    matrix_man.to_csv(os.path.join(outdir, "matrix_man_exact.tsv"), sep="\t", header=False, index=False)    
 
     plt.subplots(figsize=(15,15))
     heat_file = os.path.join(outdir, "manual_tfidf_pairwise_class.png")
-    heatmap_man = sns.clustermap(matrix_man, cmap='plasma', cbar_pos=(0.2, -0.05, 0.6, .025),
+    heatmap_man = sns.clustermap(matrix_man, cmap='viridis', cbar_pos=(0.2, -0.05, 0.6, .025),
                              cbar_kws = {'orientation':'horizontal', 'label': 'Cosine similarity'},
                              xticklabels=[], yticklabels=[],
                              row_cluster=False, col_cluster=False,
@@ -263,7 +266,7 @@ def __get_manual_matrix_symbol(entrezids, symbols, colors, tfidfs_dir, legend, p
                              row_colors=colors, col_colors=colors)
     plt.legend(patch, legend, bbox_to_anchor=(1.1, 0.9), title='Class',
                bbox_transform=plt.gcf().transFigure, loc='upper left')
-    heatmap_man.savefig(heat_file, dpi=600)
+    heatmap_man.savefig(heat_file, dpi=400)
     plt.clf()
 
 
@@ -274,8 +277,8 @@ def __get_abspres_cosine_class(entrezids, colors, vectors, legend, patch, outdir
 #    df_matrix = pd.DataFrame(matrix)
 #    df_matrix.to_csv(os.path.join(outdir, "matrix_cor.tsv"), sep="\t", header=False, index=False)    
 
-    heatmap = sns.clustermap(matrix, cmap='plasma', cbar_pos=(0.2, -0.05, 0.6, .025),
-                             cbar_kws = {'orientation':'horizontal', 'label': 'Cosine similarity'},
+    heatmap = sns.clustermap(matrix, cmap='viridis', cbar_pos=(0.2, -0.05, 0.6, .025),
+                             cbar_kws = {'orientation':'horizontal', 'label': 'TF-IDF'},
                              xticklabels=[], yticklabels=[],
                              vmin=0, vmax=1,
                              row_cluster=False, col_cluster=False,
@@ -283,7 +286,7 @@ def __get_abspres_cosine_class(entrezids, colors, vectors, legend, patch, outdir
                              row_colors=colors, col_colors=colors)
     plt.legend(patch, legend, bbox_to_anchor=(1.1, 0.9), title='Class',
                bbox_transform=plt.gcf().transFigure, loc='upper left')
-    heatmap.savefig(heatmap_file, dpi=600)
+    heatmap.savefig(heatmap_file, dpi=400)
     plt.clf()
 
 
@@ -291,7 +294,7 @@ def __get_abspres_cosine_cluster(entrezids, colors, vectors, outdir):
     clustermap_file = os.path.join(outdir, "tf_pairwise_clusters.png")
     matrix = cosine_similarity(vectors)
 
-    clustermap = sns.clustermap(matrix, cmap='plasma', cbar_pos=(0.25, -0.1, 0.50, .025),
+    clustermap = sns.clustermap(matrix, cmap='viridis', cbar_pos=(0.25, -0.1, 0.50, .025),
                                 cbar_kws = {'orientation':'horizontal', 'label': 'Cosine similarity'},
                                 xticklabels=[], yticklabels=[],
                                 vmin=0, vmax=1,

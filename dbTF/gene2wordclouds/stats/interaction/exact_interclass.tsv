@@ -1,0 +1,604 @@
+value	symbol1	symbol2	class1	class2
+5.060854502217459	NKX2-5	GATA4	Homeo domain factors	Other C4 zinc finger-type factors
+4.954750697333336	NEUROG3	PDX1	Basic helix-loop-helix factors (bHLH)	Homeo domain factors
+4.8682133231353335	HNF4A	HNF1A	Nuclear receptors with C4 zinc fingers	Homeo domain factors
+4.845172373025214	PAX9	MSX1	Paired box factors	Homeo domain factors
+4.836467990475139	TBX5	NKX2-5	T-Box factors	Homeo domain factors
+4.73246717749473	POU5F1	SOX2	Homeo domain factors	High-mobility group (HMG) domain factors
+4.706682127226449	NANOG	SOX2	Homeo domain factors	High-mobility group (HMG) domain factors
+4.677799080770084	MAFA	PDX1	Basic leucine zipper factors (bZIP)	Homeo domain factors
+4.645127478108844	PTF1A	PDX1	Basic helix-loop-helix factors (bHLH)	Homeo domain factors
+4.637800557433518	IRF9	STAT2	Tryptophan cluster factors	STAT domain factors
+4.526911898369135	HHEX	TCF7L2	Homeo domain factors	High-mobility group (HMG) domain factors
+4.505143933418966	TAL1	GATA1	Basic helix-loop-helix factors (bHLH)	Other C4 zinc finger-type factors
+4.470320703483235	SP7	RUNX2	C2H2 zinc finger factors	Runt domain factors
+4.450201021381369	NRL	CRX	Basic leucine zipper factors (bZIP)	Homeo domain factors
+4.379025046204585	PITX2	FOXC1	Homeo domain factors	Fork head / winged helix factors
+4.368107107089061	SOX10	OLIG2	High-mobility group (HMG) domain factors	Basic helix-loop-helix factors (bHLH)
+4.301227284578412	IRF1	STAT1	Tryptophan cluster factors	STAT domain factors
+4.288991423330954	SIX3	PAX6	Homeo domain factors	Paired box factors
+4.274683436489894	EPAS1	HIF1A	Basic leucine zipper factors (bZIP)	Basic helix-loop-helix factors (bHLH)
+4.160086975400113	NR2E3	NRL	Nuclear receptors with C4 zinc fingers	Basic leucine zipper factors (bZIP)
+4.14155835986361	SPI1	GATA1	Tryptophan cluster factors	Other C4 zinc finger-type factors
+4.114091840211172	FOXD3	SOX10	Fork head / winged helix factors	High-mobility group (HMG) domain factors
+4.085893785642938	MITF	SOX10	Basic helix-loop-helix factors (bHLH)	High-mobility group (HMG) domain factors
+4.076354545376605	RBPJ	HES1	Rel homology region (RHR) factors	Basic helix-loop-helix factors (bHLH)
+4.072052352763254	TBR1	PAX6	T-Box factors	Paired box factors
+4.068564236083779	SALL1	SIX2	C2H2 zinc finger factors	Homeo domain factors
+4.043434918873248	ATOH7	POU4F2	Basic helix-loop-helix factors (bHLH)	Homeo domain factors
+4.020722753664459	ZFY	ZFX	Uncharacterized	C2H2 zinc finger factors
+3.9788762157157285	NKX2-2	OLIG2	Homeo domain factors	Basic helix-loop-helix factors (bHLH)
+3.973174756983613	NR1D1	CLOCK	Nuclear receptors with C4 zinc fingers	Basic helix-loop-helix factors (bHLH)
+3.897033056220924	KLF4	SOX2	C2H2 zinc finger factors	High-mobility group (HMG) domain factors
+3.880640548023312	PAX5	EBF1	Paired box factors	Rel homology region (RHR) factors
+3.875802847975724	SP8	GSX2	C2H2 zinc finger factors	Homeo domain factors
+3.8698560059061036	FOXL2	SOX9	Fork head / winged helix factors	High-mobility group (HMG) domain factors
+3.821465934291154	NKX2-1	PAX8	Homeo domain factors	Paired box factors
+3.7926623133346267	PROX1	PAX6	Homeo domain factors	Paired box factors
+3.7888716628293664	FOXN1	GCM2	Fork head / winged helix factors	GCM domain factors
+3.7807101371539242	DBP	CLOCK	Basic leucine zipper factors (bZIP)	Basic helix-loop-helix factors (bHLH)
+3.779215797311304	IRF5	STAT4	Tryptophan cluster factors	STAT domain factors
+3.727208811335463	SKI	SMAD3	Uncharacterized	SMAD/NF-1 DNA-binding domain factors
+3.703360211801883	VSX2	PAX6	Homeo domain factors	Paired box factors
+3.674708919141741	WT1	PAX2	C2H2 zinc finger factors	Paired box factors
+3.666178297861106	ELK1	SRF	Tryptophan cluster factors	MADS box factors
+3.664374893309416	FEZF2	TBR1	C2H2 zinc finger factors	T-Box factors
+3.641220048924082	TP53	MYC	p53 domain factors	Basic helix-loop-helix factors (bHLH)
+3.6359025136455063	POU4F3	ATOH1	Homeo domain factors	Basic helix-loop-helix factors (bHLH)
+3.630615615195058	LBX1	PAX3	Homeo domain factors	Paired box factors
+3.5914486963178516	HNF1B	HNF4A	Homeo domain factors	Nuclear receptors with C4 zinc fingers
+3.5869008811990355	FOXE1	PAX8	Fork head / winged helix factors	Paired box factors
+3.5780071899965655	BCL6	MYC	C2H2 zinc finger factors	Basic helix-loop-helix factors (bHLH)
+3.561040497256642	TBX6	MESP2	T-Box factors	Basic helix-loop-helix factors (bHLH)
+3.5596784169411237	ZNF582	PAX1	C2H2 zinc finger factors	Paired box factors
+3.543801406967106	DMRT1	FOXL2	DM-type intertwined zinc finger factors	Fork head / winged helix factors
+3.5331747085030543	MYB	NFIB	Tryptophan cluster factors	SMAD/NF-1 DNA-binding domain factors
+3.528640869976956	SCX	SOX9	Basic helix-loop-helix factors (bHLH)	High-mobility group (HMG) domain factors
+3.4898953012077856	TBX1	ISL1	T-Box factors	Homeo domain factors
+3.460003641454622	BATF3	IRF8	Basic leucine zipper factors (bZIP)	Tryptophan cluster factors
+3.4545279259389563	BATF	IRF4	Basic leucine zipper factors (bZIP)	Tryptophan cluster factors
+3.453488703343373	FOXN4	VSX2	Fork head / winged helix factors	Homeo domain factors
+3.4194532963787836	FOXH1	SMAD2	Fork head / winged helix factors	SMAD/NF-1 DNA-binding domain factors
+3.4001752949934887	TBX18	WT1	T-Box factors	C2H2 zinc finger factors
+3.399669969882803	RORC	FOXP3	Nuclear receptors with C4 zinc fingers	Fork head / winged helix factors
+3.329827495322492	OTP	SIM1	Homeo domain factors	Basic helix-loop-helix factors (bHLH)
+3.3232698777156884	ESRRB	NANOG	Nuclear receptors with C4 zinc fingers	Homeo domain factors
+3.319286920976484	IRF6	GRHL3	Tryptophan cluster factors	Grainyhead
+3.312022840073267	SATB2	TBR1	Homeo domain factors	T-Box factors
+3.304603517637958	ETV6	RUNX1	Tryptophan cluster factors	Runt domain factors
+3.292600449209171	NRF1	NFE2L1	Uncharacterized	Basic leucine zipper factors (bZIP)
+3.273440231503597	TCF4	TCF7L2	Basic helix-loop-helix factors (bHLH)	High-mobility group (HMG) domain factors
+3.260002545690851	FOXG1	PAX6	Fork head / winged helix factors	Paired box factors
+3.2480962289429915	FOXD1	SIX2	Fork head / winged helix factors	Homeo domain factors
+3.2479215875448912	RORA	CLOCK	Nuclear receptors with C4 zinc fingers	Basic helix-loop-helix factors (bHLH)
+3.2360288722957686	CEBPE	IKZF1	Basic leucine zipper factors (bZIP)	C2H2 zinc finger factors
+3.196067378860874	LEF1	MSX1	High-mobility group (HMG) domain factors	Homeo domain factors
+3.194564240060044	BARHL1	ATOH1	Homeo domain factors	Basic helix-loop-helix factors (bHLH)
+3.192097894929335	INSM1	ASCL1	C2H2 zinc finger factors	Basic helix-loop-helix factors (bHLH)
+3.1183999128880884	MYRF	SOX10	NDT80 domain factors	High-mobility group (HMG) domain factors
+3.0566271077910843	CIC	ETV4	High-mobility group (HMG) domain factors	Tryptophan cluster factors
+3.0469476246437917	RBPJL	PTF1A	Rel homology region (RHR) factors	Basic helix-loop-helix factors (bHLH)
+3.0036359138534245	GSC	SMAD1	Homeo domain factors	SMAD/NF-1 DNA-binding domain factors
+2.9860913583829505	ZBTB46	IRF8	C2H2 zinc finger factors	Tryptophan cluster factors
+2.971688190571966	NR1D2	CLOCK	Nuclear receptors with C4 zinc fingers	Basic helix-loop-helix factors (bHLH)
+2.9673011719892735	DBX1	PAX6	Homeo domain factors	Paired box factors
+2.8842562127042535	IKZF2	FOXP3	C2H2 zinc finger factors	Fork head / winged helix factors
+2.833336015645998	NOTO	FOXJ1	Homeo domain factors	Fork head / winged helix factors
+2.728888513451974	NOBOX	SOHLH1	Homeo domain factors	Basic helix-loop-helix factors (bHLH)
+2.719801154730242	TCF21	TBX18	Basic helix-loop-helix factors (bHLH)	T-Box factors
+2.6447366413189695	ZNF143	THAP11	C2H2 zinc finger factors	C2CH THAP-type zinc finger factors
+2.6366368728705694	FOXE3	PAX6	Fork head / winged helix factors	Paired box factors
+2.5929405275602706	MKX	SCX	Homeo domain factors	Basic helix-loop-helix factors (bHLH)
+2.5708862983460965	MSGN1	TBX6	Basic helix-loop-helix factors (bHLH)	T-Box factors
+2.50082237765433	DUX4	CIC	Homeo domain factors	High-mobility group (HMG) domain factors
+2.497821272813796	HLX	TBX21	Homeo domain factors	T-Box factors
+2.475953061365412	ZBTB17	MYC	C2H2 zinc finger factors	Basic helix-loop-helix factors (bHLH)
+2.456801698486121	RFX6	NEUROG3	Fork head / winged helix factors	Basic helix-loop-helix factors (bHLH)
+2.4266262623476336	TBX19	POU1F1	T-Box factors	Homeo domain factors
+2.351291656576501	TRPS1	RUNX2	Other C4 zinc finger-type factors	Runt domain factors
+2.347620263122294	TCF15	MEOX2	Basic helix-loop-helix factors (bHLH)	Homeo domain factors
+2.3366341270781414	NFIL3	CLOCK	Basic leucine zipper factors (bZIP)	Basic helix-loop-helix factors (bHLH)
+2.3275962784263164	FEV	LMX1B	Tryptophan cluster factors	Homeo domain factors
+2.3247868598838553	GLIS3	PDX1	C2H2 zinc finger factors	Homeo domain factors
+2.3006722652253	UNCX	PAX1	Homeo domain factors	Paired box factors
+2.2662262303145626	IKZF4	FOXP3	C2H2 zinc finger factors	Fork head / winged helix factors
+2.246652703363412	NKX3-2	PAX1	Homeo domain factors	Paired box factors
+2.2241916411236473	POU3F1	SOX10	Homeo domain factors	High-mobility group (HMG) domain factors
+2.1784510251759026	TBX22	MSX1	T-Box factors	Homeo domain factors
+2.144861813772212	SPDEF	FOXA3	Tryptophan cluster factors	Fork head / winged helix factors
+2.1438319562536847	FOXM1	GLI1	Fork head / winged helix factors	C2H2 zinc finger factors
+2.0585780186561173	ZBTB40	ESR1	C2H2 zinc finger factors	Nuclear receptors with C4 zinc fingers
+2.057539537099102	HOXC13	FOXN1	Homeo domain factors	Fork head / winged helix factors
+2.0410649699530095	PRDM12	DBX1	Uncharacterized	Homeo domain factors
+2.005359635266836	TBX10	FOXE1	T-Box factors	Fork head / winged helix factors
+1.9992694569789982	SKIL	SMAD2	Uncharacterized	SMAD/NF-1 DNA-binding domain factors
+1.997999654676338	FERD3L	FOXA2	Basic helix-loop-helix factors (bHLH)	Fork head / winged helix factors
+1.9703983240301643	ELF3	GRHL3	Tryptophan cluster factors	Grainyhead
+1.9649716039663796	FOXB1	GBX2	Fork head / winged helix factors	Homeo domain factors
+1.9540566903712722	ZBTB20	SATB2	C2H2 zinc finger factors	Homeo domain factors
+1.948726208506649	FOXL1	ZBTB40	Fork head / winged helix factors	C2H2 zinc finger factors
+1.9011228286865836	NFYA	ZHX1	Heteromeric CCAAT-binding factors	Homeo domain factors
+1.878281648547345	POU2F1	SOX2	Homeo domain factors	High-mobility group (HMG) domain factors
+1.8590429825765336	THAP1	E2F6	C2CH THAP-type zinc finger factors	Fork head / winged helix factors
+1.8286075924345933	HIC1	TP53	C2H2 zinc finger factors	p53 domain factors
+1.810491161595448	ZFP42	NANOG	C2H2 zinc finger factors	Homeo domain factors
+1.7980838693095949	BHLHE22	SATB2	Basic helix-loop-helix factors (bHLH)	Homeo domain factors
+1.7850141108445332	SP140	IRF4	SAND domain factors	Tryptophan cluster factors
+1.758763291340337	BHLHA15	XBP1	Basic helix-loop-helix factors (bHLH)	Basic leucine zipper factors (bZIP)
+1.7561845647977352	NKX3-1	SRF	Homeo domain factors	MADS box factors
+1.7510254016816842	SLC2A4RG	MEF2A	Uncharacterized	MADS box factors
+1.7487807021504262	BCL6B	ETV5	C2H2 zinc finger factors	Tryptophan cluster factors
+1.7415797571808271	ZNF93	ZNF91	Uncharacterized	C2H2 zinc finger factors
+1.7041282796851727	ZSCAN10	SOX2	C2H2 zinc finger factors	High-mobility group (HMG) domain factors
+1.7025420231447994	ZNF711	ZFY	C2H2 zinc finger factors	Uncharacterized
+1.6930026381203918	NFYB	E2F1	Heteromeric CCAAT-binding factors	Fork head / winged helix factors
+1.6628925225493152	FOXQ1	HOXC13	Fork head / winged helix factors	Homeo domain factors
+1.6607781414153255	NKX2-8	PAX9	Homeo domain factors	Paired box factors
+1.6303041878421496	CREB3L3	PPARA	Basic leucine zipper factors (bZIP)	Nuclear receptors with C4 zinc fingers
+1.6203002688544765	ZNF750	KLF4	Uncharacterized	C2H2 zinc finger factors
+1.5998258355347832	POU3F4	PAX6	Homeo domain factors	Paired box factors
+1.5827909962475155	SPZ1	TWIST1	Uncharacterized	Basic helix-loop-helix factors (bHLH)
+1.5757825178102474	ZNF256	ZNF253	C2H2 zinc finger factors	Uncharacterized
+1.5750351242547789	HIVEP3	RUNX2	C2H2 zinc finger factors	Runt domain factors
+1.5478944043927974	ZNF154	POU4F2	C2H2 zinc finger factors	Homeo domain factors
+1.5298021491694438	ZNF700	ZNF768	Uncharacterized	C2H2 zinc finger factors
+1.5173069854979915	TFDP2	E2F1	Uncharacterized	Fork head / winged helix factors
+1.4668090082780239	ZNF8	ZNF7	Uncharacterized	C2H2 zinc finger factors
+1.4584182670105275	PGBD1	ZKSCAN4	Uncharacterized	C2H2 zinc finger factors
+1.4424214630983552	ZNF121	MYC	C2H2 zinc finger factors	Basic helix-loop-helix factors (bHLH)
+1.4365749280003866	INSM2	NEUROD1	C2H2 zinc finger factors	Basic helix-loop-helix factors (bHLH)
+1.4258914070702124	ZNF281	TFAP2C	C2H2 zinc finger factors	Basic helix-span-helix factors (bHSH)
+1.4020520914115109	NACC1	BCL6	Uncharacterized	C2H2 zinc finger factors
+1.3869475672875495	ZNF384	TCF3	C2H2 zinc finger factors	Basic helix-loop-helix factors (bHLH)
+1.3827171916572778	ESRRG	ZNF716	Nuclear receptors with C4 zinc fingers	C2H2 zinc finger factors
+1.3802849869954619	ZFAT	FOXO1	C2H2 zinc finger factors	Fork head / winged helix factors
+1.3573040242806829	ZSCAN18	ZNF331	Uncharacterized	C2H2 zinc finger factors
+1.3325357348409514	ZNF280D	TCF12	C2H2 zinc finger factors	Basic helix-loop-helix factors (bHLH)
+1.3293196367008926	ZNF341	STAT3	C2H2 zinc finger factors	STAT domain factors
+1.3089007469491116	ENO1	MYC	Uncharacterized	Basic helix-loop-helix factors (bHLH)
+1.298188831430679	ESRRA	NRF1	Nuclear receptors with C4 zinc fingers	Uncharacterized
+1.2978581881813356	NR2C1	GMEB1	Nuclear receptors with C4 zinc fingers	SAND domain factors
+1.2914994647757079	ZBTB10	ZNF652	Uncharacterized	C2H2 zinc finger factors
+1.2634803723887507	DMTF1	JUNB	Tryptophan cluster factors	Basic leucine zipper factors (bZIP)
+1.2512542450910638	SEBOX	FIGLA	Homeo domain factors	Basic helix-loop-helix factors (bHLH)
+1.2387445486302537	FOXS1	GLI1	Fork head / winged helix factors	C2H2 zinc finger factors
+1.2266217164624516	ZSCAN31	RARB	C2H2 zinc finger factors	Nuclear receptors with C4 zinc fingers
+1.2234437839131735	ZNF584	FOXD3	C2H2 zinc finger factors	Fork head / winged helix factors
+1.2202609092666294	ZNF580	SMAD2	C2H2 zinc finger factors	SMAD/NF-1 DNA-binding domain factors
+1.2045324078858433	BBX	NFIX	High-mobility group (HMG) domain factors	SMAD/NF-1 DNA-binding domain factors
+1.192307948310731	ZBTB24	PKNOX1	C2H2 zinc finger factors	Homeo domain factors
+1.1839853488975098	MXD3	CEBPD	Basic helix-loop-helix factors (bHLH)	Basic leucine zipper factors (bZIP)
+1.1768582136691423	POU6F2	WT1	Homeo domain factors	C2H2 zinc finger factors
+1.172747462613239	ZKSCAN5	HHEX	C2H2 zinc finger factors	Homeo domain factors
+1.1669559638860802	ISX	E2F1	Homeo domain factors	Fork head / winged helix factors
+1.1589254938889912	ZNF449	SOX6	C2H2 zinc finger factors	High-mobility group (HMG) domain factors
+1.1501520260236586	FOXJ2	STAT6	Fork head / winged helix factors	STAT domain factors
+1.1293533393824335	RREB1	SOX13	C2H2 zinc finger factors	High-mobility group (HMG) domain factors
+1.120635920511592	ZNF217	GATA3	C2H2 zinc finger factors	Other C4 zinc finger-type factors
+1.1171446262142208	ZNF354A	GATA1	C2H2 zinc finger factors	Other C4 zinc finger-type factors
+1.111222947731126	CREBZF	HEY1	Basic leucine zipper factors (bZIP)	Basic helix-loop-helix factors (bHLH)
+1.097022252524975	HBP1	MYC	High-mobility group (HMG) domain factors	Basic helix-loop-helix factors (bHLH)
+1.0952223325035584	HDX	EPAS1	Homeo domain factors	Basic leucine zipper factors (bZIP)
+1.0637723320541925	ZNF219	PAX7	C2H2 zinc finger factors	Paired box factors
+1.0627404131271259	ZNF70	HES1	C2H2 zinc finger factors	Basic helix-loop-helix factors (bHLH)
+1.062710810982105	BHLHA9	TP63	Basic helix-loop-helix factors (bHLH)	p53 domain factors
+1.0587586504165032	PATZ1	MYOD1	C2H2 zinc finger factors	Basic helix-loop-helix factors (bHLH)
+1.0486006110064132	KCNIP3	PAX8	Uncharacterized	Paired box factors
+1.0421635194214158	ZBTB7C	FOXL2	C2H2 zinc finger factors	Fork head / winged helix factors
+1.0374847640930454	DEAF1	HES5	SAND domain factors	Basic helix-loop-helix factors (bHLH)
+1.02440412309028	ATMIN	MYC	Uncharacterized	Basic helix-loop-helix factors (bHLH)
+1.0241279486288137	ZFHX4	MYCN	Homeo domain factors	Basic helix-loop-helix factors (bHLH)
+0.9989020749911751	PLSCR1	STAT1	Uncharacterized	STAT domain factors
+0.9918930813955196	LRRFIP1	MEF2C	Leucine-rich repeat flightless-interacting proteins	MADS box factors
+0.9914005414138605	ZNF382	SRF	C2H2 zinc finger factors	MADS box factors
+0.9812496005515757	ZNF606	SOX9	C2H2 zinc finger factors	High-mobility group (HMG) domain factors
+0.9784436368649079	ZNF512	STAT1	C2H2 zinc finger factors	STAT domain factors
+0.913985087542691	POU2F3	SOX9	Homeo domain factors	High-mobility group (HMG) domain factors
+0.9090075092032328	ZNF146	SOX2	C2H2 zinc finger factors	High-mobility group (HMG) domain factors
+0.8897273323960285	ZBTB11	TP53	C2H2 zinc finger factors	p53 domain factors
+0.0	ZNF444	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF287	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF662	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZFHX2	ZNF93	Homeo domain factors	Uncharacterized
+0.0	ZKSCAN8	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF718	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF667	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	NANOGNB	ZNF93	Homeo domain factors	Uncharacterized
+0.0	ZKSCAN7	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF17	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZFP3	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	HOMEZ	ZNF93	Homeo domain factors	Uncharacterized
+0.0	ZNF74	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZFP1	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF660	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF562	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF664	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF107	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF197	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	DRGX	ZNF93	Homeo domain factors	Uncharacterized
+0.0	ZNF480	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF483	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF485	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF311	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF317	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF623	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF329	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF320	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF43	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZSCAN21	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF677	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF676	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF454	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF408	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF596	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF594	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	LEUTX	ZNF93	Homeo domain factors	Uncharacterized
+0.0	ZNF114	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF337	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZSCAN30	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZSCAN22	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ESX1	ZNF93	Homeo domain factors	Uncharacterized
+0.0	ZNF358	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZBTB14	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZFP41	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF471	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF648	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF391	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF394	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF266	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF267	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF274	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	TGIF2LX	ZNF93	Homeo domain factors	Uncharacterized
+0.0	TGIF2LY	ZNF93	Homeo domain factors	Uncharacterized
+0.0	ZFP92	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	GSC2	ZNF93	Homeo domain factors	Uncharacterized
+0.0	ZNF239	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF655	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF354C	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF641	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF425	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF189	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF684	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF726	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZSCAN25	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZSCAN26	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF433	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF707	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF506	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	BORCS8-MEF2B	ZNF93	MADS box factors	Uncharacterized
+0.0	EBF4	ZNF93	Rel homology region (RHR) factors	Uncharacterized
+0.0	CSRNP2	ZNF93	AXUD/CSRNP domain factors	Uncharacterized
+0.0	CSRNP1	ZNF93	AXUD/CSRNP domain factors	Uncharacterized
+0.0	CSRNP3	ZNF93	AXUD/CSRNP domain factors	Uncharacterized
+0.0	NFX1	ZNF93	NFX1-type putative zinc finger factors	Uncharacterized
+0.0	NFXL1	ZNF93	NFX1-type putative zinc finger factors	Uncharacterized
+0.0	CREB5	ZNF93	Basic leucine zipper factors (bZIP)	Uncharacterized
+0.0	CREBRF	ZNF93	Basic leucine zipper factors (bZIP)	Uncharacterized
+0.0	CREBL2	ZNF93	Basic leucine zipper factors (bZIP)	Uncharacterized
+0.0	ASCL4	ZNF93	Basic helix-loop-helix factors (bHLH)	Uncharacterized
+0.0	TCF23	ZNF93	Basic helix-loop-helix factors (bHLH)	Uncharacterized
+0.0	MYRFL	ZNF93	NDT80 domain factors	Uncharacterized
+0.0	TCF24	ZNF93	Basic helix-loop-helix factors (bHLH)	Uncharacterized
+0.0	BHLHE23	ZNF93	Basic helix-loop-helix factors (bHLH)	Uncharacterized
+0.0	ZNF502	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF530	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF529	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF528	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF416	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF415	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	MYNN	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZFP28	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF880	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	FOXD4L5	ZNF93	Fork head / winged helix factors	Uncharacterized
+0.0	FOXD4L4	ZNF93	Fork head / winged helix factors	Uncharacterized
+0.0	ZNF18	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	FOXB2	ZNF93	Fork head / winged helix factors	Uncharacterized
+0.0	ZNF35	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF746	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF19	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF691	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF695	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	FOXN2	ZNF93	Fork head / winged helix factors	Uncharacterized
+0.0	ZNF165	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF766	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF184	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF34	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF182	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF22	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF501	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF749	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF414	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ETV7	ZNF93	Tryptophan cluster factors	Uncharacterized
+0.0	HSFX2	ZNF93	Heat shock factors	Uncharacterized
+0.0	CCDC169-SOHLH2	ZNF93	Basic helix-loop-helix factors (bHLH)	Uncharacterized
+0.0	TCFL5	ZNF93	Basic helix-loop-helix factors (bHLH)	Uncharacterized
+0.0	USF3	ZNF93	Basic helix-loop-helix factors (bHLH)	Uncharacterized
+0.0	AR	ZNF93	Nuclear receptors with C4 zinc fingers	Uncharacterized
+0.0	NR2C2	ZNF93	Nuclear receptors with C4 zinc fingers	Uncharacterized
+0.0	ETV3L	ZNF93	Tryptophan cluster factors	Uncharacterized
+0.0	ZGLP1	ZNF93	Other C4 zinc finger-type factors	Uncharacterized
+0.0	ZBTB9	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZBTB37	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	HSFX1	ZNF93	Heat shock factors	Uncharacterized
+0.0	ZBTB34	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	HSF5	ZNF93	Heat shock factors	Uncharacterized
+0.0	ZNF740	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZBTB22	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZBTB43	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	RFX8	ZNF93	Fork head / winged helix factors	Uncharacterized
+0.0	ZBTB8B	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZBTB5	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF705A	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF446	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZSCAN1	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF174	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF511	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	AEBP1	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZFP90	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF496	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF589	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF442	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF467	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF419	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF557	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF729	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF99	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF616	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF841	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF709	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF721	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF595	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF160	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF665	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF432	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF443	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF44	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF2	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF816	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF808	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF611	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF600	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF860	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF605	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF268	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF26	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF705E	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF705G	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF705D	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF567	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF782	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF157	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF646	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZIK1	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF333	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF770	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF784	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF787	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF142	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF438	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZBTB41	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZBTB39	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF579	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZSCAN20	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF597	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF48	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF618	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF101	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF800	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF628	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF629	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF316	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF304	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF280A	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZBTB21	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF699	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF177	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF735	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF732	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF251	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF704	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF429	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF862	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF668	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF891	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF558	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZFP37	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF556	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF727	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF544	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZSCAN2	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF479	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF285	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF233	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF260	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF805	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF543	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF776	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF322	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF710	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZSCAN5B	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZSCAN4	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF286A	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF229	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF175	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF235	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF227	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF155	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF226	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF559-ZNF177	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF223	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF234	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF284	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF221	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF225	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF230	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF45	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF222	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF559	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF572	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF436	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF774	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF431	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF484	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF585A	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF302	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF283	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF345	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF420	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF571	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF546	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF607	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF780B	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF780A	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF404	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF689	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF672	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF354B	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZFP82	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZFP14	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZFP30	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF568	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZFP2	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF71	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF343	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF169	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF875	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF98	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF75A	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF213	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF75D	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF100	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF778	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF195	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF519	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF853	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZKSCAN1	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	GLI4	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZBTB26	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZBTB6	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZBTB12	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF683	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZBTB45	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF581	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF524	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZBTB18	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZBTB42	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZKSCAN2	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZSCAN29	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZSCAN32	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF500	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	E4F1	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	SCRT1	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	SCRT2	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF212	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF777	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF701	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF468	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZBTB47	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF692	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF350	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF649	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF613	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF614	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF577	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZFP69	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF232	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZSCAN9	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZSCAN23	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	POU5F2	ZNF93	Homeo domain factors	Uncharacterized
+0.0	ZNF550	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF624	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF135	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZFP62	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	VENTX	ZNF93	Homeo domain factors	Uncharacterized
+0.0	ZNF789	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	RBAK	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF791	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF560	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	GZF1	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZBTB48	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	NKX6-3	ZNF93	Homeo domain factors	Uncharacterized
+0.0	ZBTB49	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF565	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF208	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF569	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF205	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZSCAN16	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF835	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF83	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF84	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF497	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF561	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF879	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF790	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF575	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF793	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF493	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	POU6F1	ZNF93	Homeo domain factors	Uncharacterized
+0.0	ZFP69B	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF679	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF627	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF362	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF334	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF510	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF671	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF134	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF792	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF772	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF319	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF786	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF574	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF526	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	HINFP	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF516	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF536	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF282	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF785	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF764	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF296	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF280C	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF639	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF280B	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF658	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF512B	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF587	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF417	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF211	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF587B	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF552	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF418	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF236	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF398	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF324	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF878	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF619	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF57	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF440	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF439	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF625	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF563	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF564	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZGPAT	ZNF93	C3H zinc finger factors	Uncharacterized
+0.0	ZNF124	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF490	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF555	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF763	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF670	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF3	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF383	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZBED3	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZBED4	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF532	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF687	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF592	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	VEZF1	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF566	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF292	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZBTB25	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZBTB1	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	HIVEP2	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	HIVEP1	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF829	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF620	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	IKZF5	ZNF93	C2H2 zinc finger factors	Uncharacterized
+0.0	ZNF548	ZNF93	C2H2 zinc finger factors	Uncharacterized
