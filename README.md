@@ -59,3 +59,22 @@ conda env create -f ./conda/environment.yml
 Usage
 -----
 The `wordcloud.py`
+
+#### Run the Web Interface
+To run the web interface in your default web browser, go to the Terminal app and run the following command from the root folder of the repo:
+`R -e "shiny::runApp('./app/app.R', launch.browser = TRUE)"`
+
+This will automatically open a new tab or window with the URL `http://127.0.0.1:7422`. To terminate the process simply press `CTRL + C` in the Terminal.
+
+
+Interface Preview
+-----
+**Home Page**
+![Home Page](/previews/home_page.png)
+**Gene Page - Panel 1**
+![Gene Page - Panel 1](/previews/gene_page_1.png)
+**Gene Page - Panel 2**
+![Gene Page - Panel 2](/previews/gene_page_2.png)
+
+
+
