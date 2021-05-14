@@ -8,10 +8,10 @@ library(DT)
 library(shiny.router)
 
 # Paths
-figsFolder <- "../dbTF/gene2wordclouds/figs"
+figsFolder <- "../BBA/figs"
 #homoSapiensDB <- "../dbTF/Homo_sapiens.tsv"
 homoSapiensDB <- "Homo_sapiens.tsv"
-tfIDFTables <- "../dbTF/gene2wordclouds/filtered"
+tfIDFTables <- "../BBA/filtered"
 
 # Read data
 genesTable <- read.table(
