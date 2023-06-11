@@ -37,7 +37,8 @@ def __get_uniaccs_entrezids(uniaccs):
         #"to": "P_ENTREZGENEID",
         "to": "GeneID",
         #"format": "tab",
-        "query": " ".join(list(uniaccs))
+        #"query": " ".join(list(uniaccs))
+        "ids": " ".join(list(uniaccs))
     }
 
     # Get Entrez Gene IDs
