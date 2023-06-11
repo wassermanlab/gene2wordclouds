@@ -26,11 +26,6 @@ def cli(**params):
 
 def __get_uniaccs_entrezids(uniaccs):
 
-
-    return(uniaccs_entrezids)
-
-def __get_uniaccs_entrezids(uniaccs):
-
     # Initialize
     uniaccs_entrezids = []
     gcontext = ssl.SSLContext()
