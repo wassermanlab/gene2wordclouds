@@ -589,7 +589,10 @@ def __get_gene2comparison(entrezids, gene_info, stem_aliases, output_dir="./"):
     tfclass = tfclass.merge(classname)
     
     # Pairwise Comparison
-    __get_pairwisecomparison(stems_df, entrezids, tfclass, gene_info, entrezids2stems, 2, tfidfs_dir, stats_dir)
+    try:
+        __get_pairwisecomparison(stems_df, entrezids, tfclass, gene_info, entrezids2stems, 2, tfidfs_dir, stats_dir)
+    except:
+        pass
 
 if __name__ == "__main__":
     main()
