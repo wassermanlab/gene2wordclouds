@@ -11,10 +11,12 @@ dependencies:
   - matplotlib=3.3.3
   - nltk=3.4.4
   - nltk_data=2019.07.04
-  - numpy=1.19.5
+  - numpy=1.22.4
   - pandas=1.2.1
   - python=3.8.5
   - scikit-learn=0.24.1
   - seaborn=0.11.1
   - tqdm=4.35.0
   - wordcloud=1.8.1
+  - pip:
+    - unipressed==1.2.0

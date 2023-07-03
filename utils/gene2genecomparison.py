@@ -171,7 +171,7 @@ def __Z_score(x, mean, std):
 def __get_pairwisecomparison(df, entrezids, df_tfclass, gene_info, entrezids2stems, zscore, tfidfs_dir, outdir):    
     
     order_entrezids, symbols, colors, legend, patch = __get_ordered_entrezids(entrezids, df_tfclass, gene_info)
-    
+
     # Filter Stems to use for comparison
     if zscore is not None:
         df = df[(df["Genes"] > 1) & (df["Zscore"] < zscore)]
@@ -182,7 +182,7 @@ def __get_pairwisecomparison(df, entrezids, df_tfclass, gene_info, entrezids2ste
     
     # Vectors
     abspres_vec = __get_vectors_abspres(stems2compare, order_entrezids, entrezids2stems)
-
+ 
     # Pairwise Comparison
     __get_abspres_cosine_class(order_entrezids, colors, abspres_vec, legend, patch, outdir)
 #    __get_abspres_cosine_cluster(order_entrezids, colors, abspres_vec, outdir)
@@ -271,6 +271,7 @@ def __get_manual_matrix_symbol(entrezids, symbols, colors, tfidfs_dir, legend, p
 
 
 def __get_abspres_cosine_class(entrezids, colors, vectors, legend, patch, outdir):
+
     heatmap_file = os.path.join(outdir, "tf_pairwise_class.png")
     matrix = cosine_similarity(vectors)
 

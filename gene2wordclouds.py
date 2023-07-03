@@ -2,8 +2,11 @@
 
 import ast
 import click
-from click_option_group import (optgroup, MutuallyExclusiveOptionGroup,
-    RequiredMutuallyExclusiveOptionGroup)
+from click_option_group import (
+    optgroup,
+    MutuallyExclusiveOptionGroup,
+    RequiredMutuallyExclusiveOptionGroup,
+)
 import copy
 from functools import partial
 import gzip
@@ -20,17 +23,25 @@ bar_format = "{percentage:3.0f}%|{bar:20}{r_bar}"
 
 # Import utils
 from utils.abstract2words import __get_abstract_words
-from utils.entrezid2aliases import (__get_entrezid_aliases,
-    __load_datasets as __load_datasets_entrezid2aliases)
-from utils.entrezid2pmids import (__get_entrezid_pmids,
-    __load_datasets as __load_datasets_entrezid2pmids)
-from utils.gene2pmid_stats import (__get_genes4pmids_stats,
-    __get_pmids4genes_stats)
+from utils.entrezid2aliases import (
+    __get_entrezid_aliases,
+    __load_datasets as __load_datasets_entrezid2aliases,
+)
+from utils.entrezid2pmids import (
+    __get_entrezid_pmids,
+    __load_datasets as __load_datasets_entrezid2pmids,
+)
+from utils.gene2pmid_stats import (
+    __get_genes4pmids_stats,
+    __get_pmids4genes_stats,
+)
 from utils.pmid2abstract import __get_pmids_abstracts
 from utils.uniacc2entrezid import __get_uniaccs_entrezids
 from utils.words2cloud import __get_word_cloud
-from utils.gene2genecomparison import (__get_genes4stems_stats,
-                                       __get_pairwisecomparison)
+from utils.gene2genecomparison import (
+    __get_genes4stems_stats,
+    __get_pairwisecomparison
+)
 
 CONTEXT_SETTINGS = {
     "help_option_names": ["-h", "--help"],
