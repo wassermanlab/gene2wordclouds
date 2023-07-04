@@ -5,6 +5,8 @@ import os
 import pandas as pd
 from urllib import request
 
+from .entrezid2aliases import __is_file_7_days_old
+
 CONTEXT_SETTINGS = {
     "help_option_names": ["-h", "--help"],
 }
@@ -48,15 +50,17 @@ def __load_datasets(orthologs=False):
     homologene_file = os.path.join(utils_dir, "data", "homologene.data")
 
     # Get PubMed IDs
-    if not os.path.exists(gene2pubmed_file):
+    if not os.path.exists(gene2pubmed_file) \
+       or __is_file_7_days_old(gene2pubmed_file):
         request.urlretrieve(
-            "ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/gene2pubmed.gz",
+            "https://ftp.ncbi.nlm.nih.gov/gene/DATA/gene2pubmed.gz",
             gene2pubmed_file)
     gene2pubmed = pd.read_csv(gene2pubmed_file, sep="\t",
         names=["entrezid", "pmid"], usecols=[1, 2], skiprows=1)
-    if not os.path.exists(homologene_file):
+    if not os.path.exists(homologene_file) \
+       or __is_file_7_days_old(homologene_file):
         request.urlretrieve(
-            "ftp://ftp.ncbi.nlm.nih.gov/HomoloGene/current/homologene.data",
+            "https://ftp.ncbi.nih.gov/pub/HomoloGene/current/homologene.data",
             homologene_file)
     if orthologs:
         homologene = pd.read_csv(homologene_file, sep="\t",

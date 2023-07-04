@@ -120,7 +120,7 @@ def main(**params):
     if params["input_type"] == "uniacc":
         _, identifiers = __uniacc2entrezid(identifiers, out_dir)
 
-    # GRAB ALIASES
+    # Grab aliases
     gene_info, stem_aliases = __entrezid2alias(identifiers)
 
     # EntrezID to PMIDs

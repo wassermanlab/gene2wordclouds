@@ -31,7 +31,7 @@ def __get_uniaccs_entrezids(uniaccs):
     request = IdMappingClient.submit(
         source="UniProtKB_AC-ID", dest="GeneID", ids=set(uniaccs)
     )
-    time.sleep(1.) # wait while UniProt processes the results
+    time.sleep(10) # wait for a few seconds
     results = list(request.each_result())
     for r in results:
         uniaccs_entrezids.append([r["from"], int(r["to"])])

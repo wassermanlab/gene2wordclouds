@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import click
+import datetime
 import os
 import pandas as pd
 from urllib import request
@@ -52,17 +53,19 @@ def __load_datasets(orthologs=False):
     homologene_file = os.path.join(utils_dir, "data", "homologene.data")
 
     # Get PubMed IDs
-    if not os.path.exists(gene_info_file):
+    if not os.path.exists(gene_info_file) \
+       or __is_file_7_days_old(gene_info_file):
         request.urlretrieve(
-            "ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/gene_info.gz",
+            "https://ftp.ncbi.nlm.nih.gov/gene/DATA/gene_info.gz",
             gene_info_file)
     names = ["entrezid", "symbol", "synonyms", "official_symbol",
         "official_full_name"]
     gene_info = pd.read_csv(gene_info_file, sep="\t", names=names,
         usecols=[1, 2, 4, 10, 11], skiprows=1)
-    if not os.path.exists(homologene_file):
+    if not os.path.exists(homologene_file) \
+       or __is_file_7_days_old(homologene_file):
         request.urlretrieve(
-            "ftp://ftp.ncbi.nlm.nih.gov/HomoloGene/current/homologene.data",
+            "https://ftp.ncbi.nih.gov/pub/HomoloGene/current/homologene.data",
             homologene_file)
     if orthologs:
         homologene = pd.read_csv(homologene_file, sep="\t",
@@ -110,6 +113,22 @@ def __get_entrezid_aliases(entrezid, gene_info, homologene=None):
 
     return(gene_symbol, full_name, synonyms, gene_symbol_orthologs,
         full_name_orthologs, synonyms_orthologs)
+
+def __is_file_7_days_old(file_name):
+
+    # Get today's date
+    today = datetime.datetime.today()
+
+    # Get last modified date for file
+    modified_date = datetime.datetime.fromtimestamp(
+        os.path.getmtime(file_name)
+    )
+
+    # Compute age of the file
+    age = today - modified_date
+
+    return age.days >= 7
+
 
 if __name__ == "__main__":
     cli()

@@ -4,6 +4,7 @@ from Bio import Entrez, Medline
 import click
 import hashlib
 import os
+import time
 
 CONTEXT_SETTINGS = {
     "help_option_names": ["-h", "--help"],
@@ -49,6 +50,8 @@ def __get_pmids_abstracts(
         pmids_abstracts.setdefault(pmid, None)
 
     # Get abstracts
+    attempts = 0
+    data = None
     h = hashlib.md5()
     h.update(ids.encode("utf-8"))
     prefix = h.hexdigest()
@@ -58,19 +61,25 @@ def __get_pmids_abstracts(
         os.path.basename(__file__), prefix)
     )
     Entrez.email = email
-    handle = Entrez.efetch(
-        db="pubmed", id=ids, rettype="medline", retmode="text"
-    )
-    data = handle.read()
-    with open(dummy_file, "w") as handle:
-        handle.write(data)
-    with open(dummy_file) as handle:
-        records = Medline.parse(handle)
-        for record in records:
-            if "PMID" in record:
-                if "AB" in record:
-                    pmids_abstracts[int(record["PMID"])] = record["AB"]
-    os.remove(dummy_file)
+    while data is None and attempts < 5:
+        try:
+            handle = Entrez.efetch(
+                db="pubmed", id=ids, rettype="medline", retmode="text"
+            )
+            data = handle.read()
+        except:
+            time.sleep(10) # wait for a few seconds
+            attempts += 1
+    if data:
+        with open(dummy_file, "w") as handle:
+            handle.write(data)
+        with open(dummy_file) as handle:
+            records = Medline.parse(handle)
+            for record in records:
+                if "PMID" in record:
+                    if "AB" in record:
+                        pmids_abstracts[int(record["PMID"])] = record["AB"]
+        os.remove(dummy_file)
 
     return([[k, v] for k, v in pmids_abstracts.items()])
 
